@@ -8,12 +8,12 @@ int main(int, char**) {
     const auto WIDTH = 320;
     const auto HEIGHT = 200;
     
-    auto blue_shade = ColorShades{};
-    blue_shade.foreground = packColorRgb(255, 255, 255);
-    blue_shade.background = packColorRgb(0, 0, 255);
-    blue_shade.bevel_light = packColorRgb(80, 80, 255);
-    blue_shade.bevel_dark = packColorRgb(0, 0, 170);
-    blue_shade.border = packColorRgb(0, 0, 0);
+    auto color_shades = ColorShades{};
+    color_shades.foreground = packColorRgb(0, 0, 0);
+    color_shades.background = packColorRgb(255, 221, 63);
+    color_shades.bevel_light = packColorRgb(255, 245, 197);
+    color_shades.bevel_dark = packColorRgb(207, 117, 43);
+    color_shades.border = packColorRgb(0, 0, 0);
     
     auto sdl = Sdl(WINDOW_TITLE, WIDTH, HEIGHT);
     init(WIDTH, HEIGHT);
@@ -25,18 +25,18 @@ int main(int, char**) {
             break;
         }
         setMouseState(input.mouse_x, input.mouse_y, input.left_mouse_button);
-        guiBackground(GRAY);
+        guiBackground(packColorRgb(128, 128, 128));
         if (guiLabel(128, 64, "Play")) {
             break;
         }
-        if (guiLabel(128, 96, "Build")) {
+        if (guiButton(128, 96, "Build", color_shades)) {
             break;
         }
-        if (guiButton(128, 128, "Exit", blue_shade)) {
+        if (guiButton(128, 128, "Exit", color_shades)) {
             break;
         }
         static int setting = 0;
-        guiIntSetting(128, 160, "Setting", blue_shade, &setting);
+        guiIntSetting(128, 160, "Setting", color_shades, &setting);
         sdl.draw(getPixelData());
     }
     return 0;
