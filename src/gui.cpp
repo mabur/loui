@@ -5,16 +5,6 @@
 
 #include "text.hpp"
 
-const auto TEXT_SIZE = 8;
-const auto BUTTON_TEXT_PADDING = 4;
-
-struct Rectangle {
-    int x;
-    int y;
-    int width;
-    int height;
-};
-
 struct Gui90 {
     std::vector<Color> colors;
     int width = 0;
@@ -24,17 +14,87 @@ struct Gui90 {
     ButtonState left_mouse_button = ButtonState::UP;
 };
 
-bool isLeftMouseButtonDownInside(const Gui90* gui, Rectangle r) {
+// -----------------------------------------------------------------------------
+// PRIVATE STUFF
+
+static const int TEXT_SIZE = 8;
+static const int BUTTON_TEXT_PADDING = 4;
+
+struct Rectangle {
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
+// -----------------------------------------------------------------------------
+// PRIVATE MOUSE FUNCTIONS
+
+static bool isLeftMouseButtonDownInside(const Gui90* gui, Rectangle r) {
     return gui->left_mouse_button == ButtonState::DOWN &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
 
-bool isLeftMouseButtonReleasedInside(const Gui90* gui, Rectangle r) {
+static bool isLeftMouseButtonReleasedInside(const Gui90* gui, Rectangle r) {
     return gui->left_mouse_button == ButtonState::RELEASED &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
+
+// -----------------------------------------------------------------------------
+// PRIVATE DRAW FUNCTIONS
+
+static void drawPoint(Gui90* gui, int x, int y, Color color) {
+    gui->colors.at(y * gui->width + x) = color;
+}
+
+static void drawRectangle(Gui90* gui, Rectangle rectangle, Color color) {
+    for (auto dy = 0; dy < rectangle.height; ++dy) {
+        for (auto dx = 0; dx < rectangle.width; ++dx) {
+            drawPoint(gui, rectangle.x + dx, rectangle.y + dy, color);
+        }
+    }
+}
+
+static void drawLineHorizontal(Gui90* gui, int x, int y, int width, Color color) {
+    auto r = Rectangle{};
+    r.x = x;
+    r.y = y;
+    r.width = width;
+    r.height = 1;
+    drawRectangle(gui, r, color);
+}
+
+static void drawLineVertical(Gui90* gui, int x, int y, int height, Color color) {
+    auto r = Rectangle{};
+    r.x = x;
+    r.y = y;
+    r.width = 1;
+    r.height = height;
+    drawRectangle(gui, r, color);
+}
+
+static void drawCharacter(Gui90* gui, char character, size_t x_start, size_t y_start, Color color) {
+    const auto W = gui->width;
+    const auto& digit_bitmap = text_bitmaps::get(character);
+    for (size_t y = 0; y < 8; ++y) {
+        for (size_t x = 0; x < 8; ++x) {
+            if (digit_bitmap[y * 8 + x]) {
+                gui->colors.at((y_start + y) * W + x_start + x) = color;
+            }
+        }
+    }
+}
+
+static void drawString(Gui90* gui, const std::string& s, size_t x, size_t y, Color color) {
+    for (size_t i = 0; i < s.size(); ++i) {
+        drawCharacter(gui, s[i], x + 8 * i, y, color);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// PUBLIC FUNCTIONS
 
 Gui90* GUI90_Init(int width, int height) {
     auto gui = new Gui90{};
@@ -56,54 +116,6 @@ void GUI90_SetMouseState(Gui90* gui, int x, int y, ButtonState left_mouse_button
 
 const Color* GUI90_GetPixelData(const Gui90* gui) {
     return gui->colors.data();
-}
-
-void drawPoint(Gui90* gui, int x, int y, Color color) {
-    gui->colors.at(y * gui->width + x) = color;
-}
-
-void drawRectangle(Gui90* gui, Rectangle rectangle, Color color) {
-    for (auto dy = 0; dy < rectangle.height; ++dy) {
-        for (auto dx = 0; dx < rectangle.width; ++dx) {
-            drawPoint(gui, rectangle.x + dx, rectangle.y + dy, color);
-        }
-    }
-}
-
-void drawLineHorizontal(Gui90* gui, int x, int y, int width, Color color) {
-    auto r = Rectangle{};
-    r.x = x;
-    r.y = y;
-    r.width = width;
-    r.height = 1;
-    drawRectangle(gui, r, color);
-}
-
-void drawLineVertical(Gui90* gui, int x, int y, int height, Color color) {
-    auto r = Rectangle{};
-    r.x = x;
-    r.y = y;
-    r.width = 1;
-    r.height = height;
-    drawRectangle(gui, r, color);
-}
-
-void drawCharacter(Gui90* gui, char character, size_t x_start, size_t y_start, Color color) {
-    const auto W = gui->width;
-    const auto& digit_bitmap = text_bitmaps::get(character);
-    for (size_t y = 0; y < 8; ++y) {
-        for (size_t x = 0; x < 8; ++x) {
-            if (digit_bitmap[y * 8 + x]) {
-                gui->colors.at((y_start + y) * W + x_start + x) = color;
-            }
-        }
-    }
-}
-
-void drawString(Gui90* gui, const std::string& s, size_t x, size_t y, Color color) {
-    for (size_t i = 0; i < s.size(); ++i) {
-        drawCharacter(gui, s[i], x + 8 * i, y, color);
-    }
 }
 
 void GUI90_WidgetBackground(Gui90* gui, ColorShades shades) {
