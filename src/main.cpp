@@ -8,13 +8,6 @@ int main(int, char**) {
     const auto WIDTH = 320;
     const auto HEIGHT = 200;
     
-    auto color_shades = ColorShades{};
-    color_shades.foreground = packColorRgb(0, 0, 0);
-    color_shades.background = packColorRgb(255, 221, 63);
-    color_shades.bevel_light = packColorRgb(255, 245, 197);
-    color_shades.bevel_dark = packColorRgb(207, 117, 43);
-    color_shades.border = packColorRgb(0, 0, 0);
-    
     auto sdl = Sdl(WINDOW_TITLE, WIDTH, HEIGHT);
     init(WIDTH, HEIGHT);
     sdl.setMouseModeAbsolute();
@@ -29,14 +22,14 @@ int main(int, char**) {
         if (guiLabel(128, 64, "Play")) {
             break;
         }
-        if (guiButton(128, 96, "Build", color_shades)) {
+        if (guiButton(128, 96, "Build", YELLOW_SHADES)) {
             break;
         }
-        if (guiButton(128, 128, "Exit", color_shades)) {
+        if (guiButton(128, 128, "Exit", YELLOW_SHADES)) {
             break;
         }
         static int setting = 0;
-        guiIntSetting(128, 160, "Setting", color_shades, &setting);
+        guiIntSetting(128, 160, "Setting", YELLOW_SHADES, &setting);
         sdl.draw(getPixelData());
     }
     return 0;

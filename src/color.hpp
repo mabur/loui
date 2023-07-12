@@ -26,3 +26,11 @@ struct ColorShades {
     Color bevel_dark;
     Color border;
 };
+
+const auto YELLOW_SHADES = ColorShades{
+    packColorRgb(0, 0, 0),
+    packColorRgb(255, 221, 63),
+    packColorRgb(255, 245, 197),
+    packColorRgb(207, 117, 43),
+    packColorRgb(0, 0, 0)
+};
