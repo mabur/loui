@@ -148,16 +148,16 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
-void guiIntSetting(int x, int y, const char* text, ColorShades shades, int* value) {
+void guiIntSetting(int x, int y, const char* text, ColorShades label_shades, ColorShades button_shades, int* value) {
     const auto label = std::string{text} + " " + std::to_string(*value) + " ";
     auto offset = 0;
-    guiLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), shades);
+    guiLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_shades);
     offset += TEXT_SIZE * label.size();
-    if (guiButton(x + offset, y, "-", shades)) {
+    if (guiButton(x + offset, y, "-", button_shades)) {
         *value -= 1; 
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
-    if (guiButton(x + offset, y, "+", shades)) {
+    if (guiButton(x + offset, y, "+", button_shades)) {
         *value += 1;
     }
 }
