@@ -102,20 +102,20 @@ void drawString(const std::string& s, size_t x, size_t y, Color color) {
     }
 }
 
-bool guiBackground(Color color) {
+bool guiBackground(ColorShades shades) {
     for (auto& pixel : state.colors) {
-        pixel = color;
+        pixel = shades.background;
     }    
 }
 
-bool guiLabel(int x, int y, const char* text, Color text_color) {
+bool guiLabel(int x, int y, const char* text, ColorShades shades) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
-    drawString(s, x, y, text_color);
+    drawString(s, x, y, shades.foreground);
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
@@ -151,7 +151,7 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
 void guiIntSetting(int x, int y, const char* text, ColorShades shades, int* value) {
     const auto label = std::string{text} + " " + std::to_string(*value) + " ";
     auto offset = 0;
-    guiLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), shades.foreground);
+    guiLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), shades);
     offset += TEXT_SIZE * label.size();
     if (guiButton(x + offset, y, "-", shades)) {
         *value -= 1; 

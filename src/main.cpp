@@ -18,8 +18,8 @@ int main(int, char**) {
             break;
         }
         setMouseState(input.mouse_x, input.mouse_y, input.left_mouse_button);
-        guiBackground(packColorRgb(128, 128, 128));
-        if (guiLabel(128, 64, "Play")) {
+        guiBackground(GRAY_SHADES);
+        if (guiLabel(128, 64, "Play", GRAY_SHADES)) {
             break;
         }
         if (guiButton(128, 96, "Build", YELLOW_SHADES)) {
