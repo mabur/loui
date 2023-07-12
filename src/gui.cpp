@@ -26,7 +26,7 @@ struct State {
 
 auto state = State{};
 
-bool isMouseDownInside(Rectangle r) {
+bool isLeftMouseButtonReleasedInside(Rectangle r) {
     return state.left_mouse_button == ButtonState::RELEASED &&
         r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
         r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
@@ -110,7 +110,7 @@ bool guiLabel(int x, int y, const char* text, Color text_color) {
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
     drawString(s, x, y, text_color);
-    return isMouseDownInside(rectangle);
+    return isLeftMouseButtonReleasedInside(rectangle);
 }
 
 bool guiButton(int x, int y, const char* text, ColorShades shades) {
@@ -132,7 +132,7 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
     drawLineVertical(x + 1, y + 2, rectangle.height - 4, shades.bevel_light);
     drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, shades.bevel_dark);
     drawString(s, x + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, shades.foreground);
-    return isMouseDownInside(rectangle);
+    return isLeftMouseButtonReleasedInside(rectangle);
 }
 
 void guiIntSetting(int x, int y, const char* text, ColorShades shades, int* value) {
