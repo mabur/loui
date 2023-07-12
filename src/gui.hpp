@@ -4,11 +4,11 @@
 
 enum class ButtonState {UP, CLICKED, DOWN, RELEASED};
 
-void init(int width, int height);
-void setMouseState(int x, int y, ButtonState left_mouse_button);
-const Color* getPixelData();
+void GUI90_Init(int width, int height);
+void GUI90_SetMouseState(int x, int y, ButtonState left_mouse_button);
+const Color* GUI90_GetPixelData();
 
-void guiBackground(ColorShades shades);
-bool guiLabel(int x, int y, const char* text, ColorShades shades);
-bool guiButton(int x, int y, const char* text, ColorShades shades);
-void guiIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades);
+void GUI90_WidgetBackground(ColorShades shades);
+bool GUI90_WidgetLabel(int x, int y, const char* text, ColorShades shades);
+bool GUI90_WidgetButton(int x, int y, const char* text, ColorShades shades);
+void GUI90_WidgetIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades);

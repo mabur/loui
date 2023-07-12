@@ -14,7 +14,7 @@ struct ColorShades {
     Color border;
 };
 
-const auto YELLOW_SHADES = ColorShades{
+const auto GUI90_YELLOW_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
     packColorRgb(255, 221, 63),
     packColorRgb(255, 245, 197),
@@ -22,7 +22,7 @@ const auto YELLOW_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
 };
 
-const auto GRAY_SHADES = ColorShades{
+const auto GUI90_GRAY_SHADES = ColorShades{
     packColorRgb(255, 255, 255),
     packColorRgb(128, 128, 128),
     packColorRgb(192, 192, 192),
@@ -30,7 +30,7 @@ const auto GRAY_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
 };
 
-const auto LEATHER_SHADES = ColorShades{
+const auto GUI90_LEATHER_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
     packColorRgb(70, 50, 40),
     packColorRgb(95, 80, 73),

@@ -38,19 +38,19 @@ bool isLeftMouseButtonReleasedInside(Rectangle r) {
         r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
 }
 
-void init(int width, int height) {
+void GUI90_Init(int width, int height) {
     state.width = width;
     state.height = height;
     state.colors.resize(width * height);
 }
 
-void setMouseState(int x, int y, ButtonState left_mouse_button) {
+void GUI90_SetMouseState(int x, int y, ButtonState left_mouse_button) {
     state.mouse_x = x;
     state.mouse_y = y;
     state.left_mouse_button = left_mouse_button;
 }
 
-const Color* getPixelData() {
+const Color* GUI90_GetPixelData() {
     return state.colors.data();
 }
 
@@ -102,13 +102,13 @@ void drawString(const std::string& s, size_t x, size_t y, Color color) {
     }
 }
 
-void guiBackground(ColorShades shades) {
+void GUI90_WidgetBackground(ColorShades shades) {
     for (auto& pixel : state.colors) {
         pixel = shades.background;
     }    
 }
 
-bool guiLabel(int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetLabel(int x, int y, const char* text, ColorShades shades) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -119,7 +119,7 @@ bool guiLabel(int x, int y, const char* text, ColorShades shades) {
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
-bool guiButton(int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetButton(int x, int y, const char* text, ColorShades shades) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -148,16 +148,17 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
-void guiIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades) {
+void GUI90_WidgetIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades) {
     const auto label = std::string{text} + " " + std::to_string(*value) + " ";
     auto offset = 0;
-    guiLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_shades);
+    GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(),
+        label_shades);
     offset += TEXT_SIZE * label.size();
-    if (guiButton(x + offset, y, "-", button_shades)) {
+    if (GUI90_WidgetButton(x + offset, y, "-", button_shades)) {
         *value -= 1; 
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
-    if (guiButton(x + offset, y, "+", button_shades)) {
+    if (GUI90_WidgetButton(x + offset, y, "+", button_shades)) {
         *value += 1;
     }
 }
