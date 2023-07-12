@@ -36,7 +36,7 @@ const auto YELLOW_SHADES = ColorShades{
 };
 
 const auto GRAY_SHADES = ColorShades{
-    packColorRgb(0, 0, 0),
+    packColorRgb(255, 255, 255),
     packColorRgb(128, 128, 128),
     packColorRgb(192, 192, 192),
     packColorRgb(80, 80, 80),
