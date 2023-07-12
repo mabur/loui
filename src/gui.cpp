@@ -135,7 +135,8 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
     auto text_y = y + BUTTON_TEXT_PADDING;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
-        std::swap(shades.bevel_light, shades.bevel_dark);
+        shades.bevel_light = shades.background;
+        shades.bevel_dark = shades.background;
     }
     drawRectangle(rectangle, shades.border);
     drawRectangle(inner_rectangle, shades.background);
