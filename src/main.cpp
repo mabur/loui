@@ -24,7 +24,7 @@ int main(int, char**) {
         if (input.escape_button == ButtonState::CLICKED) {
             break;
         }
-        setMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonReleased());
+        setMouseState(input.mouse_x, input.mouse_y, input.left_mouse_button);
         guiBackground(GRAY);
         if (guiLabel(128, 64, "Play")) {
             break;

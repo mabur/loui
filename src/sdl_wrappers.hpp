@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-enum class ButtonState {UP, CLICKED, DOWN, RELEASED};
+#include "gui.hpp"
 
 struct Input {
     int mouse_x;

@@ -2,8 +2,10 @@
 
 #include "color.hpp"
 
+enum class ButtonState {UP, CLICKED, DOWN, RELEASED};
+
 void init(int width, int height);
-void setMouseState(int x, int y, bool is_left_button_down);
+void setMouseState(int x, int y, ButtonState left_mouse_button);
 const Color* getPixelData();
 
 bool guiBackground(Color color);

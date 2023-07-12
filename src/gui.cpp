@@ -21,13 +21,13 @@ struct State {
     int height = 0;
     int mouse_x = 0;
     int mouse_y = 0;
-    bool is_left_mouse_button_released = false;
+    ButtonState left_mouse_button = ButtonState::UP;
 };
 
 auto state = State{};
 
 bool isMouseDownInside(Rectangle r) {
-    return state.is_left_mouse_button_released &&
+    return state.left_mouse_button == ButtonState::RELEASED &&
         r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
         r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
 }
@@ -38,10 +38,10 @@ void init(int width, int height) {
     state.colors.resize(width * height);
 }
 
-void setMouseState(int x, int y, bool is_left_button_down) {
+void setMouseState(int x, int y, ButtonState left_mouse_button) {
     state.mouse_x = x;
     state.mouse_y = y;
-    state.is_left_mouse_button_released = is_left_button_down;
+    state.left_mouse_button = left_mouse_button;
 }
 
 const Color* getPixelData() {
