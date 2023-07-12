@@ -29,7 +29,7 @@ int main(int, char**) {
             break;
         }
         static int setting = 0;
-        guiIntSetting(128, 160, "Setting", LEATHER_SHADES, GRAY_SHADES, &setting);
+        guiIntSetting(128, 160, "Setting", &setting, LEATHER_SHADES, GRAY_SHADES);
         sdl.draw(getPixelData());
     }
     return 0;

@@ -11,4 +11,4 @@ const Color* getPixelData();
 bool guiBackground(ColorShades shades);
 bool guiLabel(int x, int y, const char* text, ColorShades shades);
 bool guiButton(int x, int y, const char* text, ColorShades shades);
-void guiIntSetting(int x, int y, const char* text, ColorShades label_shades, ColorShades button_shades, int* value);
+void guiIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades);
