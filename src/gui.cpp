@@ -26,6 +26,12 @@ struct State {
 
 auto state = State{};
 
+bool isLeftMouseButtonDownInside(Rectangle r) {
+    return state.left_mouse_button == ButtonState::DOWN &&
+        r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
+        r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
+}
+
 bool isLeftMouseButtonReleasedInside(Rectangle r) {
     return state.left_mouse_button == ButtonState::RELEASED &&
         r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
@@ -125,13 +131,19 @@ bool guiButton(int x, int y, const char* text, ColorShades shades) {
     inner_rectangle.y += 2;
     inner_rectangle.width -= 4;
     inner_rectangle.height -= 4;
+    auto text_x = x + BUTTON_TEXT_PADDING;
+    auto text_y = y + BUTTON_TEXT_PADDING;
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        ++text_y;
+        std::swap(shades.bevel_light, shades.bevel_dark);
+    }
     drawRectangle(rectangle, shades.border);
     drawRectangle(inner_rectangle, shades.background);
     drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, shades.bevel_light);
     drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, shades.bevel_dark);
     drawLineVertical(x + 1, y + 2, rectangle.height - 4, shades.bevel_light);
     drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, shades.bevel_dark);
-    drawString(s, x + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, shades.foreground);
+    drawString(s, text_x, text_y, shades.foreground);
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
