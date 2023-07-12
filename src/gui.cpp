@@ -102,7 +102,7 @@ void drawString(const std::string& s, size_t x, size_t y, Color color) {
     }
 }
 
-bool guiBackground(ColorShades shades) {
+void guiBackground(ColorShades shades) {
     for (auto& pixel : state.colors) {
         pixel = shades.background;
     }    
