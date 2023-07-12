@@ -25,11 +25,11 @@ int main(int, char**) {
         if (guiButton(128, 96, "Build", YELLOW_SHADES)) {
             break;
         }
-        if (guiButton(128, 128, "Exit", YELLOW_SHADES)) {
+        if (guiButton(128, 128, "Exit", GRAY_SHADES)) {
             break;
         }
         static int setting = 0;
-        guiIntSetting(128, 160, "Setting", YELLOW_SHADES, &setting);
+        guiIntSetting(128, 160, "Setting", GRAY_SHADES, &setting);
         sdl.draw(getPixelData());
     }
     return 0;
