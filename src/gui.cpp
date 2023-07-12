@@ -15,7 +15,7 @@ struct Rectangle {
     int height;
 };
 
-struct State {
+struct Gui90 {
     std::vector<Color> colors;
     int width = 0;
     int height = 0;
@@ -24,102 +24,106 @@ struct State {
     ButtonState left_mouse_button = ButtonState::UP;
 };
 
-auto state = State{};
-
-bool isLeftMouseButtonDownInside(Rectangle r) {
-    return state.left_mouse_button == ButtonState::DOWN &&
-        r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
-        r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
+bool isLeftMouseButtonDownInside(const Gui90* gui, Rectangle r) {
+    return gui->left_mouse_button == ButtonState::DOWN &&
+        r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
+        r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
 
-bool isLeftMouseButtonReleasedInside(Rectangle r) {
-    return state.left_mouse_button == ButtonState::RELEASED &&
-        r.x <= state.mouse_x && state.mouse_x < r.x + r.width &&
-        r.y <= state.mouse_y && state.mouse_y < r.y + r.height;
+bool isLeftMouseButtonReleasedInside(const Gui90* gui, Rectangle r) {
+    return gui->left_mouse_button == ButtonState::RELEASED &&
+        r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
+        r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
 
-void GUI90_Init(int width, int height) {
-    state.width = width;
-    state.height = height;
-    state.colors.resize(width * height);
+Gui90* GUI90_Init(int width, int height) {
+    auto gui = new Gui90{};
+    gui->width = width;
+    gui->height = height;
+    gui->colors.resize(width * height);
+    return gui;
 }
 
-void GUI90_SetMouseState(int x, int y, ButtonState left_mouse_button) {
-    state.mouse_x = x;
-    state.mouse_y = y;
-    state.left_mouse_button = left_mouse_button;
+void GUI90_Destroy(Gui90* gui) {
+    delete gui;
 }
 
-const Color* GUI90_GetPixelData() {
-    return state.colors.data();
+void GUI90_SetMouseState(Gui90* gui, int x, int y, ButtonState left_mouse_button) {
+    gui->mouse_x = x;
+    gui->mouse_y = y;
+    gui->left_mouse_button = left_mouse_button;
 }
 
-void drawPoint(int x, int y, Color color) {
-    state.colors.at(y * state.width + x) = color;
+const Color* GUI90_GetPixelData(const Gui90* gui) {
+    return gui->colors.data();
 }
 
-void drawRectangle(Rectangle rectangle, Color color) {
+void drawPoint(Gui90* gui, int x, int y, Color color) {
+    gui->colors.at(y * gui->width + x) = color;
+}
+
+void drawRectangle(Gui90* gui, Rectangle rectangle, Color color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
-            drawPoint(rectangle.x + dx, rectangle.y + dy, color);
+            drawPoint(gui, rectangle.x + dx, rectangle.y + dy, color);
         }
     }
 }
 
-void drawLineHorizontal(int x, int y, int width, Color color) {
+void drawLineHorizontal(Gui90* gui, int x, int y, int width, Color color) {
     auto r = Rectangle{};
     r.x = x;
     r.y = y;
     r.width = width;
     r.height = 1;
-    drawRectangle(r, color);
+    drawRectangle(gui, r, color);
 }
 
-void drawLineVertical(int x, int y, int height, Color color) {
+void drawLineVertical(Gui90* gui, int x, int y, int height, Color color) {
     auto r = Rectangle{};
     r.x = x;
     r.y = y;
     r.width = 1;
     r.height = height;
-    drawRectangle(r, color);
+    drawRectangle(gui, r, color);
 }
 
-void drawCharacter(char character, size_t x_start, size_t y_start, Color color) {
-    const auto W = state.width;
+void drawCharacter(Gui90* gui, char character, size_t x_start, size_t y_start, Color color) {
+    const auto W = gui->width;
     const auto& digit_bitmap = text_bitmaps::get(character);
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
             if (digit_bitmap[y * 8 + x]) {
-                state.colors.at((y_start + y) * W + x_start + x) = color;
+                gui->colors.at((y_start + y) * W + x_start + x) = color;
             }
         }
     }
 }
 
-void drawString(const std::string& s, size_t x, size_t y, Color color) {
+void drawString(Gui90* gui, const std::string& s, size_t x, size_t y, Color color) {
     for (size_t i = 0; i < s.size(); ++i) {
-        drawCharacter(s[i], x + 8 * i, y, color);
+        drawCharacter(gui, s[i], x + 8 * i, y, color);
     }
 }
 
-void GUI90_WidgetBackground(ColorShades shades) {
-    for (auto& pixel : state.colors) {
+void GUI90_WidgetBackground(Gui90* gui, ColorShades shades) {
+    for (auto& pixel : gui->colors) {
         pixel = shades.background;
     }    
 }
 
-bool GUI90_WidgetLabel(int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, ColorShades shades) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
-    drawString(s, x, y, shades.foreground);
-    return isLeftMouseButtonReleasedInside(rectangle);
+    drawString(gui, s, x, y, shades.foreground);
+    return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
-bool GUI90_WidgetButton(int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, ColorShades shades) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -133,32 +137,31 @@ bool GUI90_WidgetButton(int x, int y, const char* text, ColorShades shades) {
     inner_rectangle.height -= 4;
     auto text_x = x + BUTTON_TEXT_PADDING;
     auto text_y = y + BUTTON_TEXT_PADDING;
-    if (isLeftMouseButtonDownInside(rectangle)) {
+    if (isLeftMouseButtonDownInside(gui, rectangle)) {
         ++text_y;
         shades.bevel_light = shades.background;
         shades.bevel_dark = shades.background;
     }
-    drawRectangle(rectangle, shades.border);
-    drawRectangle(inner_rectangle, shades.background);
-    drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, shades.bevel_light);
-    drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, shades.bevel_dark);
-    drawLineVertical(x + 1, y + 2, rectangle.height - 4, shades.bevel_light);
-    drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, shades.bevel_dark);
-    drawString(s, text_x, text_y, shades.foreground);
-    return isLeftMouseButtonReleasedInside(rectangle);
+    drawRectangle(gui, rectangle, shades.border);
+    drawRectangle(gui, inner_rectangle, shades.background);
+    drawLineHorizontal(gui, x + 2, y + 1, rectangle.width - 4, shades.bevel_light);
+    drawLineHorizontal(gui, x + 2, y + rectangle.height - 2, rectangle.width - 4, shades.bevel_dark);
+    drawLineVertical(gui, x + 1, y + 2, rectangle.height - 4, shades.bevel_light);
+    drawLineVertical(gui, x + rectangle.width - 2, y + 2, rectangle.height - 4, shades.bevel_dark);
+    drawString(gui, s, text_x, text_y, shades.foreground);
+    return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
-void GUI90_WidgetIntSetting(int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades) {
+void GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades) {
     const auto label = std::string{text} + " " + std::to_string(*value) + " ";
     auto offset = 0;
-    GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(),
-        label_shades);
+    GUI90_WidgetLabel(gui, x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_shades);
     offset += TEXT_SIZE * label.size();
-    if (GUI90_WidgetButton(x + offset, y, "-", button_shades)) {
+    if (GUI90_WidgetButton(gui, x + offset, y, "-", button_shades)) {
         *value -= 1; 
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
-    if (GUI90_WidgetButton(x + offset, y, "+", button_shades)) {
+    if (GUI90_WidgetButton(gui, x + offset, y, "+", button_shades)) {
         *value += 1;
     }
 }
