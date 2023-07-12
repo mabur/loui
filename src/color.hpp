@@ -19,7 +19,7 @@ const auto YELLOW_SHADES = ColorShades{
     packColorRgb(255, 221, 63),
     packColorRgb(255, 245, 197),
     packColorRgb(207, 117, 43),
-    packColorRgb(0, 0, 0)
+    packColorRgb(0, 0, 0),
 };
 
 const auto GRAY_SHADES = ColorShades{
@@ -27,7 +27,7 @@ const auto GRAY_SHADES = ColorShades{
     packColorRgb(128, 128, 128),
     packColorRgb(192, 192, 192),
     packColorRgb(80, 80, 80),
-    packColorRgb(0, 0, 0)
+    packColorRgb(0, 0, 0),
 };
 
 const auto LEATHER_SHADES = ColorShades{
@@ -35,5 +35,5 @@ const auto LEATHER_SHADES = ColorShades{
     packColorRgb(70, 50, 40),
     packColorRgb(95, 80, 73),
     packColorRgb(54, 33, 22),
-    packColorRgb(0, 0, 0)
+    packColorRgb(0, 0, 0),
 };
