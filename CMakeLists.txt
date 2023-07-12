@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-project(gui)
+project(gui90)
 find_package(SDL2 CONFIG REQUIRED)
 FILE(GLOB source "src/*.cpp" "src/*.hpp")
-add_executable(gui ${source})
-target_link_libraries(gui PRIVATE SDL2::SDL2)
-target_compile_features(gui PRIVATE cxx_std_17)
-
+add_executable(gui90 ${source})
+target_link_libraries(gui90 PRIVATE SDL2::SDL2)
+target_compile_features(gui90 PRIVATE cxx_std_17)

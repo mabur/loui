@@ -4,7 +4,7 @@
 #include "sdl_wrappers.hpp"
 
 int main(int, char**) {
-    const auto WINDOW_TITLE = "FPS";
+    const auto WINDOW_TITLE = "GUI90";
     const auto WIDTH = 320;
     const auto HEIGHT = 200;
     
