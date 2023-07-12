@@ -42,3 +42,11 @@ const auto GRAY_SHADES = ColorShades{
     packColorRgb(80, 80, 80),
     packColorRgb(0, 0, 0)
 };
+
+const auto LEATHER_SHADES = ColorShades{
+    packColorRgb(0, 0, 0),
+    packColorRgb(70, 50, 40),
+    packColorRgb(95, 80, 73),
+    packColorRgb(54, 33, 22),
+    packColorRgb(0, 0, 0)
+};
