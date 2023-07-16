@@ -127,6 +127,7 @@ ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     case BUTTON_RELEASED: return BUTTON_UP;
     }
     assert(false);
+    return {};
 }
 
 Input Sdl::getInput() {
