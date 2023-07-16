@@ -4,6 +4,8 @@
 
 #include "gui.hpp"
 
+enum ButtonState {BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED};
+
 struct Input {
     int mouse_x;
     int mouse_y;

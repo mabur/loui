@@ -11,7 +11,8 @@ struct Gui90 {
     int height = 0;
     int mouse_x = 0;
     int mouse_y = 0;
-    ButtonState left_mouse_button = BUTTON_UP;
+    bool is_left_mouse_button_down = false;
+    bool is_left_mouse_button_released = false;
 };
 
 // -----------------------------------------------------------------------------
@@ -31,13 +32,13 @@ struct Rectangle {
 // PRIVATE MOUSE FUNCTIONS
 
 static bool isLeftMouseButtonDownInside(const Gui90* gui, Rectangle r) {
-    return gui->left_mouse_button == BUTTON_DOWN &&
+    return gui->is_left_mouse_button_down &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
 
 static bool isLeftMouseButtonReleasedInside(const Gui90* gui, Rectangle r) {
-    return gui->left_mouse_button == BUTTON_RELEASED &&
+    return gui->is_left_mouse_button_released &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
@@ -112,10 +113,12 @@ void GUI90_Destroy(Gui90* gui) {
     delete gui;
 }
 
-void GUI90_SetMouseState(Gui90* gui, int x, int y, ButtonState left_mouse_button) {
+void GUI90_SetMouseState(Gui90* gui, int x, int y, bool is_left_mouse_button_down) {
     gui->mouse_x = x;
     gui->mouse_y = y;
-    gui->left_mouse_button = left_mouse_button;
+    gui->is_left_mouse_button_released =
+        gui->is_left_mouse_button_down && !is_left_mouse_button_down;
+    gui->is_left_mouse_button_down = is_left_mouse_button_down;
 }
 
 const Color* GUI90_GetPixelData(const Gui90* gui) {

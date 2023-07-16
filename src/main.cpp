@@ -17,7 +17,7 @@ int main(int, char**) {
         if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
-        GUI90_SetMouseState(gui, input.mouse_x, input.mouse_y, input.left_mouse_button);
+        GUI90_SetMouseState(gui, input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         GUI90_WidgetBackground(gui, GUI90_LEATHER_SHADES);
         if (GUI90_WidgetLabel(gui, 128, 64, "Play", GUI90_LEATHER_SHADES)) {
             break;

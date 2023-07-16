@@ -16,13 +16,11 @@ extern const ColorShades GUI90_YELLOW_SHADES;
 extern const ColorShades GUI90_GRAY_SHADES;
 extern const ColorShades GUI90_LEATHER_SHADES;
 
-enum ButtonState {BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED};
-
 struct Gui90;
 
 Gui90* GUI90_Init(int width, int height);
 void GUI90_Destroy(Gui90* gui);
-void GUI90_SetMouseState(Gui90* gui, int x, int y, ButtonState left_mouse_button);
+void GUI90_SetMouseState(Gui90* gui, int x, int y, bool is_left_mouse_button_down);
 const Color* GUI90_GetPixelData(const Gui90* gui);
 
 void GUI90_WidgetBackground(Gui90* gui, ColorShades shades);
