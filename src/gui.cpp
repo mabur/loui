@@ -11,7 +11,7 @@ struct Gui90 {
     int height = 0;
     int mouse_x = 0;
     int mouse_y = 0;
-    ButtonState left_mouse_button = ButtonState::UP;
+    ButtonState left_mouse_button = BUTTON_UP;
 };
 
 // -----------------------------------------------------------------------------
@@ -31,13 +31,13 @@ struct Rectangle {
 // PRIVATE MOUSE FUNCTIONS
 
 static bool isLeftMouseButtonDownInside(const Gui90* gui, Rectangle r) {
-    return gui->left_mouse_button == ButtonState::DOWN &&
+    return gui->left_mouse_button == BUTTON_DOWN &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }
 
 static bool isLeftMouseButtonReleasedInside(const Gui90* gui, Rectangle r) {
-    return gui->left_mouse_button == ButtonState::RELEASED &&
+    return gui->left_mouse_button == BUTTON_RELEASED &&
         r.x <= gui->mouse_x && gui->mouse_x < r.x + r.width &&
         r.y <= gui->mouse_y && gui->mouse_y < r.y + r.height;
 }

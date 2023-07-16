@@ -16,7 +16,7 @@ extern const ColorShades GUI90_YELLOW_SHADES;
 extern const ColorShades GUI90_GRAY_SHADES;
 extern const ColorShades GUI90_LEATHER_SHADES;
 
-enum class ButtonState {UP, CLICKED, DOWN, RELEASED};
+enum ButtonState {BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED};
 
 struct Gui90;
 

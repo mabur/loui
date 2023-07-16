@@ -14,7 +14,7 @@ int main(int, char**) {
     
     while (sdl.noQuitMessage()) {
         const auto input = sdl.getInput();
-        if (input.escape_button == ButtonState::CLICKED) {
+        if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
         GUI90_SetMouseState(gui, input.mouse_x, input.mouse_y, input.left_mouse_button);

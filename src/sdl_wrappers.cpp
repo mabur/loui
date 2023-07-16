@@ -17,7 +17,7 @@ bool Input::isRightMouseButtonDown() const
 }
 
 bool Input::isLeftMouseButtonReleased() const {
-    return left_mouse_button == ButtonState::RELEASED;
+    return left_mouse_button == BUTTON_RELEASED;
 }
 
 void printError(const char* context)
@@ -42,8 +42,8 @@ Sdl::Sdl(const char* window_title, int width, int height)
     , window(nullptr)
     , renderer(nullptr)
     , texture(nullptr)
-    , left_mouse_button(ButtonState::UP)
-    , escape_button(ButtonState::UP)
+    , left_mouse_button(BUTTON_UP)
+    , escape_button(BUTTON_UP)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -121,10 +121,10 @@ void Sdl::setMouseModeAbsolute() {
 
 ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     switch (old_state) {
-    case ButtonState::UP: return is_down ? ButtonState::CLICKED : ButtonState::UP;
-    case ButtonState::CLICKED: return ButtonState::DOWN;
-    case ButtonState::DOWN: return is_down ? ButtonState::DOWN : ButtonState::RELEASED;
-    case ButtonState::RELEASED: return ButtonState::UP;
+    case BUTTON_UP: return is_down ? BUTTON_CLICKED : BUTTON_UP;
+    case BUTTON_CLICKED: return BUTTON_DOWN;
+    case BUTTON_DOWN: return is_down ? BUTTON_DOWN : BUTTON_RELEASED;
+    case BUTTON_RELEASED: return BUTTON_UP;
     }
     assert(false);
 }
