@@ -78,10 +78,10 @@ static void drawLineVertical(Gui90* gui, int x, int y, int height, Color color) 
 
 static void drawCharacter(Gui90* gui, char character, size_t x_start, size_t y_start, Color color) {
     const auto W = gui->width;
-    const auto& digit_bitmap = text_bitmaps::get(character);
+    const auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
-            if (digit_bitmap[y * 8 + x]) {
+            if (character_bitmap[y * 8 + x]) {
                 gui->colors.at((y_start + y) * W + x_start + x) = color;
             }
         }
