@@ -171,18 +171,19 @@ bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, ColorShades 
     return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
-void GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int* value, ColorShades label_shades, ColorShades button_shades) {
-    const auto label = std::string{text} + " " + std::to_string(*value) + " ";
+int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, ColorShades label_shades, ColorShades button_shades) {
+    const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
     GUI90_WidgetLabel(gui, x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_shades);
     offset += TEXT_SIZE * label.size();
     if (GUI90_WidgetButton(gui, x + offset, y, "-", button_shades)) {
-        *value -= 1; 
+        value -= 1; 
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
     if (GUI90_WidgetButton(gui, x + offset, y, "+", button_shades)) {
-        *value += 1;
+        value += 1;
     }
+    return value;
 }
 
 // -----------------------------------------------------------------------------
