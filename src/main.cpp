@@ -29,7 +29,7 @@ int main(int, char**) {
             break;
         }
         static int setting = 0;
-        setting = GUI90_WidgetIntSetting(gui, 128, 160, "Setting", setting, GUI90_COLORS_LEATHER, GUI90_COLORS_GRAY);
+        setting = GUI90_WidgetIntSetting(gui, 128, 160, "Setting", setting, 0, 10, GUI90_COLORS_LEATHER, GUI90_COLORS_GRAY);
         sdl.draw(GUI90_GetPixelData(gui));
     }
     GUI90_Destroy(gui);

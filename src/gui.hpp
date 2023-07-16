@@ -26,4 +26,4 @@ const Color* GUI90_GetPixelData(const Gui90* gui);
 void GUI90_WidgetBackground(Gui90* gui, Colors colors);
 bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, Colors colors);
 bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, Colors colors);
-int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, Colors label_colors, Colors button_colors);
+int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, int min_value, int max_value, Colors label_colors, Colors button_colors);
