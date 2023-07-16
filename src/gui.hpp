@@ -1,16 +1,16 @@
 #pragma once
 
-#include <cstdint>
+#include <stdint.h>
 
-using Color = uint32_t;
+typedef uint32_t Color;
 
-struct ColorShades {
+typedef struct {
     Color foreground;
     Color background;
     Color bevel_light;
     Color bevel_dark;
     Color border;
-};
+} ColorShades;
 
 extern const ColorShades GUI90_YELLOW_SHADES;
 extern const ColorShades GUI90_GRAY_SHADES;
