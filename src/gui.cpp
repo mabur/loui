@@ -125,24 +125,24 @@ const Color* GUI90_GetPixelData(const Gui90* gui) {
     return gui->colors.data();
 }
 
-void GUI90_WidgetBackground(Gui90* gui, ColorShades shades) {
+void GUI90_WidgetBackground(Gui90* gui, Colors colors) {
     for (auto& pixel : gui->colors) {
-        pixel = shades.background;
+        pixel = colors.background;
     }    
 }
 
-bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, Colors colors) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
-    drawString(gui, s, x, y, shades.foreground);
+    drawString(gui, s, x, y, colors.foreground);
     return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
-bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, ColorShades shades) {
+bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, Colors colors) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -158,29 +158,29 @@ bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, ColorShades 
     auto text_y = y + BUTTON_TEXT_PADDING;
     if (isLeftMouseButtonDownInside(gui, rectangle)) {
         ++text_y;
-        shades.bevel_light = shades.background;
-        shades.bevel_dark = shades.background;
+        colors.bevel_light = colors.background;
+        colors.bevel_dark = colors.background;
     }
-    drawRectangle(gui, rectangle, shades.border);
-    drawRectangle(gui, inner_rectangle, shades.background);
-    drawLineHorizontal(gui, x + 2, y + 1, rectangle.width - 4, shades.bevel_light);
-    drawLineHorizontal(gui, x + 2, y + rectangle.height - 2, rectangle.width - 4, shades.bevel_dark);
-    drawLineVertical(gui, x + 1, y + 2, rectangle.height - 4, shades.bevel_light);
-    drawLineVertical(gui, x + rectangle.width - 2, y + 2, rectangle.height - 4, shades.bevel_dark);
-    drawString(gui, s, text_x, text_y, shades.foreground);
+    drawRectangle(gui, rectangle, colors.border);
+    drawRectangle(gui, inner_rectangle, colors.background);
+    drawLineHorizontal(gui, x + 2, y + 1, rectangle.width - 4, colors.bevel_light);
+    drawLineHorizontal(gui, x + 2, y + rectangle.height - 2, rectangle.width - 4, colors.bevel_dark);
+    drawLineVertical(gui, x + 1, y + 2, rectangle.height - 4, colors.bevel_light);
+    drawLineVertical(gui, x + rectangle.width - 2, y + 2, rectangle.height - 4, colors.bevel_dark);
+    drawString(gui, s, text_x, text_y, colors.foreground);
     return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
-int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, ColorShades label_shades, ColorShades button_shades) {
+int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, Colors label_colors, Colors button_colors) {
     const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
-    GUI90_WidgetLabel(gui, x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_shades);
+    GUI90_WidgetLabel(gui, x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_colors);
     offset += TEXT_SIZE * label.size();
-    if (GUI90_WidgetButton(gui, x + offset, y, "-", button_shades)) {
+    if (GUI90_WidgetButton(gui, x + offset, y, "-", button_colors)) {
         value -= 1; 
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
-    if (GUI90_WidgetButton(gui, x + offset, y, "+", button_shades)) {
+    if (GUI90_WidgetButton(gui, x + offset, y, "+", button_colors)) {
         value += 1;
     }
     return value;
@@ -189,7 +189,7 @@ int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value
 // -----------------------------------------------------------------------------
 // PUBLIC CONSTANTS
 
-const ColorShades GUI90_YELLOW_SHADES = ColorShades{
+const Colors GUI90_COLORS_YELLOW = Colors{
     packColorRgb(0, 0, 0),
     packColorRgb(255, 221, 63),
     packColorRgb(255, 245, 197),
@@ -197,7 +197,7 @@ const ColorShades GUI90_YELLOW_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
 };
 
-const ColorShades GUI90_GRAY_SHADES = ColorShades{
+const Colors GUI90_COLORS_GRAY = Colors{
     packColorRgb(255, 255, 255),
     packColorRgb(128, 128, 128),
     packColorRgb(192, 192, 192),
@@ -205,7 +205,7 @@ const ColorShades GUI90_GRAY_SHADES = ColorShades{
     packColorRgb(0, 0, 0),
 };
 
-const ColorShades GUI90_LEATHER_SHADES = ColorShades{
+const Colors GUI90_COLORS_LEATHER = Colors{
     packColorRgb(0, 0, 0),
     packColorRgb(70, 50, 40),
     packColorRgb(95, 80, 73),

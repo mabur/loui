@@ -18,18 +18,18 @@ int main(int, char**) {
             break;
         }
         GUI90_SetMouseState(gui, input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
-        GUI90_WidgetBackground(gui, GUI90_LEATHER_SHADES);
-        if (GUI90_WidgetLabel(gui, 128, 64, "Play", GUI90_LEATHER_SHADES)) {
+        GUI90_WidgetBackground(gui, GUI90_COLORS_LEATHER);
+        if (GUI90_WidgetLabel(gui, 128, 64, "Play", GUI90_COLORS_LEATHER)) {
             break;
         }
-        if (GUI90_WidgetButton(gui, 128, 96, "Build", GUI90_GRAY_SHADES)) {
+        if (GUI90_WidgetButton(gui, 128, 96, "Build", GUI90_COLORS_GRAY)) {
             break;
         }
-        if (GUI90_WidgetButton(gui, 128, 128, "Exit", GUI90_GRAY_SHADES)) {
+        if (GUI90_WidgetButton(gui, 128, 128, "Exit", GUI90_COLORS_GRAY)) {
             break;
         }
         static int setting = 0;
-        setting = GUI90_WidgetIntSetting(gui, 128, 160, "Setting", setting, GUI90_LEATHER_SHADES, GUI90_GRAY_SHADES);
+        setting = GUI90_WidgetIntSetting(gui, 128, 160, "Setting", setting, GUI90_COLORS_LEATHER, GUI90_COLORS_GRAY);
         sdl.draw(GUI90_GetPixelData(gui));
     }
     GUI90_Destroy(gui);
