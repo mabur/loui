@@ -93,6 +93,10 @@ static void drawString(Gui90* gui, const std::string& s, size_t x, size_t y, Col
     }
 }
 
+static Color packColorRgb(uint32_t r, uint32_t g, uint32_t b) {
+    return (255 << 24) | (r << 16) | (g << 8) | (b << 0);
+}
+
 // -----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS
 
@@ -177,3 +181,30 @@ void GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int* val
         *value += 1;
     }
 }
+
+// -----------------------------------------------------------------------------
+// PUBLIC CONSTANTS
+
+const ColorShades GUI90_YELLOW_SHADES = ColorShades{
+    packColorRgb(0, 0, 0),
+    packColorRgb(255, 221, 63),
+    packColorRgb(255, 245, 197),
+    packColorRgb(207, 117, 43),
+    packColorRgb(0, 0, 0),
+};
+
+const ColorShades GUI90_GRAY_SHADES = ColorShades{
+    packColorRgb(255, 255, 255),
+    packColorRgb(128, 128, 128),
+    packColorRgb(192, 192, 192),
+    packColorRgb(80, 80, 80),
+    packColorRgb(0, 0, 0),
+};
+
+const ColorShades GUI90_LEATHER_SHADES = ColorShades{
+    packColorRgb(0, 0, 0),
+    packColorRgb(70, 50, 40),
+    packColorRgb(95, 80, 73),
+    packColorRgb(54, 33, 22),
+    packColorRgb(0, 0, 0),
+};

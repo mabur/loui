@@ -1,6 +1,20 @@
 #pragma once
 
-#include "color.hpp"
+#include <cstdint>
+
+using Color = uint32_t;
+
+struct ColorShades {
+    Color foreground;
+    Color background;
+    Color bevel_light;
+    Color bevel_dark;
+    Color border;
+};
+
+extern const ColorShades GUI90_YELLOW_SHADES;
+extern const ColorShades GUI90_GRAY_SHADES;
+extern const ColorShades GUI90_LEATHER_SHADES;
 
 enum class ButtonState {UP, CLICKED, DOWN, RELEASED};
 
