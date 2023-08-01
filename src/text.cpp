@@ -147,6 +147,17 @@ const Bitmap C = {
     0, 0, 0, 0, 0, 0, 0, 0,
 };
 
+const Bitmap D = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 0, 0,
+    0, 1, 0, 0, 0, 1, 0, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 1, 0, 0,
+    0, 1, 1, 1, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+};
+
 const Bitmap E = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 0,
@@ -246,6 +257,17 @@ const Bitmap S = {
     0, 0, 0, 0, 0, 0, 0, 0,
 };
 
+const Bitmap U = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 1, 0, 0, 0, 0, 1, 0,
+    0, 0, 1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+};
+
 const Bitmap V = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 1, 0,
@@ -334,6 +356,17 @@ const Bitmap g = {
     0, 0, 1, 1, 1, 0, 0, 0,
 };
 
+const Bitmap h = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 0, 0,
+    0, 1, 0, 0, 0, 1, 0, 0,
+    0, 1, 0, 0, 0, 1, 0, 0,
+    0, 1, 0, 0, 0, 1, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+};
+
 const Bitmap i = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 1, 0, 0, 0, 0,
@@ -419,6 +452,17 @@ const Bitmap r = {
     0, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+};
+
+const Bitmap s = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 1, 1, 1, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0,
+    0, 0, 1, 1, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 0, 0,
+    0, 1, 1, 1, 1, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
 };
 
@@ -566,6 +610,7 @@ const char* character_bitmap8x8(char character) {
 
     case 'B': return B;
     case 'C': return C;
+    case 'D': return D;
     case 'E': return E;
     case 'F': return F;
     case 'G': return G;
@@ -575,6 +620,7 @@ const char* character_bitmap8x8(char character) {
     case 'O': return O;
     case 'P': return P;
     case 'S': return S;
+    case 'U': return U;
     case 'V': return V;
     case 'Y': return Y;
 
@@ -584,6 +630,7 @@ const char* character_bitmap8x8(char character) {
     case 'e': return e;
     case 'f': return f;
     case 'g': return g;
+    case 'h': return h;
     case 'i': return i;
     case 'k': return k;
     case 'l': return l;
@@ -592,6 +639,7 @@ const char* character_bitmap8x8(char character) {
     case 'o': return o;
     case 'p': return p;
     case 'r': return r;
+    case 's': return s;
     case 't': return t;
     case 'u': return u;
     case 'w': return w;
