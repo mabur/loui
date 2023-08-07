@@ -5,8 +5,11 @@
 typedef uint32_t Color;
 
 typedef struct {
-    Color foreground;
+    Color text;
+    Color text_selection_box_selected;
+    Color text_selection_box;
     Color background;
+    Color background_dark;
     Color bevel_light;
     Color bevel_dark;
     Color border;
@@ -27,3 +30,6 @@ void GUI90_WidgetBackground(Gui90* gui, Colors colors);
 bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, Colors colors);
 bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, Colors colors);
 int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value, int min_value, int max_value, Colors label_colors, Colors button_colors);
+
+void GUI90_WidgetSelectionBoxInit(Gui90* gui, int x, int y, int width, int height, Colors colors);
+bool GUI90_WidgetSelectionBoxItem(Gui90* gui, const char* text, bool is_selected);

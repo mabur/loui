@@ -11,6 +11,9 @@ struct Gui90 {
     int height = 0;
     int mouse_x = 0;
     int mouse_y = 0;
+    int current_x = 0;
+    int current_y = 0;
+    Colors current_colors = GUI90_COLORS_GRAY; 
     bool is_left_mouse_button_down = false;
     bool is_left_mouse_button_released = false;
 };
@@ -138,7 +141,7 @@ bool GUI90_WidgetLabel(Gui90* gui, int x, int y, const char* text, Colors colors
     rectangle.y = y;
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
-    drawString(gui, s, x, y, colors.foreground);
+    drawString(gui, s, x, y, colors.text);
     return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
@@ -167,7 +170,7 @@ bool GUI90_WidgetButton(Gui90* gui, int x, int y, const char* text, Colors color
     drawLineHorizontal(gui, x + 2, y + rectangle.height - 2, rectangle.width - 4, colors.bevel_dark);
     drawLineVertical(gui, x + 1, y + 2, rectangle.height - 4, colors.bevel_light);
     drawLineVertical(gui, x + rectangle.width - 2, y + 2, rectangle.height - 4, colors.bevel_dark);
-    drawString(gui, s, text_x, text_y, colors.foreground);
+    drawString(gui, s, text_x, text_y, colors.text);
     return isLeftMouseButtonReleasedInside(gui, rectangle);
 }
 
@@ -190,11 +193,38 @@ int GUI90_WidgetIntSetting(Gui90* gui, int x, int y, const char* text, int value
     return value;
 }
 
+void GUI90_WidgetSelectionBoxInit(Gui90* gui, int x, int y, int width, int height, Colors colors) {
+    gui->current_x = x + TEXT_SIZE;
+    gui->current_y = y + TEXT_SIZE;
+    gui->current_colors = colors;
+
+    const auto rectangle = Rectangle{x + 1, y + 1, width - 2, height - 2};
+    drawRectangle(gui, rectangle, colors.background_dark);
+    drawLineHorizontal(gui, x + 1, y, width - 2, colors.bevel_dark);
+    drawLineHorizontal(gui, x + 1, y + height - 1, width - 2, colors.bevel_light);
+    drawLineVertical(gui, x, y + 1, height - 2, colors.bevel_dark);
+    drawLineVertical(gui, x + width - 1, y + 1, height - 2, colors.bevel_light);
+}
+
+bool GUI90_WidgetSelectionBoxItem(Gui90* gui, const char* text, bool is_selected) {
+    auto colors = gui->current_colors;
+    colors.text = is_selected ?
+        colors.text_selection_box_selected :
+        colors.text_selection_box;
+    const auto x = gui->current_x;
+    const auto y = gui->current_y;
+    gui->current_y += TEXT_SIZE;
+    return GUI90_WidgetLabel(gui, x, y, text, colors);
+}
+
 // -----------------------------------------------------------------------------
 // PUBLIC CONSTANTS
 
 const Colors GUI90_COLORS_YELLOW = Colors{
     packColorRgb(0, 0, 0),
+    packColorRgb(255, 255, 255),
+    packColorRgb(128, 128, 128),
+    packColorRgb(255, 221, 63),
     packColorRgb(255, 221, 63),
     packColorRgb(255, 245, 197),
     packColorRgb(207, 117, 43),
@@ -203,6 +233,9 @@ const Colors GUI90_COLORS_YELLOW = Colors{
 
 const Colors GUI90_COLORS_GRAY = Colors{
     packColorRgb(255, 255, 255),
+    packColorRgb(0, 0, 0),
+    packColorRgb(128, 128, 128),
+    packColorRgb(128, 128, 128),
     packColorRgb(128, 128, 128),
     packColorRgb(192, 192, 192),
     packColorRgb(80, 80, 80),
@@ -211,7 +244,10 @@ const Colors GUI90_COLORS_GRAY = Colors{
 
 const Colors GUI90_COLORS_LEATHER = Colors{
     packColorRgb(0, 0, 0),
+    packColorRgb(255, 255, 255),
+    packColorRgb(128, 128, 128),
     packColorRgb(70, 50, 40),
+    packColorRgb(0, 0, 0),
     packColorRgb(95, 80, 73),
     packColorRgb(54, 33, 22),
     packColorRgb(0, 0, 0),
