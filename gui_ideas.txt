@@ -1,1 +1,2 @@
 * ZX Spectrum character set
+* RectCut: https://halt.software/dead-simple-layouts/
