@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 
-#include "gui.hpp"
+#include <gui90/gui.hpp>
+
 #include "sdl_wrappers.hpp"
 
 int main(int, char**) {
