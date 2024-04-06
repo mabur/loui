@@ -13,7 +13,7 @@ struct Gui90 {
     int mouse_y = 0;
     int current_x = 0;
     int current_y = 0;
-    Colors current_colors = GUI90_COLORS_GRAY; 
+    GUI90_Theme current_theme = GUI90_THEME_GRAY; 
     bool is_left_mouse_button_down = false;
     bool is_left_mouse_button_released = false;
 };
@@ -124,24 +124,24 @@ const Color* GUI90_GetPixelData() {
     return s_gui.colors.data();
 }
 
-void GUI90_WidgetBackground(Colors colors) {
+void GUI90_WidgetBackground(GUI90_Theme theme) {
     for (auto& pixel : s_gui.colors) {
-        pixel = colors.background;
+        pixel = theme.background;
     }    
 }
 
-bool GUI90_WidgetLabel(int x, int y, const char* text, Colors colors) {
+bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * static_cast<int>(s.size());
     rectangle.height = 8;
-    drawString(s, x, y, colors.text);
+    drawString(s, x, y, theme.text);
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
-bool GUI90_WidgetButton(int x, int y, const char* text, Colors colors) {
+bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -157,20 +157,20 @@ bool GUI90_WidgetButton(int x, int y, const char* text, Colors colors) {
     auto text_y = y + BUTTON_TEXT_PADDING;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
-        colors.bevel_light = colors.background;
-        colors.bevel_dark = colors.background;
+        theme.bevel_light = theme.background;
+        theme.bevel_dark = theme.background;
     }
-    drawRectangle(rectangle, colors.border);
-    drawRectangle(inner_rectangle, colors.background);
-    drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, colors.bevel_light);
-    drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, colors.bevel_dark);
-    drawLineVertical(x + 1, y + 2, rectangle.height - 4, colors.bevel_light);
-    drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, colors.bevel_dark);
-    drawString(s, text_x, text_y, colors.text);
+    drawRectangle(rectangle, theme.border);
+    drawRectangle(inner_rectangle, theme.background);
+    drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, theme.bevel_light);
+    drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.bevel_dark);
+    drawLineVertical(x + 1, y + 2, rectangle.height - 4, theme.bevel_light);
+    drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.bevel_dark);
+    drawString(s, text_x, text_y, theme.text);
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
-int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, Colors label_colors, Colors button_colors) {
+int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme label_colors, GUI90_Theme button_colors) {
     const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
     GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), label_colors);
@@ -189,21 +189,21 @@ int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_va
     return value;
 }
 
-void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, Colors colors) {
+void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme) {
     s_gui.current_x = x + TEXT_SIZE;
     s_gui.current_y = y + TEXT_SIZE;
-    s_gui.current_colors = colors;
+    s_gui.current_theme = theme;
 
     const auto rectangle = Rectangle{x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(rectangle, colors.background_dark);
-    drawLineHorizontal(x + 1, y, width - 2, colors.bevel_dark);
-    drawLineHorizontal(x + 1, y + height - 1, width - 2, colors.bevel_light);
-    drawLineVertical(x, y + 1, height - 2, colors.bevel_dark);
-    drawLineVertical(x + width - 1, y + 1, height - 2, colors.bevel_light);
+    drawRectangle(rectangle, theme.background_dark);
+    drawLineHorizontal(x + 1, y, width - 2, theme.bevel_dark);
+    drawLineHorizontal(x + 1, y + height - 1, width - 2, theme.bevel_light);
+    drawLineVertical(x, y + 1, height - 2, theme.bevel_dark);
+    drawLineVertical(x + width - 1, y + 1, height - 2, theme.bevel_light);
 }
 
 bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
-    auto colors = s_gui.current_colors;
+    auto colors = s_gui.current_theme;
     colors.text = is_selected ?
         colors.text_selection_box_selected :
         colors.text_selection_box;
@@ -216,7 +216,7 @@ bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
 // -----------------------------------------------------------------------------
 // PUBLIC CONSTANTS
 
-const Colors GUI90_COLORS_YELLOW = Colors{
+const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
     .text = packColorRgb(0, 0, 0),
     .text_selection_box_selected = packColorRgb(255, 255, 255),
     .text_selection_box = packColorRgb(128, 128, 128),
@@ -227,7 +227,7 @@ const Colors GUI90_COLORS_YELLOW = Colors{
     .border = packColorRgb(0, 0, 0),
 };
 
-const Colors GUI90_COLORS_GRAY = Colors{
+const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .text = packColorRgb(255, 255, 255),
     .text_selection_box_selected = packColorRgb(0, 0, 0),
     .text_selection_box = packColorRgb(128, 128, 128),
@@ -238,7 +238,7 @@ const Colors GUI90_COLORS_GRAY = Colors{
     .border = packColorRgb(0, 0, 0),
 };
 
-const Colors GUI90_COLORS_LEATHER = Colors{
+const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
     .text = packColorRgb(0, 0, 0),
     .text_selection_box_selected = packColorRgb(255, 255, 255),
     .text_selection_box = packColorRgb(128, 128, 128),
