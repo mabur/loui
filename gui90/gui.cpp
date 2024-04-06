@@ -6,7 +6,7 @@
 #include "text.hpp"
 
 struct Gui90 {
-    std::vector<Color> colors;
+    std::vector<GUI90_Color> colors;
     int width = 0;
     int height = 0;
     int mouse_x = 0;
@@ -51,11 +51,11 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawPoint(int x, int y, Color color) {
+static void drawPoint(int x, int y, GUI90_Color color) {
     s_gui.colors.at(y * s_gui.width + x) = color;
 }
 
-static void drawRectangle(Rectangle rectangle, Color color) {
+static void drawRectangle(Rectangle rectangle, GUI90_Color color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
             drawPoint(rectangle.x + dx, rectangle.y + dy, color);
@@ -63,7 +63,7 @@ static void drawRectangle(Rectangle rectangle, Color color) {
     }
 }
 
-static void drawLineHorizontal(int x, int y, int width, Color color) {
+static void drawLineHorizontal(int x, int y, int width, GUI90_Color color) {
     auto r = Rectangle{};
     r.x = x;
     r.y = y;
@@ -72,7 +72,7 @@ static void drawLineHorizontal(int x, int y, int width, Color color) {
     drawRectangle(r, color);
 }
 
-static void drawLineVertical(int x, int y, int height, Color color) {
+static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
     auto r = Rectangle{};
     r.x = x;
     r.y = y;
@@ -81,7 +81,7 @@ static void drawLineVertical(int x, int y, int height, Color color) {
     drawRectangle(r, color);
 }
 
-static void drawCharacter(char character, size_t x_start, size_t y_start, Color color) {
+static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_Color color) {
     const auto W = s_gui.width;
     const auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
@@ -93,13 +93,13 @@ static void drawCharacter(char character, size_t x_start, size_t y_start, Color 
     }
 }
 
-static void drawString(const std::string& s, size_t x, size_t y, Color color) {
+static void drawString(const std::string& s, size_t x, size_t y, GUI90_Color color) {
     for (size_t i = 0; i < s.size(); ++i) {
         drawCharacter(s[i], x + 8 * i, y, color);
     }
 }
 
-static Color packColorRgb(uint32_t r, uint32_t g, uint32_t b) {
+static GUI90_Color packColorRgb(uint32_t r, uint32_t g, uint32_t b) {
     return (255 << 24) | (r << 16) | (g << 8) | (b << 0);
 }
 
@@ -120,7 +120,7 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.is_left_mouse_button_down = is_left_mouse_button_down;
 }
 
-const Color* GUI90_GetPixelData() {
+const GUI90_Color* GUI90_GetPixelData() {
     return s_gui.colors.data();
 }
 

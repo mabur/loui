@@ -2,17 +2,17 @@
 
 #include <stdint.h>
 
-typedef uint32_t Color;
+typedef uint32_t GUI90_Color;
 
 typedef struct {
-    Color text;
-    Color text_selection_box_selected;
-    Color text_selection_box;
-    Color background;
-    Color background_dark;
-    Color bevel_light;
-    Color bevel_dark;
-    Color border;
+    GUI90_Color text;
+    GUI90_Color text_selection_box_selected;
+    GUI90_Color text_selection_box;
+    GUI90_Color background;
+    GUI90_Color background_dark;
+    GUI90_Color bevel_light;
+    GUI90_Color bevel_dark;
+    GUI90_Color border;
 } GUI90_Theme;
 
 extern const GUI90_Theme GUI90_THEME_YELLOW;
@@ -21,7 +21,7 @@ extern const GUI90_Theme GUI90_THEME_LEATHER;
 
 void GUI90_Init(int width, int height);
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down);
-const Color* GUI90_GetPixelData();
+const GUI90_Color* GUI90_GetPixelData();
 
 void GUI90_WidgetBackground(GUI90_Theme theme);
 bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
