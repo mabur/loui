@@ -217,34 +217,34 @@ bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
 // PUBLIC CONSTANTS
 
 const Colors GUI90_COLORS_YELLOW = Colors{
-    packColorRgb(0, 0, 0),
-    packColorRgb(255, 255, 255),
-    packColorRgb(128, 128, 128),
-    packColorRgb(255, 221, 63),
-    packColorRgb(255, 221, 63),
-    packColorRgb(255, 245, 197),
-    packColorRgb(207, 117, 43),
-    packColorRgb(0, 0, 0),
+    .text = packColorRgb(0, 0, 0),
+    .text_selection_box_selected = packColorRgb(255, 255, 255),
+    .text_selection_box = packColorRgb(128, 128, 128),
+    .background = packColorRgb(255, 221, 63),
+    .background_dark = packColorRgb(255, 221, 63),
+    .bevel_light = packColorRgb(255, 245, 197),
+    .bevel_dark = packColorRgb(207, 117, 43),
+    .border = packColorRgb(0, 0, 0),
 };
 
 const Colors GUI90_COLORS_GRAY = Colors{
-    packColorRgb(255, 255, 255),
-    packColorRgb(0, 0, 0),
-    packColorRgb(128, 128, 128),
-    packColorRgb(128, 128, 128),
-    packColorRgb(128, 128, 128),
-    packColorRgb(192, 192, 192),
-    packColorRgb(80, 80, 80),
-    packColorRgb(0, 0, 0),
+    .text = packColorRgb(255, 255, 255),
+    .text_selection_box_selected = packColorRgb(0, 0, 0),
+    .text_selection_box = packColorRgb(128, 128, 128),
+    .background = packColorRgb(128, 128, 128),
+    .background_dark = packColorRgb(128, 128, 128),
+    .bevel_light = packColorRgb(192, 192, 192),
+    .bevel_dark = packColorRgb(80, 80, 80),
+    .border = packColorRgb(0, 0, 0),
 };
 
 const Colors GUI90_COLORS_LEATHER = Colors{
-    packColorRgb(0, 0, 0),
-    packColorRgb(255, 255, 255),
-    packColorRgb(128, 128, 128),
-    packColorRgb(70, 50, 40),
-    packColorRgb(0, 0, 0),
-    packColorRgb(95, 80, 73),
-    packColorRgb(54, 33, 22),
-    packColorRgb(0, 0, 0),
+    .text = packColorRgb(0, 0, 0),
+    .text_selection_box_selected = packColorRgb(255, 255, 255),
+    .text_selection_box = packColorRgb(128, 128, 128),
+    .background = packColorRgb(70, 50, 40),
+    .background_dark = packColorRgb(0, 0, 0),
+    .bevel_light = packColorRgb(95, 80, 73),
+    .bevel_dark = packColorRgb(54, 33, 22),
+    .border = packColorRgb(0, 0, 0),
 };
