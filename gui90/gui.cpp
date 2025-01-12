@@ -248,3 +248,14 @@ const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
     .bevel_dark = packColorRgb(54, 33, 22),
     .border = packColorRgb(0, 0, 0),
 };
+
+const GUI90_Theme GUI90_THEME_SOLARIZE = GUI90_Theme{
+    .text = packColorRgb(0, 0, 0),
+    .text_selection_box_selected = packColorRgb(255, 255, 255),
+    .text_selection_box = packColorRgb(128, 128, 128),
+    .background = packColorRgb(253, 246, 227),
+    .background_dark = packColorRgb(0, 0, 0),
+    .bevel_light = packColorRgb(255, 255, 255),
+    .bevel_dark = packColorRgb(198, 180, 158),
+    .border = packColorRgb(0, 0, 0),
+};
