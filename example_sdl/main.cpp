@@ -20,19 +20,18 @@ int main(int, char**) {
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         
-        auto theme = GUI90_THEME_SOLARIZE;
-        auto theme_button = GUI90_THEME_SOLARIZE;
+        auto theme = GUI90_THEME_SOLARIZE_LIGHT;
         GUI90_WidgetBackground(theme);
         auto x = 16;
         auto y = 16;
         if (GUI90_WidgetLabel(x, y, "Label", theme)) {
         }
         y += 16;
-        if (GUI90_WidgetButton(x, y, "Button", theme_button)) {
+        if (GUI90_WidgetButton(x, y, "Button", theme)) {
         }
         y += 16;
         static int setting = 0;
-        setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme, theme_button);
+        setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
         y += 32;
         static auto selection = 0;
         static const auto N = 4;
