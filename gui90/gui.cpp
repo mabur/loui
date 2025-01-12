@@ -1,5 +1,6 @@
 #include "gui.hpp"
 
+#include <string.h>
 #include <string>
 #include <vector>
 
@@ -130,14 +131,19 @@ void GUI90_WidgetBackground(GUI90_Theme theme) {
     }    
 }
 
+static Rectangle textRectangle(int x, int y, const char* text) {
+    return Rectangle{
+        .x = x,
+        .y = y,
+        .width = 8 * static_cast<int>(strlen(text)),
+        .height = 8,    
+    };
+}
+
 bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
-    const auto s = std::string{text};
-    auto rectangle = Rectangle{};
-    rectangle.x = x;
-    rectangle.y = y;
-    rectangle.width = 8 * static_cast<int>(s.size());
-    rectangle.height = 8;
+    auto s = std::string{text};
     drawString(s, x, y, theme.text);
+    auto rectangle = textRectangle(x, y, text);
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
