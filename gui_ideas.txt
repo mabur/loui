@@ -1,2 +1,6 @@
 * ZX Spectrum character set
 * RectCut: https://halt.software/dead-simple-layouts/
+
+* Example applications:
+  - Games: Rogue, Golf, Kretzlop
+  - Paint 90, grid3d
