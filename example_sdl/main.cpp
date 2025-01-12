@@ -20,7 +20,7 @@ int main(int, char**) {
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         
-        auto theme = GUI90_THEME_SOLARIZE_LIGHT;
+        auto theme = GUI90_THEME_YELLOW;
         GUI90_WidgetBackground(theme);
         auto x = 16;
         auto y = 16;
