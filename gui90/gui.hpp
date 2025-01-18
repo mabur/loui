@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef uint32_t GUI90_Color;
@@ -32,6 +33,7 @@ const GUI90_Color* GUI90_GetPixelData();
 void GUI90_WidgetBackground(GUI90_Theme theme);
 bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
 bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme);
+bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme);
 int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme);
 
 void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme);

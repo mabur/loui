@@ -81,6 +81,14 @@ int main(int, char**) {
             }
         }
         y += height;
+        static auto alternative = 0;
+        if (GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme)) {
+            alternative = 0;
+        }
+        y += 16;
+        if (GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1, theme)) {
+            alternative = 1;
+        }
         
         sdl.draw(GUI90_GetPixelData());
     }

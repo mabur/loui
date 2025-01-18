@@ -176,6 +176,35 @@ bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
     return isLeftMouseButtonReleasedInside(rectangle);
 }
 
+bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme) {
+    for (int yi = 0; yi < 16; ++yi) {
+        for (int xi = 0; xi < 16; ++xi) {
+            double dx = xi - 7.5;
+            double dy = yi - 7.5;
+            double r2 = dx * dx + dy * dy;
+            auto color = theme.background;
+            if (r2 < 7.3 * 7.3 and dx + dy < 0.0) {
+                color = theme.recess_bevel_dark;
+            }
+            if (r2 < 7.3 * 7.3 and dx + dy > 0.0) {
+                color = theme.recess_bevel_light;
+            }
+            if (r2 < 6.4 * 6.4) {
+                color = theme.recess_background;
+            }
+            if (r2 < 3.0 * 3.0 and is_selected) {
+                color = theme.recess_text_selected;
+            }
+            drawPoint(x + xi, y + yi, color);
+        }
+    }
+    auto left_rectangle = Rectangle{x, y , 16 + BUTTON_TEXT_PADDING, 16};
+    auto label_result = GUI90_WidgetLabel(
+        x + 16 + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, text, theme
+    );
+    return label_result or isLeftMouseButtonReleasedInside(left_rectangle);
+}
+
 int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme) {
     const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
