@@ -21,6 +21,7 @@ typedef struct {
 
 extern const GUI90_Theme GUI90_THEME_YELLOW;
 extern const GUI90_Theme GUI90_THEME_GRAY;
+extern const GUI90_Theme GUI90_THEME_WARM_GRAY;
 extern const GUI90_Theme GUI90_THEME_LEATHER;
 extern const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT;
 

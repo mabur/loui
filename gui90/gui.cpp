@@ -252,6 +252,21 @@ const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .recess_bevel_light = packColorRgb(192, 192, 192),
 };
 
+const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
+    .background = packColorRgb(173, 164, 149),
+    .text = packColorRgb(0, 0, 0),
+    .button_background = packColorRgb(173, 164, 149),
+    .button_text = packColorRgb(255, 255, 255),
+    .button_border = packColorRgb(0, 0, 0),
+    .button_bevel_dark = packColorRgb(105, 96, 81),
+    .button_bevel_light = packColorRgb(255, 255, 255),
+    .recess_background = packColorRgb(0, 0, 0),
+    .recess_text = packColorRgb(128, 128, 128),
+    .recess_text_selected = packColorRgb(255, 255, 255),
+    .recess_bevel_dark = packColorRgb(105, 96, 81),
+    .recess_bevel_light = packColorRgb(255, 255, 255),
+};
+
 const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
     .background = packColorRgb(70, 50, 40),
     .text = packColorRgb(0, 0, 0),

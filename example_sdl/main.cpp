@@ -8,6 +8,7 @@
 
 enum GuiThemeIndex {
     GRAY_THEME_INDEX,
+    WARM_GRAY_THEME_INDEX,
     SOLARIZE_LIGHT_THEME_INDEX,
     YELLOW_THEME_INDEX,
     LEATHER_THEME_INDEX,
@@ -18,6 +19,7 @@ GUI90_Theme themeSettings(GuiThemeIndex theme) {
     switch (theme) {
         case YELLOW_THEME_INDEX: return GUI90_THEME_YELLOW;
         case GRAY_THEME_INDEX: return GUI90_THEME_GRAY;
+        case WARM_GRAY_THEME_INDEX: return GUI90_THEME_WARM_GRAY;
         case LEATHER_THEME_INDEX: return GUI90_THEME_LEATHER;
         case SOLARIZE_LIGHT_THEME_INDEX: return GUI90_THEME_SOLARIZE_LIGHT;
     }
@@ -28,6 +30,7 @@ const char* themeDescription(GuiThemeIndex theme) {
     switch (theme) {
         case YELLOW_THEME_INDEX: return "Yellow";
         case GRAY_THEME_INDEX: return "Gray";
+        case WARM_GRAY_THEME_INDEX: return "Warm Gray";
         case LEATHER_THEME_INDEX: return "Leather";
         case SOLARIZE_LIGHT_THEME_INDEX: return "Solarize";
     }
