@@ -238,13 +238,13 @@ const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
 };
 
 const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
-    .background = packColorRgb(128, 128, 128),
+    .background = packColorRgb(192, 192, 192),
     .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(128, 128, 128),
+    .button_background = packColorRgb(192, 192, 192),
     .button_text = packColorRgb(255, 255, 255),
     .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(80, 80, 80),
-    .button_bevel_light = packColorRgb(192, 192, 192),
+    .button_bevel_dark = packColorRgb(128, 128, 128),
+    .button_bevel_light = packColorRgb(255, 255, 255),
     .recess_background = packColorRgb(0, 0, 0),
     .recess_text = packColorRgb(128, 128, 128),
     .recess_text_selected = packColorRgb(255, 255, 255),
