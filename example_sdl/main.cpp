@@ -7,10 +7,10 @@
 #include "sdl_wrappers.hpp"
 
 enum GuiThemeIndex {
-    YELLOW_THEME_INDEX,
     GRAY_THEME_INDEX,
-    LEATHER_THEME_INDEX,
     SOLARIZE_LIGHT_THEME_INDEX,
+    YELLOW_THEME_INDEX,
+    LEATHER_THEME_INDEX,
     THEME_COUNT,
 };
 
