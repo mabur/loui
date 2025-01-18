@@ -239,7 +239,7 @@ const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
 
 const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .background = packColorRgb(128, 128, 128),
-    .text = packColorRgb(255, 255, 255),
+    .text = packColorRgb(0, 0, 0),
     .button_background = packColorRgb(128, 128, 128),
     .button_text = packColorRgb(255, 255, 255),
     .button_border = packColorRgb(0, 0, 0),
