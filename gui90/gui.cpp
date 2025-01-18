@@ -183,16 +183,16 @@ bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, G
             double dy = yi - 7.5;
             double r2 = dx * dx + dy * dy;
             auto color = theme.background;
-            if (r2 < 7.3 * 7.3 and dx + dy < 0.0) {
+            if (r2 < 6.0 * 6.0 and dx + dy < 0.0) {
                 color = theme.recess_bevel_dark;
             }
-            if (r2 < 7.3 * 7.3 and dx + dy > 0.0) {
+            if (r2 < 6.0 * 6.0 and dx + dy > 0.0) {
                 color = theme.recess_bevel_light;
             }
-            if (r2 < 6.4 * 6.4) {
+            if (r2 < 5.0 * 5.0) {
                 color = theme.recess_background;
             }
-            if (r2 < 3.0 * 3.0 and is_selected) {
+            if (r2 < 2.0 * 2.0 and is_selected) {
                 color = theme.recess_text_selected;
             }
             drawPoint(x + xi, y + yi, color);
