@@ -249,7 +249,7 @@ const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .recess_text = packColorRgb(128, 128, 128),
     .recess_text_selected = packColorRgb(255, 255, 255),
     .recess_bevel_dark = packColorRgb(80, 80, 80),
-    .recess_bevel_light = packColorRgb(192, 192, 192),
+    .recess_bevel_light = packColorRgb(255, 255, 255),
 };
 
 const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
