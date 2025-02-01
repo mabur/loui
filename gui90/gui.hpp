@@ -26,6 +26,8 @@ extern const GUI90_Theme GUI90_THEME_WARM_GRAY;
 extern const GUI90_Theme GUI90_THEME_LEATHER;
 extern const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT;
 
+extern const int GUI90_BLOCK;
+
 void GUI90_Init(int width, int height);
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down);
 const GUI90_Color* GUI90_GetPixelData();

@@ -57,24 +57,24 @@ int main(int, char**) {
         auto theme = themeSettings(theme_index);
         
         GUI90_WidgetBackground(theme);
-        auto x = 16;
-        auto y = 16;
+        auto x = 2 * GUI90_BLOCK;
+        auto y = 2 * GUI90_BLOCK;
         if (GUI90_WidgetLabel(x, y, "Label", theme)) {
         }
-        y += 16;
+        y += 2 * GUI90_BLOCK;
         if (GUI90_WidgetButton(x, y, "Open ", theme)) {
         }
-        y += 16;
+        y += 2 * GUI90_BLOCK;
         if (GUI90_WidgetButton(x, y, "Close", theme)) {
         }
-        y += 16;
+        y += 2 * GUI90_BLOCK;
         static int setting = 0;
         setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
-        y += 16;
-        y += 8;
+        y += 2 * GUI90_BLOCK;
+        y += GUI90_BLOCK;
 
-        auto width = 8 * 13;
-        auto height = 8 * (THEME_COUNT + 2);
+        auto width = 13 * GUI90_BLOCK;
+        auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
         
         GUI90_WidgetSelectionBoxInit(x, y, width, height, theme);
         for (auto i = 0; i < THEME_COUNT; ++i) {
@@ -85,12 +85,12 @@ int main(int, char**) {
             }
         }
         y += height;
-        y += 8;
+        y += GUI90_BLOCK;
         static auto alternative = 0;
         if (GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme)) {
             alternative = 0;
         }
-        y += 16;
+        y += 2 * GUI90_BLOCK;
         if (GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1, theme)) {
             alternative = 1;
         }

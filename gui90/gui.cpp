@@ -339,3 +339,5 @@ const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = GUI90_Theme{
     .recess_bevel_dark = packColorRgb(134, 116, 96),
     .recess_bevel_light = packColorRgb(255, 255, 255),
 };
+
+const int GUI90_BLOCK = 8;
