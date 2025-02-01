@@ -5,7 +5,7 @@
 
 typedef uint32_t GUI90_Color;
 
-typedef struct {
+typedef struct GUI90_Theme {
     GUI90_Color background;
     GUI90_Color text;
     GUI90_Color button_background;
