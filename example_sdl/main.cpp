@@ -71,8 +71,18 @@ int main(int, char**) {
         }
         y += close_button.height;
         static int setting = 0;
-        setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
-        y += 2 * GUI90_BLOCK;
+        auto setting_widget = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
+        if (setting_widget.is_decreased) {
+            if (0 < setting) {
+                setting--;
+            }
+        }
+        if (setting_widget.is_increased) {
+            if (setting < 10) {
+                setting++;
+            }
+        }
+        y += setting_widget.height;
         y += GUI90_BLOCK;
 
         auto width = 13 * GUI90_BLOCK;

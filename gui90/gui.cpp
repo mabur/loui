@@ -236,23 +236,21 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
     };
 }
 
-int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme) {
     const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
     GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), theme);
     offset += TEXT_SIZE * label.size();
-    if (GUI90_WidgetButton(x + offset, y, "-", theme).is_clicked) {
-        if (min_value < value) {
-            value--;
-        }
-    }
+    auto decrease_button = GUI90_WidgetButton(x + offset, y, "-", theme);
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING + 2;
-    if (GUI90_WidgetButton(x + offset, y, "+", theme).is_clicked) {
-        if (value < max_value) {
-            value++;
-        }
-    }
-    return value;
+    auto increase_button = GUI90_WidgetButton(x + offset, y, "+", theme);
+    return GUI90_Widget{
+        .width = x + offset + increase_button.width,
+        .height = increase_button.height,
+        .is_clicked = increase_button.is_clicked or decrease_button.is_clicked,
+        .is_increased = increase_button.is_clicked,
+        .is_decreased = decrease_button.is_clicked,
+    };
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme) {
