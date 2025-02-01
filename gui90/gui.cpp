@@ -140,14 +140,18 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
     auto s = std::string{text};
     drawString(s, x, y, theme.text);
     auto rectangle = textRectangle(x, y, text);
-    return isLeftMouseButtonReleasedInside(rectangle);
+    return GUI90_Widget {
+        .width = rectangle.width,
+        .height = rectangle.height,
+        .is_clicked = isLeftMouseButtonReleasedInside(rectangle), 
+    };
 }
 
-bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
     x += 1;
     y += 1;
     const auto s = std::string{text};
@@ -187,10 +191,14 @@ bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
     drawLineVertical(x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
     drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
     drawString(s, text_x, text_y, theme.text);
-    return isLeftMouseButtonReleasedInside(rectangle);
+    return GUI90_Widget{
+        .width = rectangle.width + 2,
+        .height = rectangle.height + 2,
+        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
+    };
 }
 
-bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
@@ -212,11 +220,15 @@ bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, G
             drawPoint(x + xi, y + yi, color);
         }
     }
-    auto left_rectangle = Rectangle{x, y , 16 + BUTTON_TEXT_PADDING, 16};
+    auto left_rectangle = Rectangle{x, y, 16 + BUTTON_TEXT_PADDING, 16};
     auto label_result = GUI90_WidgetLabel(
         x + 16 + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, text, theme
     );
-    return label_result or isLeftMouseButtonReleasedInside(left_rectangle);
+    return GUI90_Widget{
+        .width = label_result.width + 16 + 8,
+        .height = 16,
+        .is_clicked = label_result.is_clicked or isLeftMouseButtonReleasedInside(left_rectangle), 
+    };
 }
 
 int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme) {
@@ -224,13 +236,13 @@ int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_va
     auto offset = 0;
     GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), theme);
     offset += TEXT_SIZE * label.size();
-    if (GUI90_WidgetButton(x + offset, y, "-", theme)) {
+    if (GUI90_WidgetButton(x + offset, y, "-", theme).is_clicked) {
         if (min_value < value) {
             value--;
         }
     }
     offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING + 2;
-    if (GUI90_WidgetButton(x + offset, y, "+", theme)) {
+    if (GUI90_WidgetButton(x + offset, y, "+", theme).is_clicked) {
         if (value < max_value) {
             value++;
         }
@@ -259,7 +271,7 @@ bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     const auto x = s_gui.current_x;
     const auto y = s_gui.current_y;
     s_gui.current_y += TEXT_SIZE;
-    return GUI90_WidgetLabel(x, y, text, colors);
+    return GUI90_WidgetLabel(x, y, text, colors).is_clicked;
 }
 
 // -----------------------------------------------------------------------------

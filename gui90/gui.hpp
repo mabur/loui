@@ -3,6 +3,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+typedef struct GUI90_Widget {
+    int width;
+    int height;
+    bool is_clicked;
+} GUI90_Widget;
+
 typedef uint32_t GUI90_Color;
 
 typedef struct GUI90_Theme {
@@ -33,9 +39,9 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down);
 const GUI90_Color* GUI90_GetPixelData();
 
 void GUI90_WidgetBackground(GUI90_Theme theme);
-bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
-bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme);
-bool GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme);
+GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
+GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme);
+GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme);
 int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme);
 
 void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme);

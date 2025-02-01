@@ -59,15 +59,17 @@ int main(int, char**) {
         GUI90_WidgetBackground(theme);
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        if (GUI90_WidgetLabel(x, y, "Label", theme)) {
+        auto label = GUI90_WidgetLabel(x, y, "Label", theme);
+        y += label.height;
+        y += GUI90_BLOCK;
+        auto open_button = GUI90_WidgetButton(x, y, "Open ", theme);
+        if (open_button.is_clicked) {
         }
-        y += 2 * GUI90_BLOCK;
-        if (GUI90_WidgetButton(x, y, "Open ", theme)) {
+        y += open_button.height;
+        auto close_button = GUI90_WidgetButton(x, y, "Close", theme);
+        if (close_button.is_clicked) {
         }
-        y += 2 * GUI90_BLOCK;
-        if (GUI90_WidgetButton(x, y, "Close", theme)) {
-        }
-        y += 2 * GUI90_BLOCK;
+        y += close_button.height;
         static int setting = 0;
         setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
         y += 2 * GUI90_BLOCK;
@@ -87,11 +89,13 @@ int main(int, char**) {
         y += height;
         y += GUI90_BLOCK;
         static auto alternative = 0;
-        if (GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme)) {
+        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme);
+        if (radio_button_a.is_clicked) {
             alternative = 0;
         }
-        y += 2 * GUI90_BLOCK;
-        if (GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1, theme)) {
+        y += radio_button_a.height;
+        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1, theme);
+        if (radio_button_b.is_clicked) {
             alternative = 1;
         }
         
