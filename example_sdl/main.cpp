@@ -77,8 +77,7 @@ int main(int, char**) {
 
         auto width = 13 * GUI90_BLOCK;
         auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
-        
-        GUI90_WidgetSelectionBoxInit(x, y, width, height, theme);
+        auto selection_box = GUI90_WidgetSelectionBoxInit(x, y, width, height, theme);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription(local_theme_index);
@@ -87,7 +86,7 @@ int main(int, char**) {
                 theme_index = local_theme_index;
             }
         }
-        y += height;
+        y += selection_box.height;
         y += GUI90_BLOCK;
         static auto alternative = 0;
         auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme);

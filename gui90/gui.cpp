@@ -250,7 +250,7 @@ int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_va
     return value;
 }
 
-void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme) {
     s_gui.current_x = x + TEXT_SIZE;
     s_gui.current_y = y + TEXT_SIZE;
     s_gui.current_theme = theme;
@@ -261,6 +261,12 @@ void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_The
     drawLineHorizontal(x + 1, y + height - 1, width - 2, theme.recess_bevel_light);
     drawLineVertical(x, y + 1, height - 2, theme.recess_bevel_dark);
     drawLineVertical(x + width - 1, y + 1, height - 2, theme.recess_bevel_light);
+    
+    return GUI90_Widget{
+        .width = width,
+        .height = height,
+        .is_clicked = false,
+    };
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
