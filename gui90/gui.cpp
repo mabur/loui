@@ -23,7 +23,7 @@ struct Gui90 {
 // PRIVATE STUFF
 
 static const int TEXT_SIZE = 8;
-static const int BUTTON_TEXT_PADDING = 4;
+static const int BUTTON_TEXT_PADDING = 3;
 
 static Gui90 s_gui;
 
@@ -148,6 +148,8 @@ bool GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
 }
 
 bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
+    x += 1;
+    y += 1;
     const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
@@ -166,7 +168,19 @@ bool GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
         theme.button_bevel_light = theme.button_background;
         theme.button_bevel_dark = theme.button_background;
     }
+    
     drawRectangle(rectangle, theme.button_border);
+    
+    // Rounded corners:
+    // drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
+    // drawLineHorizontal(rectangle.x + 1, rectangle.y + rectangle.height - 1, rectangle.width - 2, theme.button_border);
+    // drawLineVertical(rectangle.x, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    // drawLineVertical(rectangle.x + rectangle.width - 1, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    // drawPoint(rectangle.x + 1, rectangle.y + 1, theme.button_border);
+    // drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 2, theme.button_border);
+    // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
+    // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
+    
     drawRectangle(inner_rectangle, theme.button_background);
     drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, theme.button_bevel_light);
     drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
@@ -215,7 +229,7 @@ int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_va
             value--;
         }
     }
-    offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING;
+    offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING + 2;
     if (GUI90_WidgetButton(x + offset, y, "+", theme)) {
         if (value < max_value) {
             value++;
