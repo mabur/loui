@@ -62,12 +62,16 @@ int main(int, char**) {
         if (GUI90_WidgetLabel(x, y, "Label", theme)) {
         }
         y += 16;
-        if (GUI90_WidgetButton(x, y, "Button", theme)) {
+        if (GUI90_WidgetButton(x, y, "Open ", theme)) {
+        }
+        y += 16;
+        if (GUI90_WidgetButton(x, y, "Close", theme)) {
         }
         y += 16;
         static int setting = 0;
         setting = GUI90_WidgetIntSetting(x, y, "Setting", setting, 0, 10, theme);
-        y += 32;
+        y += 16;
+        y += 8;
 
         auto width = 8 * 13;
         auto height = 8 * (THEME_COUNT + 2);
@@ -81,6 +85,7 @@ int main(int, char**) {
             }
         }
         y += height;
+        y += 8;
         static auto alternative = 0;
         if (GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme)) {
             alternative = 0;
