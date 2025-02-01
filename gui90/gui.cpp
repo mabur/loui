@@ -236,10 +236,9 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
     };
 }
 
-GUI90_Widget GUI90_WidgetIntSetting(int x, int y, const char* text, int value, GUI90_Theme theme) {
-    auto label = std::string{text} + " " + std::to_string(value) + " ";
+GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text, GUI90_Theme theme) {
     auto offset = 0;
-    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), theme);
+    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, text, theme);
     offset += label_widget.width;
     auto decrease_button = GUI90_WidgetButton(x + offset, y, "-", theme);
     offset += decrease_button.width;

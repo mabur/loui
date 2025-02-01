@@ -44,7 +44,7 @@ GUI90_Widget GUI90_WidgetBackground(GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme);
-GUI90_Widget GUI90_WidgetIntSetting(int x, int y, const char* text, int value, GUI90_Theme theme);
+GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text, GUI90_Theme theme);
 
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);

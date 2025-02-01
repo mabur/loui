@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <assert.h>
+#include <string>
 
 #include <gui90/gui.hpp>
 
@@ -71,18 +72,19 @@ int main(int, char**) {
         }
         y += close_button.height;
         static int setting = 0;
-        auto setting_widget = GUI90_WidgetIntSetting(x, y, "Setting", setting, theme);
-        if (setting_widget.is_decreased) {
+        auto setting_text = "Setting " + std::to_string(setting) + " ";
+        auto stepper = GUI90_WidgetStepper(x, y, setting_text.c_str(), theme);
+        if (stepper.is_decreased) {
             if (0 < setting) {
                 setting--;
             }
         }
-        if (setting_widget.is_increased) {
+        if (stepper.is_increased) {
             if (setting < 10) {
                 setting++;
             }
         }
-        y += setting_widget.height;
+        y += stepper.height;
         y += GUI90_BLOCK;
 
         auto width = 13 * GUI90_BLOCK;
