@@ -52,21 +52,22 @@ int main(int, char**) {
             break;
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
-
+        
         static auto theme_index = YELLOW_THEME_INDEX;
         auto theme = themeSettings(theme_index);
+        GUI90_SetTheme(theme);
         
-        GUI90_WidgetBackground(theme);
+        GUI90_WidgetBackground();
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        auto label = GUI90_WidgetLabel(x, y, "Label", theme);
+        auto label = GUI90_WidgetLabel(x, y, "Label");
         y += label.height;
         y += GUI90_BLOCK;
-        auto open_button = GUI90_WidgetButton(x, y, "Open ", theme);
+        auto open_button = GUI90_WidgetButton(x, y, "Open ");
         if (open_button.is_clicked) {
         }
         y += open_button.height;
-        auto close_button = GUI90_WidgetButton(x, y, "Close", theme);
+        auto close_button = GUI90_WidgetButton(x, y, "Close");
         if (close_button.is_clicked) {
         }
         y += close_button.height;
@@ -74,7 +75,7 @@ int main(int, char**) {
         static int setting = 0;
         char setting_text[64];
         sprintf(setting_text, "Setting: %d ", setting);
-        auto stepper = GUI90_WidgetStepper(x, y, setting_text, theme);
+        auto stepper = GUI90_WidgetStepper(x, y, setting_text);
         if (stepper.is_decreased and setting > 0) {
             setting--;
         }
@@ -86,7 +87,7 @@ int main(int, char**) {
 
         auto width = 13 * GUI90_BLOCK;
         auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
-        auto selection_box = GUI90_WidgetSelectionBoxInit(x, y, width, height, theme);
+        auto selection_box = GUI90_WidgetSelectionBoxInit(x, y, width, height);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription(local_theme_index);
@@ -98,12 +99,12 @@ int main(int, char**) {
         y += selection_box.height;
         y += GUI90_BLOCK;
         static auto alternative = 0;
-        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0, theme);
+        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0);
         if (radio_button_a.is_clicked) {
             alternative = 0;
         }
         y += radio_button_a.height;
-        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1, theme);
+        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1);
         if (radio_button_b.is_clicked) {
             alternative = 1;
         }

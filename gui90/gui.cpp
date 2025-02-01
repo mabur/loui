@@ -14,7 +14,7 @@ typedef struct Gui90 {
     int mouse_y = 0;
     int current_x = 0;
     int current_y = 0;
-    GUI90_Theme current_theme = GUI90_THEME_GRAY; 
+    GUI90_Theme theme = GUI90_THEME_GRAY; 
     bool is_left_mouse_button_down = false;
     bool is_left_mouse_button_released = false;
 } Gui90;
@@ -121,13 +121,17 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.is_left_mouse_button_down = is_left_mouse_button_down;
 }
 
+void GUI90_SetTheme(GUI90_Theme theme) {
+    s_gui.theme = theme;
+}
+
 const GUI90_Color* GUI90_GetPixelData() {
     return s_gui.colors.data();
 }
 
-GUI90_Widget GUI90_WidgetBackground(GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetBackground() {
     for (auto& pixel : s_gui.colors) {
-        pixel = theme.background;
+        pixel = s_gui.theme.background;
     }
     return GUI90_Widget{
         .width = s_gui.width,
@@ -145,9 +149,9 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text) {
     auto s = std::string{text};
-    drawString(s, x, y, theme.text);
+    drawString(s, x, y, s_gui.theme.text);
     auto rectangle = textRectangle(x, y, text);
     return GUI90_Widget {
         .width = rectangle.width,
@@ -156,7 +160,7 @@ GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme
     };
 }
 
-GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text) {
     x += 1;
     y += 1;
     const auto s = std::string{text};
@@ -172,13 +176,14 @@ GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme them
     inner_rectangle.height -= 4;
     auto text_x = x + BUTTON_TEXT_PADDING;
     auto text_y = y + BUTTON_TEXT_PADDING;
+    auto theme = s_gui.theme;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
-        theme.button_bevel_light = theme.button_background;
-        theme.button_bevel_dark = theme.button_background;
+        theme.button_bevel_light = s_gui.theme.button_background;
+        theme.button_bevel_dark = s_gui.theme.button_background;
     }
     
-    drawRectangle(rectangle, theme.button_border);
+    drawRectangle(rectangle, s_gui.theme.button_border);
     
     // Rounded corners:
     // drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
@@ -203,31 +208,31 @@ GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme them
     };
 }
 
-GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
             double dy = yi - 7.5;
             double r2 = dx * dx + dy * dy;
-            auto color = theme.background;
+            auto color = s_gui.theme.background;
             if (r2 < 6.0 * 6.0 and dx + dy < 0.0) {
-                color = theme.recess_bevel_dark;
+                color = s_gui.theme.recess_bevel_dark;
             }
             if (r2 < 6.0 * 6.0 and dx + dy > 0.0) {
-                color = theme.recess_bevel_light;
+                color = s_gui.theme.recess_bevel_light;
             }
             if (r2 < 5.0 * 5.0) {
-                color = theme.recess_background;
+                color = s_gui.theme.recess_background;
             }
             if (r2 < 2.0 * 2.0 and is_selected) {
-                color = theme.recess_text_selected;
+                color = s_gui.theme.recess_text_selected;
             }
             drawPoint(x + xi, y + yi, color);
         }
     }
     auto left_rectangle = Rectangle{x, y, 16 + BUTTON_TEXT_PADDING, 16};
     auto label_result = GUI90_WidgetLabel(
-        x + 16 + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, text, theme
+        x + 16 + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, text
     );
     return GUI90_Widget{
         .width = label_result.width + 16 + 8,
@@ -236,13 +241,13 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
     };
 }
 
-GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
     auto offset = 0;
-    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, text, theme);
+    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, text);
     offset += label_widget.width;
-    auto decrease_button = GUI90_WidgetButton(x + offset, y, "-", theme);
+    auto decrease_button = GUI90_WidgetButton(x + offset, y, "-");
     offset += decrease_button.width;
-    auto increase_button = GUI90_WidgetButton(x + offset, y, "+", theme);
+    auto increase_button = GUI90_WidgetButton(x + offset, y, "+");
     offset += increase_button.width;
     return GUI90_Widget{
         .width = offset,
@@ -253,17 +258,16 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text, GUI90_Theme the
     };
 }
 
-GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height) {
     s_gui.current_x = x + TEXT_SIZE;
     s_gui.current_y = y + TEXT_SIZE;
-    s_gui.current_theme = theme;
 
     const auto rectangle = Rectangle{x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(rectangle, theme.recess_background);
-    drawLineHorizontal(x + 1, y, width - 2, theme.recess_bevel_dark);
-    drawLineHorizontal(x + 1, y + height - 1, width - 2, theme.recess_bevel_light);
-    drawLineVertical(x, y + 1, height - 2, theme.recess_bevel_dark);
-    drawLineVertical(x + width - 1, y + 1, height - 2, theme.recess_bevel_light);
+    drawRectangle(rectangle, s_gui.theme.recess_background);
+    drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
+    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
+    drawLineVertical(x, y + 1, height - 2, s_gui.theme.recess_bevel_dark);
+    drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
     
     return GUI90_Widget{
         .width = width,
@@ -273,10 +277,13 @@ GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, G
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
-    auto colors = s_gui.current_theme;
-    colors.text = is_selected ? colors.recess_text_selected : colors.recess_text;
-    auto label = GUI90_WidgetLabel(s_gui.current_x, s_gui.current_y, text, colors);
+    auto global_theme = s_gui.theme;
+    auto local_theme = s_gui.theme;
+    local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
+    GUI90_SetTheme(local_theme);
+    auto label = GUI90_WidgetLabel(s_gui.current_x, s_gui.current_y, text);
     s_gui.current_y += label.height;
+    GUI90_SetTheme(global_theme);
     return GUI90_Widget{
         .width = label.width,
         .height = label.height,
