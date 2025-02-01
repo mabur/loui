@@ -263,15 +263,16 @@ void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_The
     drawLineVertical(x + width - 1, y + 1, height - 2, theme.recess_bevel_light);
 }
 
-bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
+GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     auto colors = s_gui.current_theme;
-    colors.text = is_selected ?
-        colors.recess_text_selected :
-        colors.recess_text;
-    const auto x = s_gui.current_x;
-    const auto y = s_gui.current_y;
-    s_gui.current_y += TEXT_SIZE;
-    return GUI90_WidgetLabel(x, y, text, colors).is_clicked;
+    colors.text = is_selected ? colors.recess_text_selected : colors.recess_text;
+    auto label = GUI90_WidgetLabel(s_gui.current_x, s_gui.current_y, text, colors);
+    s_gui.current_y += label.height;
+    return GUI90_Widget{
+        .width = label.width,
+        .height = label.height,
+        .is_clicked = label.is_clicked,
+    };
 }
 
 // -----------------------------------------------------------------------------

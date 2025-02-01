@@ -45,4 +45,4 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
 int GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme);
 
 void GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height, GUI90_Theme theme);
-bool GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
+GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
