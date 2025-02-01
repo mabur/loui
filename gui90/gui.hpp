@@ -38,7 +38,7 @@ void GUI90_Init(int width, int height);
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down);
 const GUI90_Color* GUI90_GetPixelData();
 
-void GUI90_WidgetBackground(GUI90_Theme theme);
+GUI90_Widget GUI90_WidgetBackground(GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text, GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text, GUI90_Theme theme);
 GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected, GUI90_Theme theme);

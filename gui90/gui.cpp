@@ -125,10 +125,15 @@ const GUI90_Color* GUI90_GetPixelData() {
     return s_gui.colors.data();
 }
 
-void GUI90_WidgetBackground(GUI90_Theme theme) {
+GUI90_Widget GUI90_WidgetBackground(GUI90_Theme theme) {
     for (auto& pixel : s_gui.colors) {
         pixel = theme.background;
-    }    
+    }
+    return GUI90_Widget{
+        .width = s_gui.width,
+        .height = s_gui.height,
+        .is_clicked = s_gui.is_left_mouse_button_released,
+    };
 }
 
 static Rectangle textRectangle(int x, int y, const char* text) {
