@@ -6,7 +6,7 @@
 
 #include "text.hpp"
 
-struct Gui90 {
+typedef struct Gui90 {
     std::vector<GUI90_Color> colors;
     int width = 0;
     int height = 0;
@@ -17,7 +17,7 @@ struct Gui90 {
     GUI90_Theme current_theme = GUI90_THEME_GRAY; 
     bool is_left_mouse_button_down = false;
     bool is_left_mouse_button_released = false;
-};
+} Gui90;
 
 // -----------------------------------------------------------------------------
 // PRIVATE STUFF
@@ -27,12 +27,12 @@ static const int BUTTON_TEXT_PADDING = 3;
 
 static Gui90 s_gui;
 
-struct Rectangle {
+typedef struct Rectangle {
     int x;
     int y;
     int width;
     int height;
-};
+} Rectangle;
 
 // -----------------------------------------------------------------------------
 // PRIVATE MOUSE FUNCTIONS
