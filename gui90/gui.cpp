@@ -239,13 +239,14 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
 GUI90_Widget GUI90_WidgetIntSetting(int x, int y, const char* text, int value, int min_value, int max_value, GUI90_Theme theme) {
     const auto label = std::string{text} + " " + std::to_string(value) + " ";
     auto offset = 0;
-    GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), theme);
-    offset += TEXT_SIZE * label.size();
+    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, label.c_str(), theme);
+    offset += label_widget.width;
     auto decrease_button = GUI90_WidgetButton(x + offset, y, "-", theme);
-    offset += TEXT_SIZE + 2 * BUTTON_TEXT_PADDING + 2;
+    offset += decrease_button.width;
     auto increase_button = GUI90_WidgetButton(x + offset, y, "+", theme);
+    offset += increase_button.width;
     return GUI90_Widget{
-        .width = x + offset + increase_button.width,
+        .width = offset,
         .height = increase_button.height,
         .is_clicked = increase_button.is_clicked or decrease_button.is_clicked,
         .is_increased = increase_button.is_clicked,
