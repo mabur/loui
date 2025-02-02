@@ -100,12 +100,63 @@ static void drawString(const std::string& s, size_t x, size_t y, GUI90_Color col
     }
 }
 
-static GUI90_Color packColorRgb(uint32_t r, uint32_t g, uint32_t b) {
-    return (255 << 24) | (r << 16) | (g << 8) | (b << 0);
+static void drawSpecialString(const std::string& s, int x, int y, GUI90_HeaderLabelTheme theme) {
+    int N = s.size();
+    for (int i = 0; i < N; ++i) {
+        if (theme.draw_up_left) {
+            drawCharacter(s[i], x - 1 + 8 * i, y - 1, theme.color_up_left);
+        }
+        if (theme.draw_up_right) {
+            drawCharacter(s[i], x + 1 + 8 * i, y - 1, theme.color_up_right);
+        }
+        if (theme.draw_down_left) {
+            drawCharacter(s[i], x - 1 + 8 * i, y + 1, theme.color_down_left);
+        }
+        if (theme.draw_down_right) {
+            drawCharacter(s[i], x + 1 + 8 * i, y + 1, theme.color_down_right);
+        }
+        
+        if (theme.draw_up) {
+            drawCharacter(s[i], x + 0 + 8 * i, y - 1, theme.color_up);
+        }
+        if (theme.draw_left) {
+            drawCharacter(s[i], x - 1 + 8 * i, y + 0, theme.color_left);
+        }
+        if (theme.draw_right) {
+            drawCharacter(s[i], x + 1 + 8 * i, y + 0, theme.color_right);
+        }
+        if (theme.draw_down) {
+            drawCharacter(s[i], x + 0 + 8 * i, y + 1, theme.color_down);
+        }
+        
+        if (theme.draw_center) {
+            drawCharacter(s[i], x + 0 + 8 * i, y + 0, theme.color_center);
+        }
+    }
 }
 
 // -----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS
+
+GUI90_Color GUI90_Rgb(uint32_t r, uint32_t g, uint32_t b) {
+    return (255 << 24) | (r << 16) | (g << 8) | (b << 0);
+}
+
+GUI90_Color GUI90_InterpolateColors(GUI90_Color color0, GUI90_Color color1, uint32_t t) {
+    uint32_t r0 = (color0 >> 16) & 0xFF;
+    uint32_t g0 = (color0 >> 8) & 0xFF;
+    uint32_t b0 = (color0 >> 0) & 0xFF;
+
+    uint32_t r1 = (color1 >> 16) & 0xFF;
+    uint32_t g1 = (color1 >> 8) & 0xFF;
+    uint32_t b1 = (color1 >> 0) & 0xFF;
+
+    uint32_t r = (r0 * (255 - t) + r1 * t) / 255;
+    uint32_t g = (g0 * (255 - t) + g1 * t) / 255;
+    uint32_t b = (b0 * (255 - t) + b1 * t) / 255;
+
+    return GUI90_Rgb(r, g, b);
+}
 
 void GUI90_Init(int width, int height) {
     s_gui.width = width;
@@ -153,10 +204,21 @@ GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text) {
     auto s = std::string{text};
     drawString(s, x, y, s_gui.theme.text);
     auto rectangle = textRectangle(x, y, text);
-    return GUI90_Widget {
+    return GUI90_Widget{
         .width = rectangle.width,
         .height = rectangle.height,
         .is_clicked = isLeftMouseButtonReleasedInside(rectangle), 
+    };
+}
+
+GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme) {
+    auto s = std::string{text};
+    drawSpecialString(s, x, y, theme);
+    auto rectangle = textRectangle(x, y, text);
+    return GUI90_Widget{
+        .width = rectangle.width,
+        .height = rectangle.height,
+        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
     };
 }
 
@@ -295,78 +357,78 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
 // PUBLIC CONSTANTS
 
 const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
-    .background = packColorRgb(255, 221, 63),
-    .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(255, 236, 145),
-    .button_text = packColorRgb(0, 0, 0),
-    .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(207, 117, 43),
-    .button_bevel_light = packColorRgb(255, 255, 255),
-    .recess_background = packColorRgb(0, 0, 0),
-    .recess_text = packColorRgb(128, 128, 128),
-    .recess_text_selected = packColorRgb(255, 255, 255),
-    .recess_bevel_dark = packColorRgb(207, 117, 43),
-    .recess_bevel_light = packColorRgb(255, 255, 255),
+    .background = GUI90_Rgb(255, 221, 63),
+    .text = GUI90_Rgb(0, 0, 0),
+    .button_background = GUI90_Rgb(255, 236, 145),
+    .button_text = GUI90_Rgb(0, 0, 0),
+    .button_border = GUI90_Rgb(0, 0, 0),
+    .button_bevel_dark = GUI90_Rgb(207, 117, 43),
+    .button_bevel_light = GUI90_Rgb(255, 255, 255),
+    .recess_background = GUI90_Rgb(0, 0, 0),
+    .recess_text = GUI90_Rgb(128, 128, 128),
+    .recess_text_selected = GUI90_Rgb(255, 255, 255),
+    .recess_bevel_dark = GUI90_Rgb(207, 117, 43),
+    .recess_bevel_light = GUI90_Rgb(255, 255, 255),
 };
 
 const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
-    .background = packColorRgb(192, 192, 192),
-    .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(192, 192, 192),
-    .button_text = packColorRgb(255, 255, 255),
-    .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(128, 128, 128),
-    .button_bevel_light = packColorRgb(255, 255, 255),
-    .recess_background = packColorRgb(0, 0, 0),
-    .recess_text = packColorRgb(128, 128, 128),
-    .recess_text_selected = packColorRgb(255, 255, 255),
-    .recess_bevel_dark = packColorRgb(80, 80, 80),
-    .recess_bevel_light = packColorRgb(255, 255, 255),
+    .background = GUI90_Rgb(192, 192, 192),
+    .text = GUI90_Rgb(0, 0, 0),
+    .button_background = GUI90_Rgb(192, 192, 192),
+    .button_text = GUI90_Rgb(255, 255, 255),
+    .button_border = GUI90_Rgb(0, 0, 0),
+    .button_bevel_dark = GUI90_Rgb(128, 128, 128),
+    .button_bevel_light = GUI90_Rgb(255, 255, 255),
+    .recess_background = GUI90_Rgb(0, 0, 0),
+    .recess_text = GUI90_Rgb(128, 128, 128),
+    .recess_text_selected = GUI90_Rgb(255, 255, 255),
+    .recess_bevel_dark = GUI90_Rgb(80, 80, 80),
+    .recess_bevel_light = GUI90_Rgb(255, 255, 255),
 };
 
 const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
-    .background = packColorRgb(173, 164, 149),
-    .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(173, 164, 149),
-    .button_text = packColorRgb(255, 255, 255),
-    .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(105, 96, 81),
-    .button_bevel_light = packColorRgb(255, 255, 255),
-    .recess_background = packColorRgb(0, 0, 0),
-    .recess_text = packColorRgb(128, 128, 128),
-    .recess_text_selected = packColorRgb(255, 255, 255),
-    .recess_bevel_dark = packColorRgb(105, 96, 81),
-    .recess_bevel_light = packColorRgb(255, 255, 255),
+    .background = GUI90_Rgb(173, 164, 149),
+    .text = GUI90_Rgb(0, 0, 0),
+    .button_background = GUI90_Rgb(173, 164, 149),
+    .button_text = GUI90_Rgb(255, 255, 255),
+    .button_border = GUI90_Rgb(0, 0, 0),
+    .button_bevel_dark = GUI90_Rgb(105, 96, 81),
+    .button_bevel_light = GUI90_Rgb(255, 255, 255),
+    .recess_background = GUI90_Rgb(0, 0, 0),
+    .recess_text = GUI90_Rgb(128, 128, 128),
+    .recess_text_selected = GUI90_Rgb(255, 255, 255),
+    .recess_bevel_dark = GUI90_Rgb(105, 96, 81),
+    .recess_bevel_light = GUI90_Rgb(255, 255, 255),
 };
 
 const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
-    .background = packColorRgb(70, 50, 40),
-    .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(128, 128, 128),
-    .button_text = packColorRgb(255, 255, 255),
-    .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(80, 80, 80),
-    .button_bevel_light = packColorRgb(192, 192, 192),
-    .recess_background = packColorRgb(0, 0, 0),
-    .recess_text = packColorRgb(128, 128, 128),
-    .recess_text_selected = packColorRgb(255, 255, 255),
-    .recess_bevel_dark = packColorRgb(54, 33, 22),
-    .recess_bevel_light = packColorRgb(95, 80, 73),
+    .background = GUI90_Rgb(70, 50, 40),
+    .text = GUI90_Rgb(0, 0, 0),
+    .button_background = GUI90_Rgb(128, 128, 128),
+    .button_text = GUI90_Rgb(255, 255, 255),
+    .button_border = GUI90_Rgb(0, 0, 0),
+    .button_bevel_dark = GUI90_Rgb(80, 80, 80),
+    .button_bevel_light = GUI90_Rgb(192, 192, 192),
+    .recess_background = GUI90_Rgb(0, 0, 0),
+    .recess_text = GUI90_Rgb(128, 128, 128),
+    .recess_text_selected = GUI90_Rgb(255, 255, 255),
+    .recess_bevel_dark = GUI90_Rgb(54, 33, 22),
+    .recess_bevel_light = GUI90_Rgb(95, 80, 73),
 };
 
 const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = GUI90_Theme{
-    .background = packColorRgb(253, 246, 227),
-    .text = packColorRgb(0, 0, 0),
-    .button_background = packColorRgb(198, 180, 158),
-    .button_text = packColorRgb(0, 0, 0),
-    .button_border = packColorRgb(0, 0, 0),
-    .button_bevel_dark = packColorRgb(134, 116, 96),
-    .button_bevel_light = packColorRgb(255, 255, 255),
-    .recess_background = packColorRgb(0, 0, 0),
-    .recess_text = packColorRgb(128, 128, 128),
-    .recess_text_selected = packColorRgb(255, 255, 255),
-    .recess_bevel_dark = packColorRgb(134, 116, 96),
-    .recess_bevel_light = packColorRgb(255, 255, 255),
+    .background = GUI90_Rgb(253, 246, 227),
+    .text = GUI90_Rgb(0, 0, 0),
+    .button_background = GUI90_Rgb(198, 180, 158),
+    .button_text = GUI90_Rgb(0, 0, 0),
+    .button_border = GUI90_Rgb(0, 0, 0),
+    .button_bevel_dark = GUI90_Rgb(134, 116, 96),
+    .button_bevel_light = GUI90_Rgb(255, 255, 255),
+    .recess_background = GUI90_Rgb(0, 0, 0),
+    .recess_text = GUI90_Rgb(128, 128, 128),
+    .recess_text_selected = GUI90_Rgb(255, 255, 255),
+    .recess_bevel_dark = GUI90_Rgb(134, 116, 96),
+    .recess_bevel_light = GUI90_Rgb(255, 255, 255),
 };
 
 const int GUI90_BLOCK = 8;

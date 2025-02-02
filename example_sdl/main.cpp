@@ -108,6 +108,35 @@ int main(int, char**) {
         if (radio_button_b.is_clicked) {
             alternative = 1;
         }
+
+        // Second Column
+        x = WIDTH / 2;
+        y = 2 * GUI90_BLOCK;
+        
+        auto WHITE = GUI90_Rgb(255, 255, 255);
+        auto BLACK = GUI90_Rgb(0, 0, 0);
+        auto MID = GUI90_InterpolateColors(BLACK, theme.background, 128);
+        auto header_theme = GUI90_HeaderLabelTheme{
+            .color_up_left = MID,
+            .color_up = BLACK,
+            .color_up_right = MID,
+            .color_left = BLACK,
+            .color_center = WHITE,
+            .color_right = BLACK,
+            .color_down_left = MID,
+            .color_down = BLACK,
+            .color_down_right = MID,
+            .draw_up_left = true,
+            .draw_up = true,
+            .draw_up_right = true,
+            .draw_left = true,
+            .draw_center = true,
+            .draw_right = true,
+            .draw_down_left = true,
+            .draw_down = true,
+            .draw_down_right = true,
+        };
+        GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
         
         sdl.draw(GUI90_GetPixelData());
     }
