@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+typedef enum GUI90_ButtonType {
+    BUTTON_TYPE_BEVEL,
+    BUTTON_TYPE_CLOUD,
+} GUI90_ButtonType;
+
 typedef struct GUI90_Widget {
     int width;
     int height;
@@ -26,6 +31,7 @@ typedef struct GUI90_Theme {
     GUI90_Color recess_text_selected;
     GUI90_Color recess_bevel_dark;
     GUI90_Color recess_bevel_light;
+    GUI90_ButtonType button_type;
 } GUI90_Theme;
 
 typedef struct GUI90_HeaderLabelTheme {

@@ -222,7 +222,7 @@ GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_Heade
     };
 }
 
-GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text) {
+GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
     x += 1;
     y += 1;
     const auto s = std::string{text};
@@ -268,6 +268,75 @@ GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text) {
         .height = rectangle.height + 2,
         .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
     };
+}
+
+GUI90_Widget GUI90_WidgetButtonCloud(int x, int y, const char* text) {
+    x += 1;
+    y += 1;
+    const auto s = std::string{text};
+    auto rectangle = Rectangle{};
+    rectangle.x = x;
+    rectangle.y = y;
+    rectangle.width = 8 * static_cast<int>(s.size()) + 2 * BUTTON_TEXT_PADDING;
+    rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING - 1;
+
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        rectangle.y += 1;
+    }
+    
+    auto inner_rectangle = rectangle;
+    inner_rectangle.x += 1;
+    inner_rectangle.y += 1;
+    inner_rectangle.width -= 2;
+    inner_rectangle.height -= 2;
+    auto text_x = x + BUTTON_TEXT_PADDING;
+    auto text_y = y + BUTTON_TEXT_PADDING - 1;
+    auto theme = s_gui.theme;
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        ++text_y;
+    }
+
+    // Shadow:
+    drawPoint(x, y + rectangle.height - 1, theme.button_border);
+    drawPoint(x + rectangle.width - 1, y + rectangle.height - 1, theme.button_border);
+    drawLineHorizontal(x + 1, y + rectangle.height, rectangle.width - 2, theme.button_border);
+    
+    //drawRectangle(rectangle, s_gui.theme.button_border);
+    drawRectangle(inner_rectangle, theme.button_background);
+    
+    // Rounded corners:
+    drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
+    drawLineHorizontal(rectangle.x + 1, rectangle.y + rectangle.height - 1, rectangle.width - 2, theme.button_border);
+    drawLineVertical(rectangle.x, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    drawLineVertical(rectangle.x + rectangle.width - 1, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    drawPoint(rectangle.x + 1, rectangle.y + 1, theme.button_border);
+    drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 2, theme.button_border);
+    drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
+    drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
+    
+    drawPoint(rectangle.x + 2, rectangle.y + 1, theme.button_bevel_dark);
+    drawPoint(rectangle.x + 1, rectangle.y + 2, theme.button_bevel_dark);
+    drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
+    drawPoint(rectangle.x + 2, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
+    drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + 1, theme.button_bevel_dark);
+    drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + 2, theme.button_bevel_dark);
+    drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
+    drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
+    
+    drawString(s, text_x, text_y, theme.text);
+    return GUI90_Widget{
+        .width = rectangle.width + 2,
+        .height = 2 * GUI90_BLOCK,
+        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
+    };
+}
+
+GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text) {
+    switch (s_gui.theme.button_type) {
+        case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(x, y, text);
+        case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(x, y, text);
+        default: return GUI90_WidgetButtonBevel(x, y, text);
+    }
 }
 
 GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected) {
@@ -369,6 +438,7 @@ const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
     .recess_text_selected = GUI90_Rgb(255, 255, 255),
     .recess_bevel_dark = GUI90_Rgb(207, 117, 43),
     .recess_bevel_light = GUI90_Rgb(255, 255, 255),
+    .button_type = BUTTON_TYPE_BEVEL,
 };
 
 const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
@@ -384,6 +454,7 @@ const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .recess_text_selected = GUI90_Rgb(255, 255, 255),
     .recess_bevel_dark = GUI90_Rgb(80, 80, 80),
     .recess_bevel_light = GUI90_Rgb(255, 255, 255),
+    .button_type = BUTTON_TYPE_BEVEL,
 };
 
 const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
@@ -399,6 +470,7 @@ const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
     .recess_text_selected = GUI90_Rgb(255, 255, 255),
     .recess_bevel_dark = GUI90_Rgb(105, 96, 81),
     .recess_bevel_light = GUI90_Rgb(255, 255, 255),
+    .button_type = BUTTON_TYPE_BEVEL,
 };
 
 const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
@@ -414,6 +486,7 @@ const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
     .recess_text_selected = GUI90_Rgb(255, 255, 255),
     .recess_bevel_dark = GUI90_Rgb(54, 33, 22),
     .recess_bevel_light = GUI90_Rgb(95, 80, 73),
+    .button_type = BUTTON_TYPE_BEVEL,
 };
 
 const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = GUI90_Theme{
@@ -429,6 +502,7 @@ const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = GUI90_Theme{
     .recess_text_selected = GUI90_Rgb(255, 255, 255),
     .recess_bevel_dark = GUI90_Rgb(134, 116, 96),
     .recess_bevel_light = GUI90_Rgb(255, 255, 255),
+    .button_type = BUTTON_TYPE_BEVEL,
 };
 
 const int GUI90_BLOCK = 8;

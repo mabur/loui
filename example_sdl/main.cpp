@@ -54,7 +54,9 @@ int main(int, char**) {
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         
         static auto theme_index = YELLOW_THEME_INDEX;
+        static auto button_type = BUTTON_TYPE_BEVEL;
         auto theme = themeSettings(theme_index);
+        theme.button_type = button_type;
         GUI90_SetTheme(theme);
         
         GUI90_WidgetBackground();
@@ -98,15 +100,14 @@ int main(int, char**) {
         }
         y += selection_box.height;
         y += GUI90_BLOCK;
-        static auto alternative = 0;
-        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Alternative A", alternative == 0);
+        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Bevel Buttons", button_type == BUTTON_TYPE_BEVEL);
         if (radio_button_a.is_clicked) {
-            alternative = 0;
+            button_type = BUTTON_TYPE_BEVEL;
         }
         y += radio_button_a.height;
-        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Alternative B", alternative == 1);
+        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Cloud Buttons", button_type == BUTTON_TYPE_CLOUD);
         if (radio_button_b.is_clicked) {
-            alternative = 1;
+            button_type = BUTTON_TYPE_CLOUD;
         }
 
         // Second Column
