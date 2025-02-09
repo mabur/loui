@@ -1,7 +1,7 @@
 #include "gui.hpp"
 
+#include <cstdlib>
 #include <string.h>
-#include <string>
 
 #include "text.h"
 
@@ -93,43 +93,42 @@ static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_
     }
 }
 
-static void drawString(const std::string& s, size_t x, size_t y, GUI90_Color color) {
-    for (size_t i = 0; i < s.size(); ++i) {
-        drawCharacter(s[i], x + 8 * i, y, color);
+static void drawString(const char* s, size_t x, size_t y, GUI90_Color color) {
+    for (; *s; ++s, x += 8) {
+        drawCharacter(*s, x, y, color);
     }
 }
 
-static void drawSpecialString(const std::string& s, int x, int y, GUI90_HeaderLabelTheme theme) {
-    int N = s.size();
-    for (int i = 0; i < N; ++i) {
+static void drawSpecialString(const char* s, int x, int y, GUI90_HeaderLabelTheme theme) {
+    for (; *s; ++s, x += 8) {
         if (theme.draw_up_left) {
-            drawCharacter(s[i], x - 1 + 8 * i, y - 1, theme.color_up_left);
+            drawCharacter(*s, x - 1, y - 1, theme.color_up_left);
         }
         if (theme.draw_up_right) {
-            drawCharacter(s[i], x + 1 + 8 * i, y - 1, theme.color_up_right);
+            drawCharacter(*s, x + 1, y - 1, theme.color_up_right);
         }
         if (theme.draw_down_left) {
-            drawCharacter(s[i], x - 1 + 8 * i, y + 1, theme.color_down_left);
+            drawCharacter(*s, x - 1, y + 1, theme.color_down_left);
         }
         if (theme.draw_down_right) {
-            drawCharacter(s[i], x + 1 + 8 * i, y + 1, theme.color_down_right);
+            drawCharacter(*s, x + 1, y + 1, theme.color_down_right);
         }
         
         if (theme.draw_up) {
-            drawCharacter(s[i], x + 0 + 8 * i, y - 1, theme.color_up);
+            drawCharacter(*s, x + 0, y - 1, theme.color_up);
         }
         if (theme.draw_left) {
-            drawCharacter(s[i], x - 1 + 8 * i, y + 0, theme.color_left);
+            drawCharacter(*s, x - 1, y + 0, theme.color_left);
         }
         if (theme.draw_right) {
-            drawCharacter(s[i], x + 1 + 8 * i, y + 0, theme.color_right);
+            drawCharacter(*s, x + 1, y + 0, theme.color_right);
         }
         if (theme.draw_down) {
-            drawCharacter(s[i], x + 0 + 8 * i, y + 1, theme.color_down);
+            drawCharacter(*s, x + 0, y + 1, theme.color_down);
         }
         
         if (theme.draw_center) {
-            drawCharacter(s[i], x + 0 + 8 * i, y + 0, theme.color_center);
+            drawCharacter(*s, x + 0, y + 0, theme.color_center);
         }
     }
 }
@@ -184,8 +183,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
 }
 
 GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text) {
-    auto s = std::string{text};
-    drawString(s, x, y, s_gui.theme.text);
+    drawString(text, x, y, s_gui.theme.text);
     auto rectangle = textRectangle(x, y, text);
     return GUI90_Widget{
         .width = rectangle.width,
@@ -195,8 +193,7 @@ GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text) {
 }
 
 GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme) {
-    auto s = std::string{text};
-    drawSpecialString(s, x, y, theme);
+    drawSpecialString(text, x, y, theme);
     auto rectangle = textRectangle(x, y, text);
     return GUI90_Widget{
         .width = rectangle.width,
@@ -208,11 +205,10 @@ GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_Heade
 GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
     x += 1;
     y += 1;
-    const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * static_cast<int>(s.size()) + 2 * BUTTON_TEXT_PADDING;
+    rectangle.width = 8 * static_cast<int>(strlen(text)) + 2 * BUTTON_TEXT_PADDING;
     rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING;
     auto inner_rectangle = rectangle;
     inner_rectangle.x += 2;
@@ -245,7 +241,7 @@ GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
     drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
     drawLineVertical(x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
     drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
-    drawString(s, text_x, text_y, theme.text);
+    drawString(text, text_x, text_y, theme.text);
     return GUI90_Widget{
         .width = rectangle.width + 2,
         .height = rectangle.height + 2,
@@ -256,11 +252,10 @@ GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
 GUI90_Widget GUI90_WidgetButtonCloud(int x, int y, const char* text) {
     x += 1;
     y += 1;
-    const auto s = std::string{text};
     auto rectangle = Rectangle{};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * static_cast<int>(s.size()) + 2 * BUTTON_TEXT_PADDING;
+    rectangle.width = 8 * static_cast<int>(strlen(text)) + 2 * BUTTON_TEXT_PADDING;
     rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING - 1;
 
     if (isLeftMouseButtonDownInside(rectangle)) {
@@ -306,7 +301,7 @@ GUI90_Widget GUI90_WidgetButtonCloud(int x, int y, const char* text) {
     drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
     drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
     
-    drawString(s, text_x, text_y, theme.text);
+    drawString(text, text_x, text_y, theme.text);
     return GUI90_Widget{
         .width = rectangle.width + 2,
         .height = 2 * GUI90_BLOCK,
