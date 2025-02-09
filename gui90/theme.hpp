@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "color.hpp"
+#include "color.h"
 
 typedef enum GUI90_ButtonType {
     BUTTON_TYPE_BEVEL,

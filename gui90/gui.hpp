@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "color.hpp"
+#include "color.h"
 #include "theme.hpp"
 
 typedef struct GUI90_Widget {

@@ -1,4 +1,4 @@
-#include "color.hpp"
+#include "color.h"
 
 GUI90_Color GUI90_InterpolateColors(GUI90_Color color0, GUI90_Color color1, uint32_t t) {
     uint32_t r0 = (color0 >> 16) & 0xFF;
