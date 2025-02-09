@@ -114,8 +114,8 @@ int main(int, char**) {
         x = WIDTH / 2;
         y = 2 * GUI90_BLOCK;
         
-        auto WHITE = GUI90_Rgb(255, 255, 255);
-        auto BLACK = GUI90_Rgb(0, 0, 0);
+        auto WHITE = GUI90_RGB(255, 255, 255);
+        auto BLACK = GUI90_RGB(0, 0, 0);
         auto MID = GUI90_InterpolateColors(BLACK, theme.background, 128);
         auto header_theme = GUI90_HeaderLabelTheme{
             .color_up_left = MID,
