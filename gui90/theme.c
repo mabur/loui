@@ -1,6 +1,6 @@
-#include "theme.hpp"
+#include "theme.h"
 
-const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
+const GUI90_Theme GUI90_THEME_YELLOW = (GUI90_Theme){
     .background = GUI90_Rgb(255, 221, 63),
     .text = GUI90_Rgb(0, 0, 0),
     .button_background = GUI90_Rgb(255, 255, 255),
@@ -16,7 +16,7 @@ const GUI90_Theme GUI90_THEME_YELLOW = GUI90_Theme{
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
-const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
+const GUI90_Theme GUI90_THEME_GRAY = (GUI90_Theme){
     .background = GUI90_Rgb(192, 192, 192),
     .text = GUI90_Rgb(0, 0, 0),
     .button_background = GUI90_Rgb(255, 255, 255),
@@ -32,7 +32,7 @@ const GUI90_Theme GUI90_THEME_GRAY = GUI90_Theme{
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
-const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
+const GUI90_Theme GUI90_THEME_WARM_GRAY = (GUI90_Theme){
     .background = GUI90_Rgb(173, 164, 149),
     .text = GUI90_Rgb(0, 0, 0),
     .button_background = GUI90_Rgb(255, 255, 255),
@@ -48,7 +48,7 @@ const GUI90_Theme GUI90_THEME_WARM_GRAY = GUI90_Theme{
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
-const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
+const GUI90_Theme GUI90_THEME_LEATHER = (GUI90_Theme){
     .background = GUI90_Rgb(70, 50, 40),
     .text = GUI90_Rgb(0, 0, 0),
     .button_background = GUI90_Rgb(128, 128, 128),
@@ -64,7 +64,7 @@ const GUI90_Theme GUI90_THEME_LEATHER = GUI90_Theme{
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
-const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = GUI90_Theme{
+const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT = (GUI90_Theme){
     .background = GUI90_Rgb(253, 246, 227),
     .text = GUI90_Rgb(0, 0, 0),
     .button_background = GUI90_Rgb(255, 255, 255),

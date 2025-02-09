@@ -5,6 +5,11 @@
 
 #include "color.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef enum GUI90_ButtonType {
     BUTTON_TYPE_BEVEL,
     BUTTON_TYPE_CLOUD,
@@ -52,3 +57,8 @@ extern const GUI90_Theme GUI90_THEME_GRAY;
 extern const GUI90_Theme GUI90_THEME_WARM_GRAY;
 extern const GUI90_Theme GUI90_THEME_LEATHER;
 extern const GUI90_Theme GUI90_THEME_SOLARIZE_LIGHT;
+
+
+#ifdef __cplusplus
+}
+#endif

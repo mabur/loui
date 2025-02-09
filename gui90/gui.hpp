@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "color.h"
-#include "theme.hpp"
+#include "theme.h"
 
 typedef struct GUI90_Widget {
     int width;
