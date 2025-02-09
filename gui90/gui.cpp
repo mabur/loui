@@ -2,12 +2,11 @@
 
 #include <string.h>
 #include <string>
-#include <vector>
 
 #include "text.h"
 
 typedef struct Gui90 {
-    std::vector<GUI90_Color> colors;
+    GUI90_Color* pixels;
     int width = 0;
     int height = 0;
     int mouse_x = 0;
@@ -53,7 +52,7 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // PRIVATE DRAW FUNCTIONS
 
 static void drawPoint(int x, int y, GUI90_Color color) {
-    s_gui.colors.at(y * s_gui.width + x) = color;
+    s_gui.pixels[y * s_gui.width + x] = color;
 }
 
 static void drawRectangle(Rectangle rectangle, GUI90_Color color) {
@@ -88,7 +87,7 @@ static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
             if (character_bitmap[y * 8 + x]) {
-                s_gui.colors.at((y_start + y) * W + x_start + x) = color;
+                s_gui.pixels[(y_start + y) * W + x_start + x] = color;
             }
         }
     }
@@ -139,9 +138,12 @@ static void drawSpecialString(const std::string& s, int x, int y, GUI90_HeaderLa
 // PUBLIC FUNCTIONS
 
 void GUI90_Init(int width, int height) {
+    if (s_gui.pixels != NULL) {
+        free(s_gui.pixels);
+    }
+    s_gui.pixels = (GUI90_Color *)malloc(width * height * sizeof(GUI90_Color));
     s_gui.width = width;
     s_gui.height = height;
-    s_gui.colors.resize(width * height);
 }
 
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
@@ -157,12 +159,13 @@ void GUI90_SetTheme(GUI90_Theme theme) {
 }
 
 const GUI90_Color* GUI90_GetPixelData() {
-    return s_gui.colors.data();
+    return s_gui.pixels;
 }
 
 GUI90_Widget GUI90_WidgetBackground() {
-    for (auto& pixel : s_gui.colors) {
-        pixel = s_gui.theme.background;
+    auto pixel_count = s_gui.width * s_gui.height;
+    for (int i = 0; i < pixel_count; ++i) {
+        s_gui.pixels[i] = s_gui.theme.background; 
     }
     return GUI90_Widget{
         .width = s_gui.width,
