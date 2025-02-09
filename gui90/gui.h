@@ -6,6 +6,11 @@
 #include "color.h"
 #include "theme.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef struct GUI90_Widget {
     int width;
     int height;
@@ -30,3 +35,8 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text);
 
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height);
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
+
+
+#ifdef __cplusplus
+}
+#endif

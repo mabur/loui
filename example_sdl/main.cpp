@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include <gui90/gui.hpp>
+#include <gui90/gui.h>
 
 #include "sdl_wrappers.hpp"
 
