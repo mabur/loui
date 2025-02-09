@@ -1,9 +1,5 @@
 #include "color.hpp"
 
-GUI90_Color GUI90_Rgb(uint32_t r, uint32_t g, uint32_t b) {
-    return (255 << 24) | (r << 16) | (g << 8) | (b << 0);
-}
-
 GUI90_Color GUI90_InterpolateColors(GUI90_Color color0, GUI90_Color color1, uint32_t t) {
     uint32_t r0 = (color0 >> 16) & 0xFF;
     uint32_t g0 = (color0 >> 8) & 0xFF;
