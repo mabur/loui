@@ -142,8 +142,8 @@ void GUI90_Init(int width, int height) {
         free(s_gui.pixels);
     }
     s_gui.pixels = (GUI90_Color *)malloc(width * height * sizeof(GUI90_Color));
-    s_gui.width = width;
-    s_gui.height = height;
+    s_gui.width = s_gui.pixels ? width : 0;
+    s_gui.height = s_gui.pixels ? height : 0;
 }
 
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
