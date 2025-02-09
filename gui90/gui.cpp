@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "text.hpp"
+#include "text.h"
 
 typedef struct Gui90 {
     std::vector<GUI90_Color> colors;

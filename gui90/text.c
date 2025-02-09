@@ -1,6 +1,4 @@
-#include "text.hpp"
-
-namespace {
+#include "text.h"
 
 typedef char Bitmap[8 * 8];
 
@@ -795,8 +793,6 @@ const Bitmap TEMPLATE = {
     0, 1, 1, 1, 1, 1, 1, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
 };
-
-} // namespace
 
 const char* character_bitmap8x8(char character) {
     switch (character) {
