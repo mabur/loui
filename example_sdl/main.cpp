@@ -29,7 +29,7 @@ const char* themeDescription[] = {
     [LEATHER_THEME_INDEX] = "Leather",
 };
 
-int main(int, char**) {
+int main() {
     auto WINDOW_TITLE = "GUI90";
     auto WIDTH = 320;
     auto HEIGHT = 200;
