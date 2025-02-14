@@ -30,16 +30,16 @@ const char* themeDescription[] = {
 };
 
 int main(int, char**) {
-    const auto WINDOW_TITLE = "GUI90";
-    const auto WIDTH = 320;
-    const auto HEIGHT = 200;
+    auto WINDOW_TITLE = "GUI90";
+    auto WIDTH = 320;
+    auto HEIGHT = 200;
     
     auto sdl = Sdl(WINDOW_TITLE, WIDTH, HEIGHT);
     GUI90_Init(WIDTH, HEIGHT);
     sdl.setMouseModeAbsolute();
     
     while (sdl.noQuitMessage()) {
-        const auto input = sdl.getInput();
+        auto input = sdl.getInput();
         if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
