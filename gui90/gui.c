@@ -82,8 +82,8 @@ static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
 }
 
 static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_Color color) {
-    const auto W = s_gui.width;
-    const auto character_bitmap = character_bitmap8x8(character);
+    auto W = s_gui.width;
+    auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
             if (character_bitmap[y * 8 + x]) {
@@ -373,7 +373,7 @@ GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height) {
     s_gui.current_x = x + TEXT_SIZE;
     s_gui.current_y = y + TEXT_SIZE;
 
-    const auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
+    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
     drawRectangle(rectangle, s_gui.theme.recess_background);
     drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
     drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
