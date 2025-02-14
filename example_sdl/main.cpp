@@ -1,7 +1,5 @@
 #define SDL_MAIN_HANDLED
 
-#include <assert.h>
-
 #include <gui90/gui.h>
 
 #include "sdl_wrappers.hpp"
@@ -15,27 +13,21 @@ enum GuiThemeIndex {
     THEME_COUNT,
 };
 
-GUI90_Theme themeSettings(GuiThemeIndex theme) {
-    switch (theme) {
-        case YELLOW_THEME_INDEX: return GUI90_THEME_YELLOW;
-        case GRAY_THEME_INDEX: return GUI90_THEME_GRAY;
-        case WARM_GRAY_THEME_INDEX: return GUI90_THEME_WARM_GRAY;
-        case LEATHER_THEME_INDEX: return GUI90_THEME_LEATHER;
-        case SOLARIZE_LIGHT_THEME_INDEX: return GUI90_THEME_SOLARIZE_LIGHT;
-    }
-    assert(false and "Unknown theme");
-}
+GUI90_Theme themeSettings[THEME_COUNT] = {
+    [GRAY_THEME_INDEX] = GUI90_THEME_GRAY,
+    [WARM_GRAY_THEME_INDEX] = GUI90_THEME_WARM_GRAY,
+    [SOLARIZE_LIGHT_THEME_INDEX] = GUI90_THEME_SOLARIZE_LIGHT,
+    [YELLOW_THEME_INDEX] = GUI90_THEME_YELLOW,
+    [LEATHER_THEME_INDEX] = GUI90_THEME_LEATHER,
+};
 
-const char* themeDescription(GuiThemeIndex theme) {
-    switch (theme) {
-        case YELLOW_THEME_INDEX: return "Yellow";
-        case GRAY_THEME_INDEX: return "Gray";
-        case WARM_GRAY_THEME_INDEX: return "Warm Gray";
-        case LEATHER_THEME_INDEX: return "Leather";
-        case SOLARIZE_LIGHT_THEME_INDEX: return "Solarize";
-    }
-    assert(false and "Unknown theme");
-}
+const char* themeDescription[THEME_COUNT] = {
+    [GRAY_THEME_INDEX] = "Gray",
+    [WARM_GRAY_THEME_INDEX] = "Warm Gray",
+    [SOLARIZE_LIGHT_THEME_INDEX] = "Solarize",
+    [YELLOW_THEME_INDEX] = "Yellow",
+    [LEATHER_THEME_INDEX] = "Leather",
+};
 
 int main(int, char**) {
     const auto WINDOW_TITLE = "GUI90";
@@ -55,7 +47,7 @@ int main(int, char**) {
         
         static auto theme_index = YELLOW_THEME_INDEX;
         static auto button_type = BUTTON_TYPE_BEVEL;
-        auto theme = themeSettings(theme_index);
+        auto theme = themeSettings[theme_index];
         theme.button_type = button_type;
         GUI90_SetTheme(theme);
         
@@ -92,7 +84,7 @@ int main(int, char**) {
         auto selection_box = GUI90_WidgetSelectionBoxInit(x, y, width, height);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
-            auto theme_description = themeDescription(local_theme_index);
+            auto theme_description = themeDescription[local_theme_index];
             auto item = GUI90_WidgetSelectionBoxItem(theme_description, theme_index == local_theme_index);
             if (item.is_clicked) {
                 theme_index = local_theme_index;
