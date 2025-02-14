@@ -13,7 +13,7 @@ enum GuiThemeIndex {
     THEME_COUNT,
 };
 
-GUI90_Theme themeSettings[THEME_COUNT] = {
+GUI90_Theme themeSettings[] = {
     [GRAY_THEME_INDEX] = GUI90_THEME_GRAY,
     [WARM_GRAY_THEME_INDEX] = GUI90_THEME_WARM_GRAY,
     [SOLARIZE_LIGHT_THEME_INDEX] = GUI90_THEME_SOLARIZE_LIGHT,
@@ -21,7 +21,7 @@ GUI90_Theme themeSettings[THEME_COUNT] = {
     [LEATHER_THEME_INDEX] = GUI90_THEME_LEATHER,
 };
 
-const char* themeDescription[THEME_COUNT] = {
+const char* themeDescription[] = {
     [GRAY_THEME_INDEX] = "Gray",
     [WARM_GRAY_THEME_INDEX] = "Warm Gray",
     [SOLARIZE_LIGHT_THEME_INDEX] = "Solarize",
