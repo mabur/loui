@@ -2,11 +2,13 @@ INPSIRATION
 * https://guidebookgallery.org/
 * ZX Spectrum character set
 * RectCut: https://halt.software/dead-simple-layouts/
+* https://hedy.org/
+* https://www.lexaloffle.com/pico-8.php
+
 * Example applications:
   - Games: Rogue, Golf, Kretzlop, Code
   - Paint 90, grid3d
-* https://hedy.org/
-
+* Make it easy to have buttons with different nice colors.
 
 WIDGETS
 * Existing
@@ -25,7 +27,6 @@ WIDGETS
   - Single line text input
   - Multi line text input
 
-
 WINDOWS APPROACH
 * Have a discrete depth buffer.
 * Keep track of current depth.
@@ -34,7 +35,6 @@ WINDOWS APPROACH
   - Draw this window to the depth buffer.
 * Clip outside of resulting active window region in depth buffer.
 * Allow cutting out sub-windows, like scrollable areas.
-
 
 IMPLEMENTATION
 * Implement all widgets functions as generic GUI90_Update(struct) -> struct, that takes the input state and returns the output state.
