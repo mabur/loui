@@ -1,6 +1,41 @@
+INPSIRATION
 * https://guidebookgallery.org/
 * ZX Spectrum character set
 * RectCut: https://halt.software/dead-simple-layouts/
 * Example applications:
-  - Games: Rogue, Golf, Kretzlop
+  - Games: Rogue, Golf, Kretzlop, Code
   - Paint 90, grid3d
+* https://hedy.org/
+
+
+WIDGETS
+* Existing
+  - Background
+  - Label
+  - Header label
+  - Button
+  - Radio buttom
+  - Stepper
+  - Selection box
+* Missing
+  - Checkbox
+  - Slider
+  - Scrollbars
+  - Windows / Modals
+  - Single line text input
+  - Multi line text input
+
+
+WINDOWS APPROACH
+* Have a discrete depth buffer.
+* Keep track of current depth.
+* Process widgets from front to back.
+* Set active window region before adding widgets.
+  - Draw this window to the depth buffer.
+* Clip outside of resulting active window region in depth buffer.
+* Allow cutting out sub-windows, like scrollable areas.
+
+
+IMPLEMENTATION
+* Implement all widgets functions as generic GUI90_Update(struct) -> struct, that takes the input state and returns the output state.
+  - Currently the update functions return a GUI90_Widget, which works ok for simple widgets, but maybe not for more advanced composed widgets like a multiline text input, with scrollbars
