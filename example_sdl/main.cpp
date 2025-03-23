@@ -129,7 +129,12 @@ int main() {
             .draw_down = true,
             .draw_down_right = true,
         };
-        GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
+        auto header = GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
+
+        y += header.height + GUI90_BLOCK;
+        auto input0 = GUI90_WidgetTextInput(x, y, "Input 0");
+        y += input0.height;
+        auto input1 = GUI90_WidgetTextInput(x, y, "Input 1");
         
         sdl.draw(GUI90_GetPixelData());
     }

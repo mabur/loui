@@ -36,6 +36,7 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text);
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height);
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
 
+GUI90_Widget GUI90_WidgetTextInput(int x, int y, const char* text);
 
 #ifdef __cplusplus
 }

@@ -16,6 +16,8 @@ typedef struct Gui90 {
     GUI90_Theme theme; 
     bool is_left_mouse_button_down;
     bool is_left_mouse_button_released;
+    int active_text_input_widget_index;
+    int text_input_widget_index_count;
 } Gui90;
 
 // -----------------------------------------------------------------------------
@@ -79,6 +81,15 @@ static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
     r.width = 1;
     r.height = height;
     drawRectangle(r, color);
+}
+
+static void drawRecess(int x, int y, int width, int height) {
+    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
+    drawRectangle(rectangle, s_gui.theme.recess_background);
+    drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
+    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
+    drawLineVertical(x, y + 1, height - 2, s_gui.theme.recess_bevel_dark);
+    drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
 }
 
 static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_Color color) {
@@ -145,6 +156,7 @@ void GUI90_Init(int width, int height) {
     s_gui.width = s_gui.pixels ? width : 0;
     s_gui.height = s_gui.pixels ? height : 0;
     s_gui.theme = GUI90_THEME_GRAY;
+    s_gui.active_text_input_widget_index = -1;
 }
 
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
@@ -153,6 +165,7 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.is_left_mouse_button_released =
         s_gui.is_left_mouse_button_down && !is_left_mouse_button_down;
     s_gui.is_left_mouse_button_down = is_left_mouse_button_down;
+    s_gui.text_input_widget_index_count = 0;
 }
 
 void GUI90_SetTheme(GUI90_Theme theme) {
@@ -372,19 +385,8 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height) {
     s_gui.current_x = x + TEXT_SIZE;
     s_gui.current_y = y + TEXT_SIZE;
-
-    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(rectangle, s_gui.theme.recess_background);
-    drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
-    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
-    drawLineVertical(x, y + 1, height - 2, s_gui.theme.recess_bevel_dark);
-    drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
-    
-    return (GUI90_Widget){
-        .width = width,
-        .height = height,
-        .is_clicked = false,
-    };
+    drawRecess(x, y, width, height);
+    return (GUI90_Widget){.width = width, .height = height, .is_clicked = false};
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
@@ -400,6 +402,35 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
         .height = label.height,
         .is_clicked = label.is_clicked,
     };
+}
+
+GUI90_Widget GUI90_WidgetTextInput(int x, int y, const char* text) {
+    auto rectangle = textRectangle(x, y, text);
+
+    rectangle.height += GUI90_BLOCK;
+    rectangle.width += GUI90_BLOCK;
+
+    auto is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+
+    auto widget = (GUI90_Widget){
+        .width=rectangle.width, .height=rectangle.height, .is_clicked=is_clicked
+    };
+
+    auto widget_index = s_gui.text_input_widget_index_count++;
+    if (widget.is_clicked) {
+        s_gui.active_text_input_widget_index = widget_index;
+    }
+    auto is_selected = s_gui.active_text_input_widget_index == widget_index;
+
+    drawRecess(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    auto global_theme = s_gui.theme;
+    auto local_theme = s_gui.theme;
+    local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
+    GUI90_SetTheme(local_theme);
+    drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
+    GUI90_SetTheme(global_theme);
+
+    return widget;
 }
 
 // -----------------------------------------------------------------------------
