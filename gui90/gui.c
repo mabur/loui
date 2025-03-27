@@ -435,11 +435,27 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     };
 }
 
+GUI90_WidgetText decrementCursor(GUI90_WidgetText widget) {
+    if (widget.cursor > 0) {
+        widget.cursor--;
+    }
+    return widget;
+}
+
+GUI90_WidgetText incrementCursor(GUI90_WidgetText widget) {
+    auto next = widget.cursor + 1;
+    if (next < 16 && widget.text[next] != '\0') {
+        widget.cursor = next;
+    }
+    return widget;
+}
+
 GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
     if (is_selected && s_gui.input_character) {
-        widget.text[0] = s_gui.input_character;
+        widget.text[widget.cursor] = s_gui.input_character;
+        widget = incrementCursor(widget);
     }
 
     auto x = widget.x;
@@ -465,11 +481,11 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     GUI90_SetTheme(local_theme);
     drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
     if (is_selected) {
-        if (s_gui.left_arrow_button == BUTTON_CLICKED && widget.cursor > 0) {
-            widget.cursor--;
+        if (s_gui.left_arrow_button == BUTTON_CLICKED) {
+            widget = decrementCursor(widget);
         }
-        if (s_gui.right_arrow_button == BUTTON_CLICKED && widget.cursor < 16 - 1) {
-            widget.cursor++;
+        if (s_gui.right_arrow_button == BUTTON_CLICKED) {
+            widget = incrementCursor(widget);
         }
         auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
         auto cursor_y = y + GUI90_BLOCK / 2;
