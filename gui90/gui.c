@@ -501,7 +501,12 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto text = widget.text;
-    auto rectangle = textRectangle(x, y, text);
+    auto rectangle = (Rectangle){
+        .x = x,
+        .y = y,
+        .width = 8 * (16 - 1),
+        .height = 8,
+    };
 
     rectangle.height += GUI90_BLOCK;
     rectangle.width += GUI90_BLOCK;
