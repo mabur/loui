@@ -44,6 +44,9 @@ int main() {
             break;
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
+        GUI90_SetKeyboardState(
+            input.keyboard[SDL_SCANCODE_LEFT], input.keyboard[SDL_SCANCODE_RIGHT]
+        );
         
         static auto theme_index = YELLOW_THEME_INDEX;
         static auto button_type = BUTTON_TYPE_BEVEL;
@@ -132,10 +135,10 @@ int main() {
         auto header = GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
 
         y += header.height + GUI90_BLOCK;
-        auto input0 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 0"};
+        static auto input0 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 0"};
         input0 = GUI90_WidgetTextInput(input0);
         y += input0.height;
-        auto input1 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 1"};
+        static auto input1 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 1"};
         input1 = GUI90_WidgetTextInput(input1);
         
         sdl.draw(GUI90_GetPixelData());

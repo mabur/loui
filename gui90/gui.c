@@ -19,6 +19,8 @@ typedef struct Gui90 {
     int current_y;
     GUI90_Theme theme;
     ButtonState left_mouse_button;
+    ButtonState left_arrow_button;
+    ButtonState right_arrow_button;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
 } Gui90;
@@ -183,6 +185,11 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.mouse_y = y;
     s_gui.left_mouse_button = updateButtonState(s_gui.left_mouse_button, is_left_mouse_button_down);
     s_gui.text_input_widget_index_count = 0;
+}
+
+void GUI90_SetKeyboardState(bool is_left_arrow_button_down, bool is_right_arrow_button_down) {
+    s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, is_left_arrow_button_down);
+    s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, is_right_arrow_button_down);
 }
 
 void GUI90_SetTheme(GUI90_Theme theme) {
@@ -448,8 +455,14 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     GUI90_SetTheme(local_theme);
     drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
     if (is_selected) {
+        if (s_gui.left_arrow_button == BUTTON_CLICKED && widget.cursor > 0) {
+            widget.cursor--;
+        }
+        if (s_gui.right_arrow_button == BUTTON_CLICKED && widget.cursor < 16 - 1) {
+            widget.cursor++;
+        }
         auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
-        auto cursor_y = y + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
+        auto cursor_y = y + GUI90_BLOCK / 2;
         drawCursor(cursor_x, cursor_y, s_gui.theme.text);
     }
     GUI90_SetTheme(global_theme);
