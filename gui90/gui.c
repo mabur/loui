@@ -478,16 +478,24 @@ static void insertCharacter(char* string, size_t index, char c) {
 GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
-    if (is_selected && s_gui.input_character) {
-        insertCharacter(widget.text, widget.cursor, s_gui.input_character);
-        widget = incrementCursor(widget);
-    }
-    if (is_selected && s_gui.delete_button == BUTTON_CLICKED) {
-        deleteCharacter(widget.text, widget.cursor);
-    }
-    if (is_selected && s_gui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
-        deleteCharacter(widget.text, widget.cursor - 1);
-        widget = decrementCursor(widget);
+    if (is_selected) {
+        if (s_gui.left_arrow_button == BUTTON_CLICKED) {
+            widget = decrementCursor(widget);
+        }
+        if (s_gui.right_arrow_button == BUTTON_CLICKED) {
+            widget = incrementCursor(widget);
+        }
+        if (s_gui.input_character) {
+            insertCharacter(widget.text, widget.cursor, s_gui.input_character);
+            widget = incrementCursor(widget);
+        }
+        if (s_gui.delete_button == BUTTON_CLICKED) {
+            deleteCharacter(widget.text, widget.cursor);
+        }
+        if (s_gui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
+            deleteCharacter(widget.text, widget.cursor - 1);
+            widget = decrementCursor(widget);
+        }
     }
 
     auto x = widget.x;
@@ -513,12 +521,6 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     GUI90_SetTheme(local_theme);
     drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
     if (is_selected) {
-        if (s_gui.left_arrow_button == BUTTON_CLICKED) {
-            widget = decrementCursor(widget);
-        }
-        if (s_gui.right_arrow_button == BUTTON_CLICKED) {
-            widget = incrementCursor(widget);
-        }
         auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
         auto cursor_y = y + GUI90_BLOCK / 2;
         drawCursor(cursor_x, cursor_y, s_gui.theme.text);
