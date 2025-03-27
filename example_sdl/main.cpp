@@ -38,14 +38,24 @@ int main() {
     GUI90_Init(WIDTH, HEIGHT);
     sdl.setMouseModeAbsolute();
     
-    while (sdl.noQuitMessage()) {
+    for (;;) {
+        auto event = SDL_Event();
+        char input_character = '\0';
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                break;
+            }
+            if (event.type == SDL_TEXTINPUT) {
+                input_character = event.text.text[0];
+            }
+        }
         auto input = sdl.getInput();
         if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         GUI90_SetKeyboardState(
-            input.keyboard[SDL_SCANCODE_LEFT], input.keyboard[SDL_SCANCODE_RIGHT]
+            input.keyboard[SDL_SCANCODE_LEFT], input.keyboard[SDL_SCANCODE_RIGHT], input_character
         );
         
         static auto theme_index = YELLOW_THEME_INDEX;

@@ -1,6 +1,7 @@
 #include "gui.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "text.h"
@@ -21,6 +22,7 @@ typedef struct Gui90 {
     ButtonState left_mouse_button;
     ButtonState left_arrow_button;
     ButtonState right_arrow_button;
+    char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
 } Gui90;
@@ -187,9 +189,14 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.text_input_widget_index_count = 0;
 }
 
-void GUI90_SetKeyboardState(bool is_left_arrow_button_down, bool is_right_arrow_button_down) {
+void GUI90_SetKeyboardState(
+    bool is_left_arrow_button_down,
+    bool is_right_arrow_button_down,
+    char input_character
+) {
     s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, is_left_arrow_button_down);
     s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, is_right_arrow_button_down);
+    s_gui.input_character = input_character;
 }
 
 void GUI90_SetTheme(GUI90_Theme theme) {
@@ -429,6 +436,12 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
 }
 
 GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
+    auto widget_index = s_gui.text_input_widget_index_count++;
+    auto is_selected = s_gui.active_text_input_widget_index == widget_index;
+    if (is_selected && s_gui.input_character) {
+        widget.text[0] = s_gui.input_character;
+    }
+
     auto x = widget.x;
     auto y = widget.y;
     auto text = widget.text;
@@ -437,16 +450,13 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     rectangle.height += GUI90_BLOCK;
     rectangle.width += GUI90_BLOCK;
 
-    widget.width=rectangle.width;
-    widget.height=rectangle.height;
+    widget.width = rectangle.width;
+    widget.height = rectangle.height;
 
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
-
-    auto widget_index = s_gui.text_input_widget_index_count++;
     if (widget.is_clicked) {
         s_gui.active_text_input_widget_index = widget_index;
     }
-    auto is_selected = s_gui.active_text_input_widget_index == widget_index;
 
     drawRecess(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     auto global_theme = s_gui.theme;
