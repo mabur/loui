@@ -5,6 +5,10 @@
 
 #include "text.h"
 
+typedef enum ButtonState {
+    BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED
+} ButtonState;
+
 typedef struct Gui90 {
     GUI90_Color* pixels;
     int width;
@@ -13,9 +17,8 @@ typedef struct Gui90 {
     int mouse_y;
     int current_x;
     int current_y;
-    GUI90_Theme theme; 
-    bool is_left_mouse_button_down;
-    bool is_left_mouse_button_released;
+    GUI90_Theme theme;
+    ButtonState left_mouse_button;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
 } Gui90;
@@ -36,16 +39,26 @@ typedef struct Rectangle {
 } Rectangle;
 
 // -----------------------------------------------------------------------------
-// PRIVATE MOUSE FUNCTIONS
+// PRIVATE MOUSE & KEYBOARD FUNCTIONS
+
+static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
+    switch (old_state) {
+    case BUTTON_UP: return is_down ? BUTTON_CLICKED : BUTTON_UP;
+    case BUTTON_CLICKED: return BUTTON_DOWN;
+    case BUTTON_DOWN: return is_down ? BUTTON_DOWN : BUTTON_RELEASED;
+    case BUTTON_RELEASED: return BUTTON_UP;
+    default: return (ButtonState){};
+    }
+}
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
-    return s_gui.is_left_mouse_button_down &&
+    return s_gui.left_mouse_button == BUTTON_DOWN &&
         r.x <= s_gui.mouse_x && s_gui.mouse_x < r.x + r.width &&
         r.y <= s_gui.mouse_y && s_gui.mouse_y < r.y + r.height;
 }
 
 static bool isLeftMouseButtonReleasedInside(Rectangle r) {
-    return s_gui.is_left_mouse_button_released &&
+    return s_gui.left_mouse_button == BUTTON_RELEASED &&
         r.x <= s_gui.mouse_x && s_gui.mouse_x < r.x + r.width &&
         r.y <= s_gui.mouse_y && s_gui.mouse_y < r.y + r.height;
 }
@@ -168,9 +181,7 @@ void GUI90_Init(int width, int height) {
 void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
     s_gui.mouse_x = x;
     s_gui.mouse_y = y;
-    s_gui.is_left_mouse_button_released =
-        s_gui.is_left_mouse_button_down && !is_left_mouse_button_down;
-    s_gui.is_left_mouse_button_down = is_left_mouse_button_down;
+    s_gui.left_mouse_button = updateButtonState(s_gui.left_mouse_button, is_left_mouse_button_down);
     s_gui.text_input_widget_index_count = 0;
 }
 
@@ -190,7 +201,7 @@ GUI90_Widget GUI90_WidgetBackground() {
     return (GUI90_Widget){
         .width = s_gui.width,
         .height = s_gui.height,
-        .is_clicked = s_gui.is_left_mouse_button_released,
+        .is_clicked = s_gui.left_mouse_button == BUTTON_RELEASED,
     };
 }
 
