@@ -28,6 +28,7 @@ typedef struct GUI90_WidgetText {
     bool is_increased;
     bool is_decreased;
     char text[16];
+    int cursor;
 } GUI90_WidgetText;
 
 extern const int GUI90_BLOCK;

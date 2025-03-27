@@ -92,6 +92,12 @@ static void drawRecess(int x, int y, int width, int height) {
     drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
 }
 
+static void drawCursor(size_t x_start, size_t y_start, GUI90_Color color) {
+    for (size_t y = 0; y < 8; ++y) {
+        s_gui.pixels[(y_start + y) * s_gui.width + x_start] = color;
+    }
+}
+
 static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_Color color) {
     auto W = s_gui.width;
     auto character_bitmap = character_bitmap8x8(character);
@@ -430,6 +436,11 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     GUI90_SetTheme(local_theme);
     drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
+    if (is_selected) {
+        auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
+        auto cursor_y = y + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
+        drawCursor(cursor_x, cursor_y, s_gui.theme.text);
+    }
     GUI90_SetTheme(global_theme);
 
     return widget;
