@@ -465,7 +465,7 @@ static void deleteCharacter(char* string, size_t index) {
 static void insertCharacter(char* string, size_t index, char c) {
     size_t len = strlen(string);
     size_t max_size = 16;
-    if (len + 2 >= max_size || index > len) {
+    if (len + 1 >= max_size || index > len) {
         return;
     }
     for (size_t i = len + 1; i > index; i--) {
@@ -485,7 +485,7 @@ GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
         if (s_gui.right_arrow_button == BUTTON_CLICKED) {
             widget = incrementCursor(widget);
         }
-        if (s_gui.input_character) {
+        if (s_gui.input_character && strlen(widget.text) < 16 - 1) {
             insertCharacter(widget.text, widget.cursor, s_gui.input_character);
             widget = incrementCursor(widget);
         }
