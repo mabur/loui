@@ -132,9 +132,11 @@ int main() {
         auto header = GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
 
         y += header.height + GUI90_BLOCK;
-        auto input0 = GUI90_WidgetTextInput(x, y, "Input 0");
+        auto input0 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 0"};
+        input0 = GUI90_WidgetTextInput(input0);
         y += input0.height;
-        auto input1 = GUI90_WidgetTextInput(x, y, "Input 1");
+        auto input1 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 1"};
+        input1 = GUI90_WidgetTextInput(input1);
         
         sdl.draw(GUI90_GetPixelData());
     }

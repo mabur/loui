@@ -19,6 +19,17 @@ typedef struct GUI90_Widget {
     bool is_decreased;
 } GUI90_Widget;
 
+typedef struct GUI90_WidgetText {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+    bool is_increased;
+    bool is_decreased;
+    char text[16];
+} GUI90_WidgetText;
+
 extern const int GUI90_BLOCK;
 
 void GUI90_Init(int width, int height);
@@ -36,7 +47,7 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text);
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height);
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
 
-GUI90_Widget GUI90_WidgetTextInput(int x, int y, const char* text);
+GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget);
 
 #ifdef __cplusplus
 }

@@ -404,17 +404,19 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     };
 }
 
-GUI90_Widget GUI90_WidgetTextInput(int x, int y, const char* text) {
+GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
+    auto x = widget.x;
+    auto y = widget.y;
+    auto text = widget.text;
     auto rectangle = textRectangle(x, y, text);
 
     rectangle.height += GUI90_BLOCK;
     rectangle.width += GUI90_BLOCK;
 
-    auto is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    widget.width=rectangle.width;
+    widget.height=rectangle.height;
 
-    auto widget = (GUI90_Widget){
-        .width=rectangle.width, .height=rectangle.height, .is_clicked=is_clicked
-    };
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
 
     auto widget_index = s_gui.text_input_widget_index_count++;
     if (widget.is_clicked) {
