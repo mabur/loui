@@ -55,7 +55,11 @@ int main() {
         }
         GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
         GUI90_SetKeyboardState(
-            input.keyboard[SDL_SCANCODE_LEFT], input.keyboard[SDL_SCANCODE_RIGHT], input_character
+            input.keyboard[SDL_SCANCODE_LEFT],
+            input.keyboard[SDL_SCANCODE_RIGHT],
+            input.keyboard[SDL_SCANCODE_BACKSPACE],
+            input.keyboard[SDL_SCANCODE_DELETE],
+            input_character
         );
         
         static auto theme_index = YELLOW_THEME_INDEX;

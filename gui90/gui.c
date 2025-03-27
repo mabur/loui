@@ -22,6 +22,8 @@ typedef struct Gui90 {
     ButtonState left_mouse_button;
     ButtonState left_arrow_button;
     ButtonState right_arrow_button;
+    ButtonState backspace_button;
+    ButtonState delete_button;
     char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
@@ -192,10 +194,14 @@ void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
 void GUI90_SetKeyboardState(
     bool is_left_arrow_button_down,
     bool is_right_arrow_button_down,
+    bool is_backspace_button_down,
+    bool is_delete_button_down,
     char input_character
 ) {
     s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, is_left_arrow_button_down);
     s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, is_right_arrow_button_down);
+    s_gui.backspace_button = updateButtonState(s_gui.backspace_button, is_backspace_button_down);
+    s_gui.delete_button = updateButtonState(s_gui.delete_button, is_delete_button_down);
     s_gui.input_character = input_character;
 }
 
@@ -435,27 +441,53 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     };
 }
 
-GUI90_WidgetText decrementCursor(GUI90_WidgetText widget) {
+static GUI90_WidgetText decrementCursor(GUI90_WidgetText widget) {
     if (widget.cursor > 0) {
         widget.cursor--;
     }
     return widget;
 }
 
-GUI90_WidgetText incrementCursor(GUI90_WidgetText widget) {
-    auto next = widget.cursor + 1;
-    if (next < 16 && widget.text[next] != '\0') {
-        widget.cursor = next;
+static GUI90_WidgetText incrementCursor(GUI90_WidgetText widget) {
+    if (widget.cursor < strlen(widget.text)) {
+        widget.cursor++;
     }
     return widget;
 }
+
+static void deleteCharacter(char* string, size_t index) {
+    auto len = strlen(string);
+    for (size_t i = index; i < len; ++i) {
+        string[i] = string[i + 1];
+    }
+}
+
+static void insertCharacter(char* string, size_t index, char c) {
+    size_t len = strlen(string);
+    size_t max_size = 16;
+    if (len + 2 >= max_size || index > len) {
+        return;
+    }
+    for (size_t i = len + 1; i > index; i--) {
+        string[i] = string[i - 1];
+    }
+    string[index] = c;
+}
+
 
 GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
     if (is_selected && s_gui.input_character) {
-        widget.text[widget.cursor] = s_gui.input_character;
+        insertCharacter(widget.text, widget.cursor, s_gui.input_character);
         widget = incrementCursor(widget);
+    }
+    if (is_selected && s_gui.delete_button == BUTTON_CLICKED) {
+        deleteCharacter(widget.text, widget.cursor);
+    }
+    if (is_selected && s_gui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
+        deleteCharacter(widget.text, widget.cursor - 1);
+        widget = decrementCursor(widget);
     }
 
     auto x = widget.x;
