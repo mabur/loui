@@ -229,7 +229,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-GUI90_Label GUI90_WidgetLabel(GUI90_Label widget) {
+GUI90_Label GUI90_UpdateLabel(GUI90_Label widget) {
     drawString(widget.text, widget.x, widget.y, s_gui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -238,7 +238,7 @@ GUI90_Label GUI90_WidgetLabel(GUI90_Label widget) {
     return widget;
 }
 
-GUI90_HeaderLabel GUI90_WidgetHeaderLabel(GUI90_HeaderLabel widget) {
+GUI90_HeaderLabel GUI90_UpdateHeaderLabel(GUI90_HeaderLabel widget) {
     drawSpecialString(widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -357,7 +357,7 @@ GUI90_Button GUI90_WidgetButtonCloud(GUI90_Button widget) {
     return widget;
 }
 
-GUI90_Button GUI90_WidgetButton(GUI90_Button widget) {
+GUI90_Button GUI90_UpdateButton(GUI90_Button widget) {
     switch (s_gui.theme.button_type) {
         case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(widget);
         case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(widget);
@@ -365,7 +365,7 @@ GUI90_Button GUI90_WidgetButton(GUI90_Button widget) {
     }
 }
 
-GUI90_RadioButton GUI90_WidgetRadioButton(GUI90_RadioButton widget) {
+GUI90_RadioButton GUI90_UpdateRadioButton(GUI90_RadioButton widget) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
@@ -393,14 +393,14 @@ GUI90_RadioButton GUI90_WidgetRadioButton(GUI90_RadioButton widget) {
         .y=widget.y + BUTTON_TEXT_PADDING,
         .text=widget.text
     };
-    auto label_result = GUI90_WidgetLabel(label);
+    auto label_result = GUI90_UpdateLabel(label);
     widget.width = label_result.width + 16 + 8;
     widget.height = 16;
     widget.is_clicked = label_result.is_clicked || isLeftMouseButtonReleasedInside(left_rectangle);
     return widget;
 }
 
-GUI90_Stepper GUI90_WidgetStepper(GUI90_Stepper widget) {
+GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto offset = 0;
@@ -409,13 +409,13 @@ GUI90_Stepper GUI90_WidgetStepper(GUI90_Stepper widget) {
         .y=y + BUTTON_TEXT_PADDING,
         .text=widget.text
     };
-    auto label_widget = GUI90_WidgetLabel(label);
+    auto label_widget = GUI90_UpdateLabel(label);
     offset += label_widget.width;
     auto decrease_button = (GUI90_Button){.x=x + offset, .y=y, .text="-"};
-    decrease_button = GUI90_WidgetButton(decrease_button);
+    decrease_button = GUI90_UpdateButton(decrease_button);
     offset += decrease_button.width;
     auto increase_button = (GUI90_Button){.x=x + offset, .y=y, .text="+"};
-    increase_button = GUI90_WidgetButton(increase_button);
+    increase_button = GUI90_UpdateButton(increase_button);
     offset += increase_button.width;
 
     widget.width = offset;
@@ -426,14 +426,14 @@ GUI90_Stepper GUI90_WidgetStepper(GUI90_Stepper widget) {
     return widget;
 }
 
-GUI90_SelectionBoxInit GUI90_WidgetSelectionBoxInit(GUI90_SelectionBoxInit widget) {
+GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widget) {
     s_gui.current_x = widget.x + TEXT_SIZE;
     s_gui.current_y = widget.y + TEXT_SIZE;
     drawRecess(widget.x, widget.y, widget.width, widget.height);
     return widget;
 }
 
-GUI90_SelectionBoxItem GUI90_WidgetSelectionBoxItem(GUI90_SelectionBoxItem widget) {
+GUI90_SelectionBoxItem GUI90_UpdateSelectionBoxItem(GUI90_SelectionBoxItem widget) {
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
@@ -443,7 +443,7 @@ GUI90_SelectionBoxItem GUI90_WidgetSelectionBoxItem(GUI90_SelectionBoxItem widge
         .y=s_gui.current_y,
         .text=widget.text
     };
-    label = GUI90_WidgetLabel(label);
+    label = GUI90_UpdateLabel(label);
     s_gui.current_y += label.height;
     GUI90_SetTheme(global_theme);
     widget.width = label.width;
@@ -486,7 +486,7 @@ static void insertCharacter(char* string, size_t index, char c) {
 }
 
 
-GUI90_TextInput GUI90_WidgetTextInput(GUI90_TextInput widget) {
+GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
     if (is_selected) {
