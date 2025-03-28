@@ -370,7 +370,7 @@ GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget) {
     }
 }
 
-GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected) {
+GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType widget) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
@@ -386,24 +386,23 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
             if (r2 < 5.0 * 5.0) {
                 color = s_gui.theme.recess_background;
             }
-            if (r2 < 2.0 * 2.0 && is_selected) {
+            if (r2 < 2.0 * 2.0 && widget.is_selected) {
                 color = s_gui.theme.recess_text_selected;
             }
-            drawPoint(x + xi, y + yi, color);
+            drawPoint(widget.x + xi, widget.y + yi, color);
         }
     }
-    auto left_rectangle = (Rectangle){x, y, 16 + BUTTON_TEXT_PADDING, 16};
+    auto left_rectangle = (Rectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
     auto label = (GUI90_WidgetLabelType){
-        .x=x + 16 + BUTTON_TEXT_PADDING,
-        .y=y + BUTTON_TEXT_PADDING,
-        .text=text
+        .x=widget.x + 16 + BUTTON_TEXT_PADDING,
+        .y=widget.y + BUTTON_TEXT_PADDING,
+        .text=widget.text
     };
     auto label_result = GUI90_WidgetLabel(label);
-    return (GUI90_Widget){
-        .width = label_result.width + 16 + 8,
-        .height = 16,
-        .is_clicked = label_result.is_clicked || isLeftMouseButtonReleasedInside(left_rectangle), 
-    };
+    widget.width = label_result.width + 16 + 8;
+    widget.height = 16;
+    widget.is_clicked = label_result.is_clicked || isLeftMouseButtonReleasedInside(left_rectangle);
+    return widget;
 }
 
 GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {

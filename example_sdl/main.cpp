@@ -112,12 +112,18 @@ int main() {
         }
         y += selection_box.height;
         y += GUI90_BLOCK;
-        auto radio_button_a = GUI90_WidgetRadioButton(x, y, "Bevel Buttons", button_type == BUTTON_TYPE_BEVEL);
+        auto radio_button_a = (GUI90_WidgetRadioButtonType){
+            .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
+        };
+        radio_button_a = GUI90_WidgetRadioButton(radio_button_a);
         if (radio_button_a.is_clicked) {
             button_type = BUTTON_TYPE_BEVEL;
         }
         y += radio_button_a.height;
-        auto radio_button_b = GUI90_WidgetRadioButton(x, y, "Cloud Buttons", button_type == BUTTON_TYPE_CLOUD);
+        auto radio_button_b = (GUI90_WidgetRadioButtonType) {
+            .x=x, .y=y, .text="Cloud Buttons", .is_selected=button_type == BUTTON_TYPE_CLOUD
+        };
+        radio_button_b = GUI90_WidgetRadioButton(radio_button_b);
         if (radio_button_b.is_clicked) {
             button_type = BUTTON_TYPE_CLOUD;
         }

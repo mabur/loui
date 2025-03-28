@@ -47,6 +47,16 @@ typedef struct GUI90_WidgetButtonType {
     const char* text;
 } GUI90_WidgetButtonType;
 
+typedef struct GUI90_WidgetRadioButtonType {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+    const char* text;
+    bool is_selected;
+} GUI90_WidgetRadioButtonType;
+
 typedef struct GUI90_WidgetText {
     int x;
     int y;
@@ -75,7 +85,7 @@ GUI90_Widget GUI90_WidgetBackground();
 GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget);
 GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType widget);
 GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget);
-GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected);
+GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType widget);
 GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text);
 
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height);
