@@ -107,7 +107,10 @@ int main() {
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription[local_theme_index];
-            auto item = GUI90_WidgetSelectionBoxItem(theme_description, theme_index == local_theme_index);
+            auto item = (GUI90_WidgetSelectionBoxItemType){
+                .text=theme_description, .is_selected=theme_index == local_theme_index
+            };
+            item = GUI90_WidgetSelectionBoxItem(item);
             if (item.is_clicked) {
                 theme_index = local_theme_index;
             }

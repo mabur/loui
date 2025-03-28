@@ -438,24 +438,23 @@ GUI90_WidgetSelectionBoxInitType GUI90_WidgetSelectionBoxInit(GUI90_WidgetSelect
     return widget;
 }
 
-GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
+GUI90_WidgetSelectionBoxItemType GUI90_WidgetSelectionBoxItem(GUI90_WidgetSelectionBoxItemType widget) {
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
-    local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
+    local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     GUI90_SetTheme(local_theme);
     auto label = (GUI90_WidgetLabelType){
         .x=s_gui.current_x,
         .y=s_gui.current_y,
-        .text=text
+        .text=widget.text
     };
     label = GUI90_WidgetLabel(label);
     s_gui.current_y += label.height;
     GUI90_SetTheme(global_theme);
-    return (GUI90_Widget){
-        .width = label.width,
-        .height = label.height,
-        .is_clicked = label.is_clicked,
-    };
+    widget.width = label.width;
+    widget.height = label.height;
+    widget.is_clicked = label.is_clicked;
+    return widget;
 }
 
 static GUI90_WidgetText decrementCursor(GUI90_WidgetText widget) {
