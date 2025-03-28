@@ -431,11 +431,11 @@ GUI90_WidgetStepperType GUI90_WidgetStepper(GUI90_WidgetStepperType widget) {
     return widget;
 }
 
-GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height) {
-    s_gui.current_x = x + TEXT_SIZE;
-    s_gui.current_y = y + TEXT_SIZE;
-    drawRecess(x, y, width, height);
-    return (GUI90_Widget){.width = width, .height = height, .is_clicked = false};
+GUI90_WidgetSelectionBoxInitType GUI90_WidgetSelectionBoxInit(GUI90_WidgetSelectionBoxInitType widget) {
+    s_gui.current_x = widget.x + TEXT_SIZE;
+    s_gui.current_y = widget.y + TEXT_SIZE;
+    drawRecess(widget.x, widget.y, widget.width, widget.height);
+    return widget;
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {

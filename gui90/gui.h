@@ -78,6 +78,14 @@ typedef struct GUI90_WidgetStepperType {
     const char* text;
 } GUI90_WidgetStepperType;
 
+typedef struct GUI90_WidgetSelectionBoxInitType {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+} GUI90_WidgetSelectionBoxInitType;
+
 extern const int GUI90_BLOCK;
 
 void GUI90_Init(int width, int height);
@@ -99,7 +107,7 @@ GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget);
 GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType widget);
 GUI90_WidgetStepperType GUI90_WidgetStepper(GUI90_WidgetStepperType widget);
 
-GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height);
+GUI90_WidgetSelectionBoxInitType GUI90_WidgetSelectionBoxInit(GUI90_WidgetSelectionBoxInitType widget);
 GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected);
 
 GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget);

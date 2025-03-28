@@ -102,7 +102,8 @@ int main() {
 
         auto width = 13 * GUI90_BLOCK;
         auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
-        auto selection_box = GUI90_WidgetSelectionBoxInit(x, y, width, height);
+        auto selection_box = (GUI90_WidgetSelectionBoxInitType){.x=x, .y=y, .width=width, .height=height};
+        selection_box = GUI90_WidgetSelectionBoxInit(selection_box);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription[local_theme_index];
