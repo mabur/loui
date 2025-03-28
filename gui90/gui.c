@@ -213,16 +213,11 @@ const GUI90_Color* GUI90_GetPixelData() {
     return s_gui.pixels;
 }
 
-GUI90_Widget GUI90_WidgetBackground() {
+void GUI90_WidgetBackground() {
     auto pixel_count = s_gui.width * s_gui.height;
     for (int i = 0; i < pixel_count; ++i) {
         s_gui.pixels[i] = s_gui.theme.background; 
     }
-    return (GUI90_Widget){
-        .width = s_gui.width,
-        .height = s_gui.height,
-        .is_clicked = s_gui.left_mouse_button == BUTTON_RELEASED,
-    };
 }
 
 static Rectangle textRectangle(int x, int y, const char* text) {

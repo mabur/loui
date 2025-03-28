@@ -10,14 +10,6 @@
 extern "C" {
 #endif
 
-typedef struct GUI90_Widget {
-    int width;
-    int height;
-    bool is_clicked;
-    bool is_increased;
-    bool is_decreased;
-} GUI90_Widget;
-
 typedef struct GUI90_WidgetLabelType {
     int x;
     int y;
@@ -110,7 +102,7 @@ void GUI90_SetKeyboardState(
 void GUI90_SetTheme(GUI90_Theme theme);
 const GUI90_Color* GUI90_GetPixelData();
 
-GUI90_Widget GUI90_WidgetBackground();
+void GUI90_WidgetBackground();
 GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget);
 GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType widget);
 GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget);
