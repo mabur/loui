@@ -71,7 +71,8 @@ int main() {
         GUI90_WidgetBackground();
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        auto label = GUI90_WidgetLabel(x, y, "Label");
+        static auto label = (GUI90_WidgetLabelType){.x=x, .y=y, .text="Label"};
+        label = GUI90_WidgetLabel(label);
         y += label.height;
         y += GUI90_BLOCK;
         auto open_button = GUI90_WidgetButton(x, y, "Open ");

@@ -234,14 +234,13 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text) {
-    drawString(text, x, y, s_gui.theme.text);
-    auto rectangle = textRectangle(x, y, text);
-    return (GUI90_Widget){
-        .width = rectangle.width,
-        .height = rectangle.height,
-        .is_clicked = isLeftMouseButtonReleasedInside(rectangle), 
-    };
+GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget) {
+    drawString(widget.text, widget.x, widget.y, s_gui.theme.text);
+    auto rectangle = textRectangle(widget.x, widget.y, widget.text);
+    widget.width = rectangle.width;
+    widget.height = rectangle.height;
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
 GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme) {
@@ -392,9 +391,12 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
         }
     }
     auto left_rectangle = (Rectangle){x, y, 16 + BUTTON_TEXT_PADDING, 16};
-    auto label_result = GUI90_WidgetLabel(
-        x + 16 + BUTTON_TEXT_PADDING, y + BUTTON_TEXT_PADDING, text
-    );
+    auto label = (GUI90_WidgetLabelType){
+        .x=x + 16 + BUTTON_TEXT_PADDING,
+        .y=y + BUTTON_TEXT_PADDING,
+        .text=text
+    };
+    auto label_result = GUI90_WidgetLabel(label);
     return (GUI90_Widget){
         .width = label_result.width + 16 + 8,
         .height = 16,
@@ -404,7 +406,12 @@ GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_sel
 
 GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
     auto offset = 0;
-    auto label_widget = GUI90_WidgetLabel(x + offset, y + BUTTON_TEXT_PADDING, text);
+    auto label = (GUI90_WidgetLabelType){
+        .x=x + offset,
+        .y=y + BUTTON_TEXT_PADDING,
+        .text=text
+    };
+    auto label_widget = GUI90_WidgetLabel(label);
     offset += label_widget.width;
     auto decrease_button = GUI90_WidgetButton(x + offset, y, "-");
     offset += decrease_button.width;
@@ -431,7 +438,12 @@ GUI90_Widget GUI90_WidgetSelectionBoxItem(const char* text, bool is_selected) {
     auto local_theme = s_gui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     GUI90_SetTheme(local_theme);
-    auto label = GUI90_WidgetLabel(s_gui.current_x, s_gui.current_y, text);
+    auto label = (GUI90_WidgetLabelType){
+        .x=s_gui.current_x,
+        .y=s_gui.current_y,
+        .text=text
+    };
+    label = GUI90_WidgetLabel(label);
     s_gui.current_y += label.height;
     GUI90_SetTheme(global_theme);
     return (GUI90_Widget){

@@ -10,7 +10,6 @@
 extern "C" {
 #endif
 
-
 typedef struct GUI90_Widget {
     int width;
     int height;
@@ -18,6 +17,15 @@ typedef struct GUI90_Widget {
     bool is_increased;
     bool is_decreased;
 } GUI90_Widget;
+
+typedef struct GUI90_WidgetLabelType {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+    const char* text;
+} GUI90_WidgetLabelType;
 
 typedef struct GUI90_WidgetText {
     int x;
@@ -44,7 +52,7 @@ void GUI90_SetTheme(GUI90_Theme theme);
 const GUI90_Color* GUI90_GetPixelData();
 
 GUI90_Widget GUI90_WidgetBackground();
-GUI90_Widget GUI90_WidgetLabel(int x, int y, const char* text);
+GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget);
 GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme);
 GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text);
 GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected);
