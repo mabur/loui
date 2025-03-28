@@ -243,14 +243,13 @@ GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget) {
     return widget;
 }
 
-GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme) {
-    drawSpecialString(text, x, y, theme);
-    auto rectangle = textRectangle(x, y, text);
-    return (GUI90_Widget){
-        .width = rectangle.width,
-        .height = rectangle.height,
-        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
-    };
+GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType widget) {
+    drawSpecialString(widget.text, widget.x, widget.y, widget.theme);
+    auto rectangle = textRectangle(widget.x, widget.y, widget.text);
+    widget.width = rectangle.width;
+    widget.height = rectangle.height;
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
 GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {

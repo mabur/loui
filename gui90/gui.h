@@ -27,6 +27,16 @@ typedef struct GUI90_WidgetLabelType {
     const char* text;
 } GUI90_WidgetLabelType;
 
+typedef struct GUI90_WidgetHeaderLabelType {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+    const char* text;
+    GUI90_HeaderLabelTheme theme;
+} GUI90_WidgetHeaderLabelType;
+
 typedef struct GUI90_WidgetText {
     int x;
     int y;
@@ -53,7 +63,7 @@ const GUI90_Color* GUI90_GetPixelData();
 
 GUI90_Widget GUI90_WidgetBackground();
 GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget);
-GUI90_Widget GUI90_WidgetHeaderLabel(int x, int y, const char* text, GUI90_HeaderLabelTheme theme);
+GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType widget);
 GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text);
 GUI90_Widget GUI90_WidgetRadioButton(int x, int y, const char* text, bool is_selected);
 GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text);

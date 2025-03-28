@@ -147,7 +147,8 @@ int main() {
             .draw_down = true,
             .draw_down_right = true,
         };
-        auto header = GUI90_WidgetHeaderLabel(x, y, "Header LABEL", header_theme);
+        auto header = (GUI90_WidgetHeaderLabelType){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
+        header = GUI90_WidgetHeaderLabel(header);
 
         y += header.height + GUI90_BLOCK;
         static auto input0 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 0"};
