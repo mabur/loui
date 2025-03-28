@@ -25,8 +25,6 @@ typedef struct GUI90_WidgetText {
     int width;
     int height;
     bool is_clicked;
-    bool is_increased;
-    bool is_decreased;
     char text[16];
     int cursor;
 } GUI90_WidgetText;
