@@ -71,16 +71,16 @@ int main() {
         GUI90_WidgetBackground();
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        static auto label = (GUI90_WidgetLabelType){.x=x, .y=y, .text="Label"};
+        static auto label = (GUI90_Label){.x=x, .y=y, .text="Label"};
         label = GUI90_WidgetLabel(label);
         y += label.height;
         y += GUI90_BLOCK;
-        auto open_button = (GUI90_WidgetButtonType){.x=x, .y=y, .text="Open "};
+        auto open_button = (GUI90_Button){.x=x, .y=y, .text="Open "};
         open_button = GUI90_WidgetButton(open_button);
         if (open_button.is_clicked) {
         }
         y += open_button.height;
-        auto close_button = (GUI90_WidgetButtonType){.x=x, .y=y, .text="Close"};
+        auto close_button = (GUI90_Button){.x=x, .y=y, .text="Close"};
         close_button = GUI90_WidgetButton(close_button);
         if (close_button.is_clicked) {
         }
@@ -89,7 +89,7 @@ int main() {
         static int setting = 0;
         char setting_text[64];
         sprintf(setting_text, "Setting: %d ", setting);
-        auto stepper = (GUI90_WidgetStepperType){.x=x, .y=y, .text=setting_text};
+        auto stepper = (GUI90_Stepper){.x=x, .y=y, .text=setting_text};
         stepper = GUI90_WidgetStepper(stepper);
         if (stepper.is_decreased and setting > 0) {
             setting--;
@@ -102,12 +102,12 @@ int main() {
 
         auto width = 13 * GUI90_BLOCK;
         auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
-        auto selection_box = (GUI90_WidgetSelectionBoxInitType){.x=x, .y=y, .width=width, .height=height};
+        auto selection_box = (GUI90_SelectionBoxInit){.x=x, .y=y, .width=width, .height=height};
         selection_box = GUI90_WidgetSelectionBoxInit(selection_box);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription[local_theme_index];
-            auto item = (GUI90_WidgetSelectionBoxItemType){
+            auto item = (GUI90_SelectionBoxItem){
                 .text=theme_description, .is_selected=theme_index == local_theme_index
             };
             item = GUI90_WidgetSelectionBoxItem(item);
@@ -117,7 +117,7 @@ int main() {
         }
         y += selection_box.height;
         y += GUI90_BLOCK;
-        auto radio_button_a = (GUI90_WidgetRadioButtonType){
+        auto radio_button_a = (GUI90_RadioButton){
             .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
         };
         radio_button_a = GUI90_WidgetRadioButton(radio_button_a);
@@ -125,7 +125,7 @@ int main() {
             button_type = BUTTON_TYPE_BEVEL;
         }
         y += radio_button_a.height;
-        auto radio_button_b = (GUI90_WidgetRadioButtonType) {
+        auto radio_button_b = (GUI90_RadioButton) {
             .x=x, .y=y, .text="Cloud Buttons", .is_selected=button_type == BUTTON_TYPE_CLOUD
         };
         radio_button_b = GUI90_WidgetRadioButton(radio_button_b);
@@ -160,14 +160,14 @@ int main() {
             .draw_down = true,
             .draw_down_right = true,
         };
-        auto header = (GUI90_WidgetHeaderLabelType){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
+        auto header = (GUI90_HeaderLabel){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
         header = GUI90_WidgetHeaderLabel(header);
 
         y += header.height + GUI90_BLOCK;
-        static auto input0 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 0"};
+        static auto input0 = (GUI90_TextInput){.x=x, .y=y, .text="Input 0"};
         input0 = GUI90_WidgetTextInput(input0);
         y += input0.height;
-        static auto input1 = (GUI90_WidgetText){.x=x, .y=y, .text="Input 1"};
+        static auto input1 = (GUI90_TextInput){.x=x, .y=y, .text="Input 1"};
         input1 = GUI90_WidgetTextInput(input1);
         
         sdl.draw(GUI90_GetPixelData());

@@ -229,7 +229,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget) {
+GUI90_Label GUI90_WidgetLabel(GUI90_Label widget) {
     drawString(widget.text, widget.x, widget.y, s_gui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -238,7 +238,7 @@ GUI90_WidgetLabelType GUI90_WidgetLabel(GUI90_WidgetLabelType widget) {
     return widget;
 }
 
-GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType widget) {
+GUI90_HeaderLabel GUI90_WidgetHeaderLabel(GUI90_HeaderLabel widget) {
     drawSpecialString(widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -247,7 +247,7 @@ GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType 
     return widget;
 }
 
-GUI90_WidgetButtonType GUI90_WidgetButtonBevel(GUI90_WidgetButtonType widget) {
+GUI90_Button GUI90_WidgetButtonBevel(GUI90_Button widget) {
     auto x = widget.x;
     auto y = widget.y;
     x += 1;
@@ -296,7 +296,7 @@ GUI90_WidgetButtonType GUI90_WidgetButtonBevel(GUI90_WidgetButtonType widget) {
     return widget;
 }
 
-GUI90_WidgetButtonType GUI90_WidgetButtonCloud(GUI90_WidgetButtonType widget) {
+GUI90_Button GUI90_WidgetButtonCloud(GUI90_Button widget) {
     auto x = widget.x;
     auto y = widget.y;
     x += 1;
@@ -357,7 +357,7 @@ GUI90_WidgetButtonType GUI90_WidgetButtonCloud(GUI90_WidgetButtonType widget) {
     return widget;
 }
 
-GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget) {
+GUI90_Button GUI90_WidgetButton(GUI90_Button widget) {
     switch (s_gui.theme.button_type) {
         case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(widget);
         case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(widget);
@@ -365,7 +365,7 @@ GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget) {
     }
 }
 
-GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType widget) {
+GUI90_RadioButton GUI90_WidgetRadioButton(GUI90_RadioButton widget) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
@@ -388,7 +388,7 @@ GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType 
         }
     }
     auto left_rectangle = (Rectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
-    auto label = (GUI90_WidgetLabelType){
+    auto label = (GUI90_Label){
         .x=widget.x + 16 + BUTTON_TEXT_PADDING,
         .y=widget.y + BUTTON_TEXT_PADDING,
         .text=widget.text
@@ -400,21 +400,21 @@ GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType 
     return widget;
 }
 
-GUI90_WidgetStepperType GUI90_WidgetStepper(GUI90_WidgetStepperType widget) {
+GUI90_Stepper GUI90_WidgetStepper(GUI90_Stepper widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto offset = 0;
-    auto label = (GUI90_WidgetLabelType){
+    auto label = (GUI90_Label){
         .x=x + offset,
         .y=y + BUTTON_TEXT_PADDING,
         .text=widget.text
     };
     auto label_widget = GUI90_WidgetLabel(label);
     offset += label_widget.width;
-    auto decrease_button = (GUI90_WidgetButtonType){.x=x + offset, .y=y, .text="-"};
+    auto decrease_button = (GUI90_Button){.x=x + offset, .y=y, .text="-"};
     decrease_button = GUI90_WidgetButton(decrease_button);
     offset += decrease_button.width;
-    auto increase_button = (GUI90_WidgetButtonType){.x=x + offset, .y=y, .text="+"};
+    auto increase_button = (GUI90_Button){.x=x + offset, .y=y, .text="+"};
     increase_button = GUI90_WidgetButton(increase_button);
     offset += increase_button.width;
 
@@ -426,19 +426,19 @@ GUI90_WidgetStepperType GUI90_WidgetStepper(GUI90_WidgetStepperType widget) {
     return widget;
 }
 
-GUI90_WidgetSelectionBoxInitType GUI90_WidgetSelectionBoxInit(GUI90_WidgetSelectionBoxInitType widget) {
+GUI90_SelectionBoxInit GUI90_WidgetSelectionBoxInit(GUI90_SelectionBoxInit widget) {
     s_gui.current_x = widget.x + TEXT_SIZE;
     s_gui.current_y = widget.y + TEXT_SIZE;
     drawRecess(widget.x, widget.y, widget.width, widget.height);
     return widget;
 }
 
-GUI90_WidgetSelectionBoxItemType GUI90_WidgetSelectionBoxItem(GUI90_WidgetSelectionBoxItemType widget) {
+GUI90_SelectionBoxItem GUI90_WidgetSelectionBoxItem(GUI90_SelectionBoxItem widget) {
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     GUI90_SetTheme(local_theme);
-    auto label = (GUI90_WidgetLabelType){
+    auto label = (GUI90_Label){
         .x=s_gui.current_x,
         .y=s_gui.current_y,
         .text=widget.text
@@ -452,14 +452,14 @@ GUI90_WidgetSelectionBoxItemType GUI90_WidgetSelectionBoxItem(GUI90_WidgetSelect
     return widget;
 }
 
-static GUI90_WidgetText decrementCursor(GUI90_WidgetText widget) {
+static GUI90_TextInput decrementCursor(GUI90_TextInput widget) {
     if (widget.cursor > 0) {
         widget.cursor--;
     }
     return widget;
 }
 
-static GUI90_WidgetText incrementCursor(GUI90_WidgetText widget) {
+static GUI90_TextInput incrementCursor(GUI90_TextInput widget) {
     if (widget.cursor < strlen(widget.text)) {
         widget.cursor++;
     }
@@ -486,7 +486,7 @@ static void insertCharacter(char* string, size_t index, char c) {
 }
 
 
-GUI90_WidgetText GUI90_WidgetTextInput(GUI90_WidgetText widget) {
+GUI90_TextInput GUI90_WidgetTextInput(GUI90_TextInput widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
     if (is_selected) {
