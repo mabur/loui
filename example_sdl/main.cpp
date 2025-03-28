@@ -89,7 +89,8 @@ int main() {
         static int setting = 0;
         char setting_text[64];
         sprintf(setting_text, "Setting: %d ", setting);
-        auto stepper = GUI90_WidgetStepper(x, y, setting_text);
+        auto stepper = (GUI90_WidgetStepperType){.x=x, .y=y, .text=setting_text};
+        stepper = GUI90_WidgetStepper(stepper);
         if (stepper.is_decreased and setting > 0) {
             setting--;
         }

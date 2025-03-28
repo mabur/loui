@@ -405,12 +405,14 @@ GUI90_WidgetRadioButtonType GUI90_WidgetRadioButton(GUI90_WidgetRadioButtonType 
     return widget;
 }
 
-GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
+GUI90_WidgetStepperType GUI90_WidgetStepper(GUI90_WidgetStepperType widget) {
+    auto x = widget.x;
+    auto y = widget.y;
     auto offset = 0;
     auto label = (GUI90_WidgetLabelType){
         .x=x + offset,
         .y=y + BUTTON_TEXT_PADDING,
-        .text=text
+        .text=widget.text
     };
     auto label_widget = GUI90_WidgetLabel(label);
     offset += label_widget.width;
@@ -420,13 +422,13 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
     auto increase_button = (GUI90_WidgetButtonType){.x=x + offset, .y=y, .text="+"};
     increase_button = GUI90_WidgetButton(increase_button);
     offset += increase_button.width;
-    return (GUI90_Widget){
-        .width = offset,
-        .height = increase_button.height,
-        .is_clicked = increase_button.is_clicked || decrease_button.is_clicked,
-        .is_increased = increase_button.is_clicked,
-        .is_decreased = decrease_button.is_clicked,
-    };
+
+    widget.width = offset;
+    widget.height = increase_button.height;
+    widget.is_clicked = increase_button.is_clicked || decrease_button.is_clicked;
+    widget.is_increased = increase_button.is_clicked;
+    widget.is_decreased = decrease_button.is_clicked;
+    return widget;
 }
 
 GUI90_Widget GUI90_WidgetSelectionBoxInit(int x, int y, int width, int height) {
