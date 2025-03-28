@@ -252,13 +252,15 @@ GUI90_WidgetHeaderLabelType GUI90_WidgetHeaderLabel(GUI90_WidgetHeaderLabelType 
     return widget;
 }
 
-GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
+GUI90_WidgetButtonType GUI90_WidgetButtonBevel(GUI90_WidgetButtonType widget) {
+    auto x = widget.x;
+    auto y = widget.y;
     x += 1;
     y += 1;
     auto rectangle = (Rectangle){};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * (int)(strlen(text)) + 2 * BUTTON_TEXT_PADDING;
+    rectangle.width = 8 * (int)(strlen(widget.text)) + 2 * BUTTON_TEXT_PADDING;
     rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING;
     auto inner_rectangle = rectangle;
     inner_rectangle.x += 2;
@@ -291,21 +293,23 @@ GUI90_Widget GUI90_WidgetButtonBevel(int x, int y, const char* text) {
     drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
     drawLineVertical(x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
     drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
-    drawString(text, text_x, text_y, theme.text);
-    return (GUI90_Widget){
-        .width = rectangle.width + 2,
-        .height = rectangle.height + 2,
-        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
-    };
+    drawString(widget.text, text_x, text_y, theme.text);
+
+    widget.width = rectangle.width + 2;
+    widget.height = rectangle.height + 2;
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
-GUI90_Widget GUI90_WidgetButtonCloud(int x, int y, const char* text) {
+GUI90_WidgetButtonType GUI90_WidgetButtonCloud(GUI90_WidgetButtonType widget) {
+    auto x = widget.x;
+    auto y = widget.y;
     x += 1;
     y += 1;
     auto rectangle = (Rectangle){};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * (int)(strlen(text)) + 2 * BUTTON_TEXT_PADDING;
+    rectangle.width = 8 * (int)(strlen(widget.text)) + 2 * BUTTON_TEXT_PADDING;
     rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING - 1;
 
     if (isLeftMouseButtonDownInside(rectangle)) {
@@ -351,19 +355,18 @@ GUI90_Widget GUI90_WidgetButtonCloud(int x, int y, const char* text) {
     drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
     drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
     
-    drawString(text, text_x, text_y, theme.text);
-    return (GUI90_Widget){
-        .width = rectangle.width + 2,
-        .height = 2 * GUI90_BLOCK,
-        .is_clicked = isLeftMouseButtonReleasedInside(rectangle),
-    };
+    drawString(widget.text, text_x, text_y, theme.text);
+    widget.width = rectangle.width + 2;
+    widget.height = 2 * GUI90_BLOCK;
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
-GUI90_Widget GUI90_WidgetButton(int x, int y, const char* text) {
+GUI90_WidgetButtonType GUI90_WidgetButton(GUI90_WidgetButtonType widget) {
     switch (s_gui.theme.button_type) {
-        case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(x, y, text);
-        case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(x, y, text);
-        default: return GUI90_WidgetButtonBevel(x, y, text);
+        case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(widget);
+        case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(widget);
+        default: return GUI90_WidgetButtonBevel(widget);
     }
 }
 
@@ -412,9 +415,11 @@ GUI90_Widget GUI90_WidgetStepper(int x, int y, const char* text) {
     };
     auto label_widget = GUI90_WidgetLabel(label);
     offset += label_widget.width;
-    auto decrease_button = GUI90_WidgetButton(x + offset, y, "-");
+    auto decrease_button = (GUI90_WidgetButtonType){.x=x + offset, .y=y, .text="-"};
+    decrease_button = GUI90_WidgetButton(decrease_button);
     offset += decrease_button.width;
-    auto increase_button = GUI90_WidgetButton(x + offset, y, "+");
+    auto increase_button = (GUI90_WidgetButtonType){.x=x + offset, .y=y, .text="+"};
+    increase_button = GUI90_WidgetButton(increase_button);
     offset += increase_button.width;
     return (GUI90_Widget){
         .width = offset,

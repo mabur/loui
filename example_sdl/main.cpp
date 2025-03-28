@@ -75,11 +75,13 @@ int main() {
         label = GUI90_WidgetLabel(label);
         y += label.height;
         y += GUI90_BLOCK;
-        auto open_button = GUI90_WidgetButton(x, y, "Open ");
+        auto open_button = (GUI90_WidgetButtonType){.x=x, .y=y, .text="Open "};
+        open_button = GUI90_WidgetButton(open_button);
         if (open_button.is_clicked) {
         }
         y += open_button.height;
-        auto close_button = GUI90_WidgetButton(x, y, "Close");
+        auto close_button = (GUI90_WidgetButtonType){.x=x, .y=y, .text="Close"};
+        close_button = GUI90_WidgetButton(close_button);
         if (close_button.is_clicked) {
         }
         y += close_button.height;
