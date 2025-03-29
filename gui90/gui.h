@@ -15,8 +15,8 @@ typedef struct GUI90_Label {
     int y;
     int width;
     int height;
-    bool is_clicked;
     const char* text;
+    bool is_clicked;
 } GUI90_Label;
 
 typedef struct GUI90_HeaderLabel {
@@ -24,8 +24,8 @@ typedef struct GUI90_HeaderLabel {
     int y;
     int width;
     int height;
-    bool is_clicked;
     const char* text;
+    bool is_clicked;
     GUI90_HeaderLabelTheme theme;
 } GUI90_HeaderLabel;
 
@@ -42,8 +42,8 @@ typedef struct GUI90_Button {
     int y;
     int width;
     int height;
-    bool is_clicked;
     const char* text;
+    bool is_clicked;
 } GUI90_Button;
 
 typedef struct GUI90_RadioButton {
@@ -51,9 +51,9 @@ typedef struct GUI90_RadioButton {
     int y;
     int width;
     int height;
-    bool is_clicked;
     const char* text;
     bool is_selected;
+    bool is_clicked;
 } GUI90_RadioButton;
 
 typedef struct GUI90_TextInput {
@@ -61,9 +61,9 @@ typedef struct GUI90_TextInput {
     int y;
     int width;
     int height;
-    bool is_clicked;
     char text[16];
     int cursor;
+    bool is_clicked;
 } GUI90_TextInput;
 
 typedef struct GUI90_Stepper {
@@ -71,10 +71,10 @@ typedef struct GUI90_Stepper {
     int y;
     int width;
     int height;
+    const char* text;
     bool is_clicked;
     bool is_increased;
     bool is_decreased;
-    const char* text;
 } GUI90_Stepper;
 
 typedef struct GUI90_SelectionBoxInit {
@@ -90,9 +90,9 @@ typedef struct GUI90_SelectionBoxItem {
     int y;
     int width;
     int height;
-    bool is_clicked;
     const char* text;
     bool is_selected;
+    bool is_clicked;
 } GUI90_SelectionBoxItem;
 
 extern const int GUI90_BLOCK;
