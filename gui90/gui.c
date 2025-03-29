@@ -102,13 +102,19 @@ static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
     drawRectangle(r, color);
 }
 
-static void drawRecess(int x, int y, int width, int height) {
+static GUI90_SunkenFrame drawSunkenFrame(GUI90_SunkenFrame widget) {
+    auto x = widget.x;
+    auto y = widget.y;
+    auto width = widget.width;
+    auto height = widget.height;
     auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
     drawRectangle(rectangle, s_gui.theme.recess_background);
     drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
     drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
     drawLineVertical(x, y + 1, height - 2, s_gui.theme.recess_bevel_dark);
     drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
 static void drawCursor(size_t x_start, size_t y_start, GUI90_Color color) {
@@ -429,7 +435,8 @@ GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget) {
 GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widget) {
     s_gui.current_x = widget.x + TEXT_SIZE;
     s_gui.current_y = widget.y + TEXT_SIZE;
-    drawRecess(widget.x, widget.y, widget.width, widget.height);
+    auto frame = (GUI90_SunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
+    frame = drawSunkenFrame(frame);
     return widget;
 }
 
@@ -530,7 +537,9 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
         s_gui.active_text_input_widget_index = widget_index;
     }
 
-    drawRecess(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    auto frame = (GUI90_SunkenFrame){.x=rectangle.x, .y=rectangle.y, .width=rectangle.width, .height=rectangle.height};
+    frame = drawSunkenFrame(frame);
+    
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;

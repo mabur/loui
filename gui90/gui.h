@@ -29,6 +29,13 @@ typedef struct GUI90_HeaderLabel {
     GUI90_HeaderLabelTheme theme;
 } GUI90_HeaderLabel;
 
+typedef struct GUI90_SunkenFrame {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+} GUI90_SunkenFrame;
 
 typedef struct GUI90_Button {
     int x;
