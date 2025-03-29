@@ -71,7 +71,7 @@ int main() {
         GUI90_WidgetBackground();
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        static auto label = (GUI90_Label){.x=x, .y=y, .text="Label"};
+        auto label = (GUI90_Label){.x=x, .y=y, .text="Label"};
         GUI90_Update(label);
         y += label.height;
         y += GUI90_BLOCK;
