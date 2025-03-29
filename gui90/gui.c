@@ -518,33 +518,24 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
 
     auto x = widget.x;
     auto y = widget.y;
-    auto text = widget.text;
-    auto rectangle = (Rectangle){
-        .x = x,
-        .y = y,
-        .width = 8 * (16 - 1),
-        .height = 8,
-    };
+    auto width = 8 * (16 - 1) + GUI90_BLOCK;
+    auto height = 8 + GUI90_BLOCK;
+    widget.width = width;
+    widget.height = height;
 
-    rectangle.height += GUI90_BLOCK;
-    rectangle.width += GUI90_BLOCK;
+    auto frame = (GUI90_SunkenFrame){.x=x, .y=y, .width=width, .height=height};
+    frame = GUI90_UpdateSunkenFrame(frame);
 
-    widget.width = rectangle.width;
-    widget.height = rectangle.height;
-
-    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    widget.is_clicked = frame.is_clicked;
     if (widget.is_clicked) {
         s_gui.active_text_input_widget_index = widget_index;
     }
-
-    auto frame = (GUI90_SunkenFrame){.x=rectangle.x, .y=rectangle.y, .width=rectangle.width, .height=rectangle.height};
-    frame = GUI90_UpdateSunkenFrame(frame);
 
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     GUI90_SetTheme(local_theme);
-    drawString(text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
+    drawString(widget.text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
     if (is_selected) {
         auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
         auto cursor_y = y + GUI90_BLOCK / 2;
