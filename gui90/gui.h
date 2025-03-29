@@ -10,6 +10,19 @@
 extern "C" {
 #endif
 
+extern const int GUI90_BLOCK;
+
+typedef struct GUI90_Input {
+    int mouse_x;
+    int mouse_y;
+    bool is_left_mouse_button_down;
+    bool is_left_arrow_button_down;
+    bool is_right_arrow_button_down;
+    bool is_backspace_button_down;
+    bool is_delete_button_down;
+    char input_character;
+} GUI90_Input;
+
 typedef struct GUI90_Label {
     int x;
     int y;
@@ -94,19 +107,6 @@ typedef struct GUI90_SelectionBoxItem {
     bool is_selected;
     bool is_clicked;
 } GUI90_SelectionBoxItem;
-
-extern const int GUI90_BLOCK;
-
-typedef struct GUI90_Input {
-    int mouse_x;
-    int mouse_y;
-    bool is_left_mouse_button_down;
-    bool is_left_arrow_button_down;
-    bool is_right_arrow_button_down;
-    bool is_backspace_button_down;
-    bool is_delete_button_down;
-    char input_character;
-} GUI90_Input;
 
 void GUI90_Init(int width, int height);
 void GUI90_SetInput(GUI90_Input input);
