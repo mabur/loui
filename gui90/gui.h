@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 #define GUI90_BLOCK 8
+#define GUI90_MAX_SINGLE_LINE_TEXT_INPUT 16
 
 typedef struct GUI90_Input {
     int mouse_x;
@@ -76,7 +77,7 @@ typedef struct GUI90_TextInput {
     int y;
     int width;
     int height;
-    char text[16];
+    char text[GUI90_MAX_SINGLE_LINE_TEXT_INPUT];
     int cursor;
     bool is_clicked;
 } GUI90_TextInput;

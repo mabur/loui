@@ -480,7 +480,7 @@ static void deleteCharacter(char* string, size_t index) {
 
 static void insertCharacter(char* string, size_t index, char c) {
     size_t len = strlen(string);
-    size_t max_size = 16;
+    size_t max_size = GUI90_MAX_SINGLE_LINE_TEXT_INPUT;
     if (len + 1 >= max_size || index > len) {
         return;
     }
@@ -507,7 +507,7 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
         if (s_gui.right_arrow_button == BUTTON_CLICKED) {
             widget = incrementCursor(widget);
         }
-        if (s_gui.input_character && strlen(widget.text) < 16 - 1) {
+        if (s_gui.input_character && strlen(widget.text) < GUI90_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
             insertCharacter(widget.text, widget.cursor, s_gui.input_character);
             widget = incrementCursor(widget);
         }
@@ -522,7 +522,7 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
 
     auto x = widget.x;
     auto y = widget.y;
-    auto width = 8 * (16 - 1) + GUI90_BLOCK;
+    auto width = 8 * (GUI90_MAX_SINGLE_LINE_TEXT_INPUT - 1) + GUI90_BLOCK;
     auto height = 8 + GUI90_BLOCK;
     widget.width = width;
     widget.height = height;
