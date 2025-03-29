@@ -102,7 +102,7 @@ static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
     drawRectangle(r, color);
 }
 
-static GUI90_SunkenFrame drawSunkenFrame(GUI90_SunkenFrame widget) {
+GUI90_SunkenFrame GUI90_UpdateSunkenFrame(GUI90_SunkenFrame widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto width = widget.width;
@@ -436,7 +436,7 @@ GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widge
     s_gui.current_x = widget.x + TEXT_SIZE;
     s_gui.current_y = widget.y + TEXT_SIZE;
     auto frame = (GUI90_SunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
-    frame = drawSunkenFrame(frame);
+    frame = GUI90_UpdateSunkenFrame(frame);
     return widget;
 }
 
@@ -538,8 +538,8 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
     }
 
     auto frame = (GUI90_SunkenFrame){.x=rectangle.x, .y=rectangle.y, .width=rectangle.width, .height=rectangle.height};
-    frame = drawSunkenFrame(frame);
-    
+    frame = GUI90_UpdateSunkenFrame(frame);
+
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;

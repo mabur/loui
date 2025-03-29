@@ -116,6 +116,7 @@ GUI90_HeaderLabel GUI90_UpdateHeaderLabel(GUI90_HeaderLabel widget);
 GUI90_Button GUI90_UpdateButton(GUI90_Button widget);
 GUI90_RadioButton GUI90_UpdateRadioButton(GUI90_RadioButton widget);
 GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget);
+GUI90_SunkenFrame GUI90_UpdateSunkenFrame(GUI90_SunkenFrame widget);
 GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widget);
 GUI90_SelectionBoxItem GUI90_UpdateSelectionBoxItem(GUI90_SelectionBoxItem widget);
 GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget);
