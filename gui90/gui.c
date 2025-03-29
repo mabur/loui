@@ -190,25 +190,18 @@ void GUI90_Init(int width, int height) {
     s_gui.active_text_input_widget_index = -1;
 }
 
-void GUI90_SetMouseState(int x, int y, bool is_left_mouse_button_down) {
-    s_gui.mouse_x = x;
-    s_gui.mouse_y = y;
-    s_gui.left_mouse_button = updateButtonState(s_gui.left_mouse_button, is_left_mouse_button_down);
-    s_gui.text_input_widget_index_count = 0;
-}
+void GUI90_SetInput(GUI90_Input input) {
+    s_gui.mouse_x = input.mouse_x;
+    s_gui.mouse_y = input.mouse_y;
+    s_gui.left_mouse_button = updateButtonState(s_gui.left_mouse_button, input.is_left_mouse_button_down);
 
-void GUI90_SetKeyboardState(
-    bool is_left_arrow_button_down,
-    bool is_right_arrow_button_down,
-    bool is_backspace_button_down,
-    bool is_delete_button_down,
-    char input_character
-) {
-    s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, is_left_arrow_button_down);
-    s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, is_right_arrow_button_down);
-    s_gui.backspace_button = updateButtonState(s_gui.backspace_button, is_backspace_button_down);
-    s_gui.delete_button = updateButtonState(s_gui.delete_button, is_delete_button_down);
-    s_gui.input_character = input_character;
+    s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, input.is_left_arrow_button_down);
+    s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, input.is_right_arrow_button_down);
+    s_gui.backspace_button = updateButtonState(s_gui.backspace_button, input.is_backspace_button_down);
+    s_gui.delete_button = updateButtonState(s_gui.delete_button, input.is_delete_button_down);
+    s_gui.input_character = input.input_character;
+
+    s_gui.text_input_widget_index_count = 0;
 }
 
 void GUI90_SetTheme(GUI90_Theme theme) {

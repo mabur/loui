@@ -53,14 +53,17 @@ int main() {
         if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
-        GUI90_SetMouseState(input.mouse_x, input.mouse_y, input.isLeftMouseButtonDown());
-        GUI90_SetKeyboardState(
-            input.keyboard[SDL_SCANCODE_LEFT],
-            input.keyboard[SDL_SCANCODE_RIGHT],
-            input.keyboard[SDL_SCANCODE_BACKSPACE],
-            input.keyboard[SDL_SCANCODE_DELETE],
-            input_character
-        );
+        auto gui90_input = (GUI90_Input){
+            .mouse_x=input.mouse_x,
+            .mouse_y=input.mouse_y,
+            .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
+            .is_left_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_LEFT],
+            .is_right_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
+            .is_backspace_button_down=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
+            .is_delete_button_down=(bool)input.keyboard[SDL_SCANCODE_DELETE],
+            .input_character=input_character
+        };
+        GUI90_SetInput(gui90_input);
         
         static auto theme_index = YELLOW_THEME_INDEX;
         static auto button_type = BUTTON_TYPE_BEVEL;
