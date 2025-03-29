@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-extern const int GUI90_BLOCK;
+#define GUI90_BLOCK 8
 
 typedef struct GUI90_Input {
     int mouse_x;

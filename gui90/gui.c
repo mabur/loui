@@ -549,8 +549,3 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
 
     return widget;
 }
-
-// -----------------------------------------------------------------------------
-// PUBLIC CONSTANTS
-
-const int GUI90_BLOCK = 8;
