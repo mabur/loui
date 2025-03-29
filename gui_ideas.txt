@@ -10,22 +10,12 @@ INPSIRATION
   - Paint 90, grid3d
 * Make it easy to have buttons with different nice colors.
 
-WIDGETS
-* Existing
-  - Background
-  - Label
-  - Header label
-  - Button
-  - Radio buttom
-  - Stepper
-  - Selection box
-* Missing
-  - Checkbox
-  - Slider
-  - Scrollbars
-  - Windows / Modals
-  - Single line text input
-  - Multi line text input
+MISSING WIDGETS
+- Checkbox
+- Multi line text input
+- Slider
+- Scrollbars
+- Windows / Modals
 
 WINDOWS APPROACH
 * Have a discrete depth buffer.
@@ -36,6 +26,12 @@ WINDOWS APPROACH
 * Clip outside of resulting active window region in depth buffer.
 * Allow cutting out sub-windows, like scrollable areas.
 
-IMPLEMENTATION
-* Implement all widgets functions as generic GUI90_Update(struct) -> struct, that takes the input state and returns the output state.
-  - Currently the update functions return a GUI90_Widget, which works ok for simple widgets, but maybe not for more advanced composed widgets like a multiline text input, with scrollbars
+NAMING
+* GUI90_Widget is hard to type
+* Don't mix capital letters and numbers.
+* gui, pixel art, low rez, lofi, gfx
+  - pui, pixel user interface
+  - pixui, pixel user interface
+  - pixui_input
+  - PIXUI_Input
+  - PIXUI_Input
