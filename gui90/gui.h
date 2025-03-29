@@ -20,6 +20,8 @@ typedef struct GUI90_Input {
     bool is_right_arrow_button_down;
     bool is_backspace_button_down;
     bool is_delete_button_down;
+    bool is_home_button_down;
+    bool is_end_button_down;
     char input_character;
 } GUI90_Input;
 

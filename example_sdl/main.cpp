@@ -61,6 +61,8 @@ int main() {
             .is_right_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
             .is_backspace_button_down=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
             .is_delete_button_down=(bool)input.keyboard[SDL_SCANCODE_DELETE],
+            .is_home_button_down=(bool)input.keyboard[SDL_SCANCODE_HOME],
+            .is_end_button_down=(bool)input.keyboard[SDL_SCANCODE_END],
             .input_character=input_character
         };
         GUI90_SetInput(gui90_input);
