@@ -35,3 +35,6 @@ NAMING
   - pixui_input
   - PIXUI_Input
   - PIXUI_Input
+  - loui, low resolution user interface
+  - LOUI_Input
+  
