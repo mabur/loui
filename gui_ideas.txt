@@ -37,4 +37,12 @@ NAMING
   - PIXUI_Input
   - loui, low resolution user interface
   - LOUI_Input
-  
+
+LouiButton
+LouiStepper
+LouiRadioButton
+
+loui_update
+loui_init
+loui_set_input
+loui_set_theme
