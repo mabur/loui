@@ -35,7 +35,7 @@ int main() {
     auto HEIGHT = 200;
     
     auto sdl = Sdl(WINDOW_TITLE, WIDTH, HEIGHT);
-    GUI90_Init(WIDTH, HEIGHT);
+    loui_init(WIDTH, HEIGHT);
     sdl.setMouseModeAbsolute();
     
     for (;;) {
@@ -53,7 +53,7 @@ int main() {
         if (input.escape_button == BUTTON_CLICKED) {
             break;
         }
-        auto gui90_input = (GUI90_Input){
+        auto gui90_input = (LouiInput){
             .mouse_x=input.mouse_x,
             .mouse_y=input.mouse_y,
             .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
@@ -65,28 +65,28 @@ int main() {
             .is_end_button_down=(bool)input.keyboard[SDL_SCANCODE_END],
             .input_character=input_character
         };
-        GUI90_SetInput(gui90_input);
+        loui_set_input(gui90_input);
         
         static auto theme_index = YELLOW_THEME_INDEX;
         static auto button_type = BUTTON_TYPE_BEVEL;
         auto theme = themeSettings[theme_index];
         theme.button_type = button_type;
-        GUI90_SetTheme(theme);
+        loui_set_theme(theme);
         
-        GUI90_WidgetBackground();
+        loui_widget_background();
         auto x = 2 * GUI90_BLOCK;
         auto y = 2 * GUI90_BLOCK;
-        auto label = (GUI90_Label){.x=x, .y=y, .text="Label"};
-        GUI90_Update(label);
+        auto label = (LouiLabel){.x=x, .y=y, .text="Label"};
+        loui_update(label);
         y += label.height;
         y += GUI90_BLOCK;
-        auto open_button = (GUI90_Button){.x=x, .y=y, .text="Open "};
-        GUI90_Update(open_button);
+        auto open_button = (LouiButton){.x=x, .y=y, .text="Open "};
+        loui_update(open_button);
         if (open_button.is_clicked) {
         }
         y += open_button.height;
-        auto close_button = (GUI90_Button){.x=x, .y=y, .text="Close"};
-        GUI90_Update(close_button);
+        auto close_button = (LouiButton){.x=x, .y=y, .text="Close"};
+        loui_update(close_button);
         if (close_button.is_clicked) {
         }
         y += close_button.height;
@@ -94,8 +94,8 @@ int main() {
         static int setting = 0;
         char setting_text[64];
         sprintf(setting_text, "Setting: %d ", setting);
-        auto stepper = (GUI90_Stepper){.x=x, .y=y, .text=setting_text};
-        GUI90_Update(stepper);
+        auto stepper = (LouiStepper){.x=x, .y=y, .text=setting_text};
+        loui_update(stepper);
         if (stepper.is_decreased and setting > 0) {
             setting--;
         }
@@ -107,33 +107,33 @@ int main() {
 
         auto width = 13 * GUI90_BLOCK;
         auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
-        auto selection_box = (GUI90_SelectionBoxInit){.x=x, .y=y, .width=width, .height=height};
-        GUI90_Update(selection_box);
+        auto selection_box = (LouiSelectionBoxInit){.x=x, .y=y, .width=width, .height=height};
+        loui_update(selection_box);
         for (auto i = 0; i < THEME_COUNT; ++i) {
             auto local_theme_index = (GuiThemeIndex)i;
             auto theme_description = themeDescription[local_theme_index];
-            auto item = (GUI90_SelectionBoxItem){
+            auto item = (LouiSelectionBoxItem){
                 .text=theme_description, .is_selected=theme_index == local_theme_index
             };
-            GUI90_Update(item);
+            loui_update(item);
             if (item.is_clicked) {
                 theme_index = local_theme_index;
             }
         }
         y += selection_box.height;
         y += GUI90_BLOCK;
-        auto radio_button_a = (GUI90_RadioButton){
+        auto radio_button_a = (LouiRadioButton){
             .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
         };
-        GUI90_Update(radio_button_a);
+        loui_update(radio_button_a);
         if (radio_button_a.is_clicked) {
             button_type = BUTTON_TYPE_BEVEL;
         }
         y += radio_button_a.height;
-        auto radio_button_b = (GUI90_RadioButton) {
+        auto radio_button_b = (LouiRadioButton) {
             .x=x, .y=y, .text="Cloud Buttons", .is_selected=button_type == BUTTON_TYPE_CLOUD
         };
-        GUI90_Update(radio_button_b);
+        loui_update(radio_button_b);
         if (radio_button_b.is_clicked) {
             button_type = BUTTON_TYPE_CLOUD;
         }
@@ -165,17 +165,17 @@ int main() {
             .draw_down = true,
             .draw_down_right = true,
         };
-        auto header = (GUI90_HeaderLabel){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
-        GUI90_Update(header);
+        auto header = (LouiHeaderLabel){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
+        loui_update(header);
 
         y += header.height + GUI90_BLOCK;
-        static auto input0 = (GUI90_TextInput){.x=x, .y=y, .text="Input 0"};
-        GUI90_Update(input0);
+        static auto input0 = (LouiTextInput){.x=x, .y=y, .text="Input 0"};
+        loui_update(input0);
         y += input0.height;
-        static auto input1 = (GUI90_TextInput){.x=x, .y=y, .text="Input 1"};
-        GUI90_Update(input1);
+        static auto input1 = (LouiTextInput){.x=x, .y=y, .text="Input 1"};
+        loui_update(input1);
         
-        sdl.draw(GUI90_GetPixelData());
+        sdl.draw(loui_get_pixel_data());
     }
     return 0;
 }

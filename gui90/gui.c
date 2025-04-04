@@ -104,7 +104,7 @@ static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
     drawRectangle(r, color);
 }
 
-GUI90_SunkenFrame GUI90_UpdateSunkenFrame(GUI90_SunkenFrame widget) {
+LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto width = widget.width;
@@ -180,7 +180,7 @@ static void drawSpecialString(const char* s, int x, int y, GUI90_HeaderLabelThem
 // -----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS
 
-void GUI90_Init(int width, int height) {
+void loui_init(int width, int height) {
     if (s_gui.pixels != NULL) {
         free(s_gui.pixels);
     }
@@ -192,7 +192,7 @@ void GUI90_Init(int width, int height) {
     s_gui.active_text_input_widget_index = -1;
 }
 
-void GUI90_SetInput(GUI90_Input input) {
+void loui_set_input(LouiInput input) {
     // Mouse:
     s_gui.mouse_x = input.mouse_x;
     s_gui.mouse_y = input.mouse_y;
@@ -209,15 +209,15 @@ void GUI90_SetInput(GUI90_Input input) {
     s_gui.text_input_widget_index_count = 0;
 }
 
-void GUI90_SetTheme(GUI90_Theme theme) {
+void loui_set_theme(GUI90_Theme theme) {
     s_gui.theme = theme;
 }
 
-const GUI90_Color* GUI90_GetPixelData() {
+const GUI90_Color* loui_get_pixel_data() {
     return s_gui.pixels;
 }
 
-void GUI90_WidgetBackground() {
+void loui_widget_background() {
     auto pixel_count = s_gui.width * s_gui.height;
     for (int i = 0; i < pixel_count; ++i) {
         s_gui.pixels[i] = s_gui.theme.background; 
@@ -233,7 +233,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
     };
 }
 
-GUI90_Label GUI90_UpdateLabel(GUI90_Label widget) {
+LouiLabel loui_update_label(LouiLabel widget) {
     drawString(widget.text, widget.x, widget.y, s_gui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -242,7 +242,7 @@ GUI90_Label GUI90_UpdateLabel(GUI90_Label widget) {
     return widget;
 }
 
-GUI90_HeaderLabel GUI90_UpdateHeaderLabel(GUI90_HeaderLabel widget) {
+LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget) {
     drawSpecialString(widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
@@ -251,7 +251,7 @@ GUI90_HeaderLabel GUI90_UpdateHeaderLabel(GUI90_HeaderLabel widget) {
     return widget;
 }
 
-GUI90_Button GUI90_WidgetButtonBevel(GUI90_Button widget) {
+LouiButton loui_update_button_bevel(LouiButton widget) {
     auto x = widget.x;
     auto y = widget.y;
     x += 1;
@@ -300,7 +300,7 @@ GUI90_Button GUI90_WidgetButtonBevel(GUI90_Button widget) {
     return widget;
 }
 
-GUI90_Button GUI90_WidgetButtonCloud(GUI90_Button widget) {
+LouiButton loui_update_button_cloud(LouiButton widget) {
     auto x = widget.x;
     auto y = widget.y;
     x += 1;
@@ -361,15 +361,15 @@ GUI90_Button GUI90_WidgetButtonCloud(GUI90_Button widget) {
     return widget;
 }
 
-GUI90_Button GUI90_UpdateButton(GUI90_Button widget) {
+LouiButton loui_update_button(LouiButton widget) {
     switch (s_gui.theme.button_type) {
-        case BUTTON_TYPE_BEVEL: return GUI90_WidgetButtonBevel(widget);
-        case BUTTON_TYPE_CLOUD: return GUI90_WidgetButtonCloud(widget);
-        default: return GUI90_WidgetButtonBevel(widget);
+        case BUTTON_TYPE_BEVEL: return loui_update_button_bevel(widget);
+        case BUTTON_TYPE_CLOUD: return loui_update_button_cloud(widget);
+        default: return loui_update_button_bevel(widget);
     }
 }
 
-GUI90_RadioButton GUI90_UpdateRadioButton(GUI90_RadioButton widget) {
+LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {
     for (int yi = 0; yi < 16; ++yi) {
         for (int xi = 0; xi < 16; ++xi) {
             double dx = xi - 7.5;
@@ -392,34 +392,34 @@ GUI90_RadioButton GUI90_UpdateRadioButton(GUI90_RadioButton widget) {
         }
     }
     auto left_rectangle = (Rectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
-    auto label = (GUI90_Label){
+    auto label = (LouiLabel){
         .x=widget.x + 16 + BUTTON_TEXT_PADDING,
         .y=widget.y + BUTTON_TEXT_PADDING,
         .text=widget.text
     };
-    auto label_result = GUI90_UpdateLabel(label);
+    auto label_result = loui_update_label(label);
     widget.width = label_result.width + 16 + 8;
     widget.height = 16;
     widget.is_clicked = label_result.is_clicked || isLeftMouseButtonReleasedInside(left_rectangle);
     return widget;
 }
 
-GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget) {
+LouiStepper loui_update_stepper(LouiStepper widget) {
     auto x = widget.x;
     auto y = widget.y;
     auto offset = 0;
-    auto label = (GUI90_Label){
+    auto label = (LouiLabel){
         .x=x + offset,
         .y=y + BUTTON_TEXT_PADDING,
         .text=widget.text
     };
-    auto label_widget = GUI90_UpdateLabel(label);
+    auto label_widget = loui_update_label(label);
     offset += label_widget.width;
-    auto decrease_button = (GUI90_Button){.x=x + offset, .y=y, .text="-"};
-    decrease_button = GUI90_UpdateButton(decrease_button);
+    auto decrease_button = (LouiButton){.x=x + offset, .y=y, .text="-"};
+    decrease_button = loui_update_button(decrease_button);
     offset += decrease_button.width;
-    auto increase_button = (GUI90_Button){.x=x + offset, .y=y, .text="+"};
-    increase_button = GUI90_UpdateButton(increase_button);
+    auto increase_button = (LouiButton){.x=x + offset, .y=y, .text="+"};
+    increase_button = loui_update_button(increase_button);
     offset += increase_button.width;
 
     widget.width = offset;
@@ -430,41 +430,41 @@ GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget) {
     return widget;
 }
 
-GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widget) {
+LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget) {
     s_gui.current_x = widget.x + TEXT_SIZE;
     s_gui.current_y = widget.y + TEXT_SIZE;
-    auto frame = (GUI90_SunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
-    frame = GUI90_UpdateSunkenFrame(frame);
+    auto frame = (LouiSunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
+    frame = loui_update_sunken_frame(frame);
     return widget;
 }
 
-GUI90_SelectionBoxItem GUI90_UpdateSelectionBoxItem(GUI90_SelectionBoxItem widget) {
+LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget) {
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
-    GUI90_SetTheme(local_theme);
-    auto label = (GUI90_Label){
+    loui_set_theme(local_theme);
+    auto label = (LouiLabel){
         .x=s_gui.current_x,
         .y=s_gui.current_y,
         .text=widget.text
     };
-    label = GUI90_UpdateLabel(label);
+    label = loui_update_label(label);
     s_gui.current_y += label.height;
-    GUI90_SetTheme(global_theme);
+    loui_set_theme(global_theme);
     widget.width = label.width;
     widget.height = label.height;
     widget.is_clicked = label.is_clicked;
     return widget;
 }
 
-static GUI90_TextInput decrementCursor(GUI90_TextInput widget) {
+static LouiTextInput decrementCursor(LouiTextInput widget) {
     if (widget.cursor > 0) {
         widget.cursor--;
     }
     return widget;
 }
 
-static GUI90_TextInput incrementCursor(GUI90_TextInput widget) {
+static LouiTextInput incrementCursor(LouiTextInput widget) {
     if (widget.cursor < strlen(widget.text)) {
         widget.cursor++;
     }
@@ -491,7 +491,7 @@ static void insertCharacter(char* string, size_t index, char c) {
 }
 
 
-GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
+LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_gui.text_input_widget_index_count++;
     auto is_selected = s_gui.active_text_input_widget_index == widget_index;
     if (is_selected) {
@@ -527,8 +527,8 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
     widget.width = width;
     widget.height = height;
 
-    auto frame = (GUI90_SunkenFrame){.x=x, .y=y, .width=width, .height=height};
-    frame = GUI90_UpdateSunkenFrame(frame);
+    auto frame = (LouiSunkenFrame){.x=x, .y=y, .width=width, .height=height};
+    frame = loui_update_sunken_frame(frame);
 
     widget.is_clicked = frame.is_clicked;
     if (widget.is_clicked) {
@@ -538,14 +538,14 @@ GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget) {
     auto global_theme = s_gui.theme;
     auto local_theme = s_gui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
-    GUI90_SetTheme(local_theme);
+    loui_set_theme(local_theme);
     drawString(widget.text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
     if (is_selected) {
         auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
         auto cursor_y = y + GUI90_BLOCK / 2;
         drawCursor(cursor_x, cursor_y, s_gui.theme.text);
     }
-    GUI90_SetTheme(global_theme);
+    loui_set_theme(global_theme);
 
     return widget;
 }

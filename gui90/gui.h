@@ -13,7 +13,7 @@ extern "C" {
 #define GUI90_BLOCK 8
 #define GUI90_MAX_SINGLE_LINE_TEXT_INPUT 16
 
-typedef struct GUI90_Input {
+typedef struct LouiInput {
     int mouse_x;
     int mouse_y;
     bool is_left_mouse_button_down;
@@ -24,18 +24,18 @@ typedef struct GUI90_Input {
     bool is_home_button_down;
     bool is_end_button_down;
     char input_character;
-} GUI90_Input;
+} LouiInput;
 
-typedef struct GUI90_Label {
+typedef struct LouiLabel {
     int x;
     int y;
     int width;
     int height;
     const char* text;
     bool is_clicked;
-} GUI90_Label;
+} LouiLabel;
 
-typedef struct GUI90_HeaderLabel {
+typedef struct LouiHeaderLabel {
     int x;
     int y;
     int width;
@@ -43,26 +43,26 @@ typedef struct GUI90_HeaderLabel {
     const char* text;
     bool is_clicked;
     GUI90_HeaderLabelTheme theme;
-} GUI90_HeaderLabel;
+} LouiHeaderLabel;
 
-typedef struct GUI90_SunkenFrame {
+typedef struct LouiSunkenFrame {
     int x;
     int y;
     int width;
     int height;
     bool is_clicked;
-} GUI90_SunkenFrame;
+} LouiSunkenFrame;
 
-typedef struct GUI90_Button {
+typedef struct LouiButton {
     int x;
     int y;
     int width;
     int height;
     const char* text;
     bool is_clicked;
-} GUI90_Button;
+} LouiButton;
 
-typedef struct GUI90_RadioButton {
+typedef struct LouiRadioButton {
     int x;
     int y;
     int width;
@@ -70,9 +70,9 @@ typedef struct GUI90_RadioButton {
     const char* text;
     bool is_selected;
     bool is_clicked;
-} GUI90_RadioButton;
+} LouiRadioButton;
 
-typedef struct GUI90_TextInput {
+typedef struct LouiTextInput {
     int x;
     int y;
     int width;
@@ -80,9 +80,9 @@ typedef struct GUI90_TextInput {
     char text[GUI90_MAX_SINGLE_LINE_TEXT_INPUT];
     int cursor;
     bool is_clicked;
-} GUI90_TextInput;
+} LouiTextInput;
 
-typedef struct GUI90_Stepper {
+typedef struct LouiStepper {
     int x;
     int y;
     int width;
@@ -91,17 +91,17 @@ typedef struct GUI90_Stepper {
     bool is_clicked;
     bool is_increased;
     bool is_decreased;
-} GUI90_Stepper;
+} LouiStepper;
 
-typedef struct GUI90_SelectionBoxInit {
+typedef struct LouiSelectionBoxInit {
     int x;
     int y;
     int width;
     int height;
     bool is_clicked;
-} GUI90_SelectionBoxInit;
+} LouiSelectionBoxInit;
 
-typedef struct GUI90_SelectionBoxItem {
+typedef struct LouiSelectionBoxItem {
     int x;
     int y;
     int width;
@@ -109,48 +109,48 @@ typedef struct GUI90_SelectionBoxItem {
     const char* text;
     bool is_selected;
     bool is_clicked;
-} GUI90_SelectionBoxItem;
+} LouiSelectionBoxItem;
 
-void GUI90_Init(int width, int height);
-void GUI90_SetInput(GUI90_Input input);
-void GUI90_SetTheme(GUI90_Theme theme);
-const GUI90_Color* GUI90_GetPixelData();
+void loui_init(int width, int height);
+void loui_set_input(LouiInput input);
+void loui_set_theme(GUI90_Theme theme);
+const GUI90_Color* loui_get_pixel_data();
 
-void GUI90_WidgetBackground();
+void loui_widget_background();
 
-GUI90_Label GUI90_UpdateLabel(GUI90_Label widget);
-GUI90_HeaderLabel GUI90_UpdateHeaderLabel(GUI90_HeaderLabel widget);
-GUI90_Button GUI90_UpdateButton(GUI90_Button widget);
-GUI90_RadioButton GUI90_UpdateRadioButton(GUI90_RadioButton widget);
-GUI90_Stepper GUI90_UpdateStepper(GUI90_Stepper widget);
-GUI90_SunkenFrame GUI90_UpdateSunkenFrame(GUI90_SunkenFrame widget);
-GUI90_SelectionBoxInit GUI90_UpdateSelectionBoxInit(GUI90_SelectionBoxInit widget);
-GUI90_SelectionBoxItem GUI90_UpdateSelectionBoxItem(GUI90_SelectionBoxItem widget);
-GUI90_TextInput GUI90_UpdateTextInput(GUI90_TextInput widget);
+LouiLabel loui_update_label(LouiLabel widget);
+LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
+LouiButton loui_update_button(LouiButton widget);
+LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
+LouiStepper loui_update_stepper(LouiStepper widget);
+LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget);
+LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
+LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
+LouiTextInput loui_update_text_input(LouiTextInput widget);
 
 #ifdef __cplusplus
 }
 #endif
 
 #ifdef __cplusplus
-inline void GUI90_Update(GUI90_Label& widget) {widget = GUI90_UpdateLabel(widget);}
-inline void GUI90_Update(GUI90_HeaderLabel& widget) {widget = GUI90_UpdateHeaderLabel(widget);}
-inline void GUI90_Update(GUI90_Button& widget) {widget = GUI90_UpdateButton(widget);}
-inline void GUI90_Update(GUI90_RadioButton& widget) {widget = GUI90_UpdateRadioButton(widget);}
-inline void GUI90_Update(GUI90_Stepper& widget) {widget = GUI90_UpdateStepper(widget);}
-inline void GUI90_Update(GUI90_SelectionBoxInit& widget) {widget = GUI90_UpdateSelectionBoxInit(widget);}
-inline void GUI90_Update(GUI90_SelectionBoxItem& widget) {widget = GUI90_UpdateSelectionBoxItem(widget);}
-inline void GUI90_Update(GUI90_TextInput& widget) {widget = GUI90_UpdateTextInput(widget);}
+inline void loui_update(LouiLabel& widget) { widget = loui_update_label(widget);}
+inline void loui_update(LouiHeaderLabel& widget) { widget = loui_update_header_label(widget);}
+inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget);}
+inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
+inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}
+inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_selection_box_init(widget);}
+inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
+inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
 #else
 #define GUI90_Update(widget) \
     do { widget = _Generic((widget), \
-        GUI90_Label: GUI90_UpdateLabel, \
-        GUI90_HeaderLabel: GUI90_UpdateHeaderLabel, \
-        GUI90_Button: GUI90_UpdateButton, \
-        GUI90_RadioButton: GUI90_UpdateRadioButton, \
-        GUI90_Stepper: GUI90_UpdateStepper, \
-        GUI90_SelectionBoxInit: GUI90_UpdateSelectionBoxInit, \
-        GUI90_SelectionBoxItem: GUI90_UpdateSelectionBoxItem, \
-        GUI90_TextInput: GUI90_UpdateTextInput \
+        LouiLabel: GUI90_UpdateLabel, \
+        LouiHeaderLabel: GUI90_UpdateHeaderLabel, \
+        LouiButton: GUI90_UpdateButton, \
+        LouiRadioButton: GUI90_UpdateRadioButton, \
+        LouiStepper: GUI90_UpdateStepper, \
+        LouiSelectionBoxInit: GUI90_UpdateSelectionBoxInit, \
+        LouiSelectionBoxItem: GUI90_UpdateSelectionBoxItem, \
+        LouiTextInput: GUI90_UpdateTextInput \
     )(widget); } while(0)
 #endif
