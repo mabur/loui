@@ -10,15 +10,15 @@ typedef enum ButtonState {
     BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED
 } ButtonState;
 
-typedef struct Gui90 {
-    GUI90_Color* pixels;
+typedef struct LouiState {
+    LouiColor* pixels;
     int width;
     int height;
     int mouse_x;
     int mouse_y;
     int current_x;
     int current_y;
-    GUI90_Theme theme;
+    LouiTheme theme;
     ButtonState left_mouse_button;
     ButtonState left_arrow_button;
     ButtonState right_arrow_button;
@@ -29,7 +29,7 @@ typedef struct Gui90 {
     char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
-} Gui90;
+} LouiState;
 
 // -----------------------------------------------------------------------------
 // PRIVATE STUFF
@@ -37,7 +37,7 @@ typedef struct Gui90 {
 static const int TEXT_SIZE = 8;
 static const int BUTTON_TEXT_PADDING = 3;
 
-static Gui90 s_gui;
+static LouiState s_loui;
 
 typedef struct Rectangle {
     int x;
@@ -60,25 +60,25 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
 }
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
-    return s_gui.left_mouse_button == BUTTON_DOWN &&
-        r.x <= s_gui.mouse_x && s_gui.mouse_x < r.x + r.width &&
-        r.y <= s_gui.mouse_y && s_gui.mouse_y < r.y + r.height;
+    return s_loui.left_mouse_button == BUTTON_DOWN &&
+           r.x <= s_loui.mouse_x && s_loui.mouse_x < r.x + r.width &&
+           r.y <= s_loui.mouse_y && s_loui.mouse_y < r.y + r.height;
 }
 
 static bool isLeftMouseButtonReleasedInside(Rectangle r) {
-    return s_gui.left_mouse_button == BUTTON_RELEASED &&
-        r.x <= s_gui.mouse_x && s_gui.mouse_x < r.x + r.width &&
-        r.y <= s_gui.mouse_y && s_gui.mouse_y < r.y + r.height;
+    return s_loui.left_mouse_button == BUTTON_RELEASED &&
+           r.x <= s_loui.mouse_x && s_loui.mouse_x < r.x + r.width &&
+           r.y <= s_loui.mouse_y && s_loui.mouse_y < r.y + r.height;
 }
 
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawPoint(int x, int y, GUI90_Color color) {
-    s_gui.pixels[y * s_gui.width + x] = color;
+static void drawPoint(int x, int y, LouiColor color) {
+    s_loui.pixels[y * s_loui.width + x] = color;
 }
 
-static void drawRectangle(Rectangle rectangle, GUI90_Color color) {
+static void drawRectangle(Rectangle rectangle, LouiColor color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
             drawPoint(rectangle.x + dx, rectangle.y + dy, color);
@@ -86,7 +86,7 @@ static void drawRectangle(Rectangle rectangle, GUI90_Color color) {
     }
 }
 
-static void drawLineHorizontal(int x, int y, int width, GUI90_Color color) {
+static void drawLineHorizontal(int x, int y, int width, LouiColor color) {
     auto r = (Rectangle){};
     r.x = x;
     r.y = y;
@@ -95,7 +95,7 @@ static void drawLineHorizontal(int x, int y, int width, GUI90_Color color) {
     drawRectangle(r, color);
 }
 
-static void drawLineVertical(int x, int y, int height, GUI90_Color color) {
+static void drawLineVertical(int x, int y, int height, LouiColor color) {
     auto r = (Rectangle){};
     r.x = x;
     r.y = y;
@@ -110,40 +110,40 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto width = widget.width;
     auto height = widget.height;
     auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(rectangle, s_gui.theme.recess_background);
-    drawLineHorizontal(x + 1, y, width - 2, s_gui.theme.recess_bevel_dark);
-    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_gui.theme.recess_bevel_light);
-    drawLineVertical(x, y + 1, height - 2, s_gui.theme.recess_bevel_dark);
-    drawLineVertical(x + width - 1, y + 1, height - 2, s_gui.theme.recess_bevel_light);
+    drawRectangle(rectangle, s_loui.theme.recess_background);
+    drawLineHorizontal(x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
+    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
+    drawLineVertical(x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     return widget;
 }
 
-static void drawCursor(size_t x_start, size_t y_start, GUI90_Color color) {
+static void drawCursor(size_t x_start, size_t y_start, LouiColor color) {
     for (size_t y = 0; y < 8; ++y) {
-        s_gui.pixels[(y_start + y) * s_gui.width + x_start] = color;
+        s_loui.pixels[(y_start + y) * s_loui.width + x_start] = color;
     }
 }
 
-static void drawCharacter(char character, size_t x_start, size_t y_start, GUI90_Color color) {
-    auto W = s_gui.width;
+static void drawCharacter(char character, size_t x_start, size_t y_start, LouiColor color) {
+    auto W = s_loui.width;
     auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
             if (character_bitmap[y * 8 + x]) {
-                s_gui.pixels[(y_start + y) * W + x_start + x] = color;
+                s_loui.pixels[(y_start + y) * W + x_start + x] = color;
             }
         }
     }
 }
 
-static void drawString(const char* s, size_t x, size_t y, GUI90_Color color) {
+static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
     for (; *s; ++s, x += 8) {
         drawCharacter(*s, x, y, color);
     }
 }
 
-static void drawSpecialString(const char* s, int x, int y, GUI90_HeaderLabelTheme theme) {
+static void drawSpecialString(const char* s, int x, int y, LouiHeaderLabelTheme theme) {
     for (; *s; ++s, x += 8) {
         if (theme.draw_up_left) {
             drawCharacter(*s, x - 1, y - 1, theme.color_up_left);
@@ -181,46 +181,46 @@ static void drawSpecialString(const char* s, int x, int y, GUI90_HeaderLabelThem
 // PUBLIC FUNCTIONS
 
 void loui_init(int width, int height) {
-    if (s_gui.pixels != NULL) {
-        free(s_gui.pixels);
+    if (s_loui.pixels != NULL) {
+        free(s_loui.pixels);
     }
-    s_gui = (Gui90){};
-    s_gui.pixels = (GUI90_Color *)malloc(width * height * sizeof(GUI90_Color));
-    s_gui.width = s_gui.pixels ? width : 0;
-    s_gui.height = s_gui.pixels ? height : 0;
-    s_gui.theme = GUI90_THEME_GRAY;
-    s_gui.active_text_input_widget_index = -1;
+    s_loui = (LouiState){};
+    s_loui.pixels = (LouiColor *)malloc(width * height * sizeof(LouiColor));
+    s_loui.width = s_loui.pixels ? width : 0;
+    s_loui.height = s_loui.pixels ? height : 0;
+    s_loui.theme = LOUI_THEME_GRAY;
+    s_loui.active_text_input_widget_index = -1;
 }
 
 void loui_set_input(LouiInput input) {
     // Mouse:
-    s_gui.mouse_x = input.mouse_x;
-    s_gui.mouse_y = input.mouse_y;
-    s_gui.left_mouse_button = updateButtonState(s_gui.left_mouse_button, input.is_left_mouse_button_down);
+    s_loui.mouse_x = input.mouse_x;
+    s_loui.mouse_y = input.mouse_y;
+    s_loui.left_mouse_button = updateButtonState(s_loui.left_mouse_button, input.is_left_mouse_button_down);
     // Keyboard:
-    s_gui.left_arrow_button = updateButtonState(s_gui.left_arrow_button, input.is_left_arrow_button_down);
-    s_gui.right_arrow_button = updateButtonState(s_gui.right_arrow_button, input.is_right_arrow_button_down);
-    s_gui.backspace_button = updateButtonState(s_gui.backspace_button, input.is_backspace_button_down);
-    s_gui.delete_button = updateButtonState(s_gui.delete_button, input.is_delete_button_down);
-    s_gui.home_button = updateButtonState(s_gui.home_button, input.is_home_button_down);
-    s_gui.end_button = updateButtonState(s_gui.end_button, input.is_end_button_down);
-    s_gui.input_character = input.input_character;
+    s_loui.left_arrow_button = updateButtonState(s_loui.left_arrow_button, input.is_left_arrow_button_down);
+    s_loui.right_arrow_button = updateButtonState(s_loui.right_arrow_button, input.is_right_arrow_button_down);
+    s_loui.backspace_button = updateButtonState(s_loui.backspace_button, input.is_backspace_button_down);
+    s_loui.delete_button = updateButtonState(s_loui.delete_button, input.is_delete_button_down);
+    s_loui.home_button = updateButtonState(s_loui.home_button, input.is_home_button_down);
+    s_loui.end_button = updateButtonState(s_loui.end_button, input.is_end_button_down);
+    s_loui.input_character = input.input_character;
     // Other:
-    s_gui.text_input_widget_index_count = 0;
+    s_loui.text_input_widget_index_count = 0;
 }
 
-void loui_set_theme(GUI90_Theme theme) {
-    s_gui.theme = theme;
+void loui_set_theme(LouiTheme theme) {
+    s_loui.theme = theme;
 }
 
-const GUI90_Color* loui_get_pixel_data() {
-    return s_gui.pixels;
+const LouiColor* loui_get_pixel_data() {
+    return s_loui.pixels;
 }
 
 void loui_widget_background() {
-    auto pixel_count = s_gui.width * s_gui.height;
+    auto pixel_count = s_loui.width * s_loui.height;
     for (int i = 0; i < pixel_count; ++i) {
-        s_gui.pixels[i] = s_gui.theme.background; 
+        s_loui.pixels[i] = s_loui.theme.background;
     }
 }
 
@@ -234,7 +234,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
 }
 
 LouiLabel loui_update_label(LouiLabel widget) {
-    drawString(widget.text, widget.x, widget.y, s_gui.theme.text);
+    drawString(widget.text, widget.x, widget.y, s_loui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
     widget.height = rectangle.height;
@@ -268,14 +268,14 @@ LouiButton loui_update_button_bevel(LouiButton widget) {
     inner_rectangle.height -= 4;
     auto text_x = x + BUTTON_TEXT_PADDING;
     auto text_y = y + BUTTON_TEXT_PADDING;
-    auto theme = s_gui.theme;
+    auto theme = s_loui.theme;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
-        theme.button_bevel_light = s_gui.theme.button_background;
-        theme.button_bevel_dark = s_gui.theme.button_background;
+        theme.button_bevel_light = s_loui.theme.button_background;
+        theme.button_bevel_dark = s_loui.theme.button_background;
     }
     
-    drawRectangle(rectangle, s_gui.theme.button_border);
+    drawRectangle(rectangle, s_loui.theme.button_border);
     
     // Rounded corners:
     // drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
@@ -322,7 +322,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     inner_rectangle.height -= 2;
     auto text_x = x + BUTTON_TEXT_PADDING;
     auto text_y = y + BUTTON_TEXT_PADDING - 1;
-    auto theme = s_gui.theme;
+    auto theme = s_loui.theme;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
     }
@@ -332,7 +332,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     drawPoint(x + rectangle.width - 1, y + rectangle.height - 1, theme.button_border);
     drawLineHorizontal(x + 1, y + rectangle.height, rectangle.width - 2, theme.button_border);
     
-    //drawRectangle(rectangle, s_gui.theme.button_border);
+    //drawRectangle(rectangle, s_loui.theme.button_border);
     drawRectangle(inner_rectangle, theme.button_background);
     
     // Rounded corners:
@@ -356,13 +356,13 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     
     drawString(widget.text, text_x, text_y, theme.text);
     widget.width = rectangle.width + 2;
-    widget.height = 2 * GUI90_BLOCK;
+    widget.height = 2 * LOUI_BLOCK;
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     return widget;
 }
 
 LouiButton loui_update_button(LouiButton widget) {
-    switch (s_gui.theme.button_type) {
+    switch (s_loui.theme.button_type) {
         case BUTTON_TYPE_BEVEL: return loui_update_button_bevel(widget);
         case BUTTON_TYPE_CLOUD: return loui_update_button_cloud(widget);
         default: return loui_update_button_bevel(widget);
@@ -375,18 +375,18 @@ LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {
             double dx = xi - 7.5;
             double dy = yi - 7.5;
             double r2 = dx * dx + dy * dy;
-            auto color = s_gui.theme.background;
+            auto color = s_loui.theme.background;
             if (r2 < 6.0 * 6.0 && dx + dy < 0.0) {
-                color = s_gui.theme.recess_bevel_dark;
+                color = s_loui.theme.recess_bevel_dark;
             }
             if (r2 < 6.0 * 6.0 && dx + dy > 0.0) {
-                color = s_gui.theme.recess_bevel_light;
+                color = s_loui.theme.recess_bevel_light;
             }
             if (r2 < 5.0 * 5.0) {
-                color = s_gui.theme.recess_background;
+                color = s_loui.theme.recess_background;
             }
             if (r2 < 2.0 * 2.0 && widget.is_selected) {
-                color = s_gui.theme.recess_text_selected;
+                color = s_loui.theme.recess_text_selected;
             }
             drawPoint(widget.x + xi, widget.y + yi, color);
         }
@@ -431,25 +431,25 @@ LouiStepper loui_update_stepper(LouiStepper widget) {
 }
 
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget) {
-    s_gui.current_x = widget.x + TEXT_SIZE;
-    s_gui.current_y = widget.y + TEXT_SIZE;
+    s_loui.current_x = widget.x + TEXT_SIZE;
+    s_loui.current_y = widget.y + TEXT_SIZE;
     auto frame = (LouiSunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
     frame = loui_update_sunken_frame(frame);
     return widget;
 }
 
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget) {
-    auto global_theme = s_gui.theme;
-    auto local_theme = s_gui.theme;
+    auto global_theme = s_loui.theme;
+    auto local_theme = s_loui.theme;
     local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
     auto label = (LouiLabel){
-        .x=s_gui.current_x,
-        .y=s_gui.current_y,
+        .x=s_loui.current_x,
+        .y=s_loui.current_y,
         .text=widget.text
     };
     label = loui_update_label(label);
-    s_gui.current_y += label.height;
+    s_loui.current_y += label.height;
     loui_set_theme(global_theme);
     widget.width = label.width;
     widget.height = label.height;
@@ -480,7 +480,7 @@ static void deleteCharacter(char* string, size_t index) {
 
 static void insertCharacter(char* string, size_t index, char c) {
     size_t len = strlen(string);
-    size_t max_size = GUI90_MAX_SINGLE_LINE_TEXT_INPUT;
+    size_t max_size = LOUI_MAX_SINGLE_LINE_TEXT_INPUT;
     if (len + 1 >= max_size || index > len) {
         return;
     }
@@ -492,29 +492,29 @@ static void insertCharacter(char* string, size_t index, char c) {
 
 
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
-    auto widget_index = s_gui.text_input_widget_index_count++;
-    auto is_selected = s_gui.active_text_input_widget_index == widget_index;
+    auto widget_index = s_loui.text_input_widget_index_count++;
+    auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     if (is_selected) {
-        if (s_gui.home_button == BUTTON_CLICKED) {
+        if (s_loui.home_button == BUTTON_CLICKED) {
             widget.cursor = 0;
         }
-        if (s_gui.end_button == BUTTON_CLICKED) {
+        if (s_loui.end_button == BUTTON_CLICKED) {
             widget.cursor = strlen(widget.text);
         }
-        if (s_gui.left_arrow_button == BUTTON_CLICKED) {
+        if (s_loui.left_arrow_button == BUTTON_CLICKED) {
             widget = decrementCursor(widget);
         }
-        if (s_gui.right_arrow_button == BUTTON_CLICKED) {
+        if (s_loui.right_arrow_button == BUTTON_CLICKED) {
             widget = incrementCursor(widget);
         }
-        if (s_gui.input_character && strlen(widget.text) < GUI90_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
-            insertCharacter(widget.text, widget.cursor, s_gui.input_character);
+        if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
+            insertCharacter(widget.text, widget.cursor, s_loui.input_character);
             widget = incrementCursor(widget);
         }
-        if (s_gui.delete_button == BUTTON_CLICKED) {
+        if (s_loui.delete_button == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.cursor);
         }
-        if (s_gui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
+        if (s_loui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
             deleteCharacter(widget.text, widget.cursor - 1);
             widget = decrementCursor(widget);
         }
@@ -522,8 +522,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
 
     auto x = widget.x;
     auto y = widget.y;
-    auto width = 8 * (GUI90_MAX_SINGLE_LINE_TEXT_INPUT - 1) + GUI90_BLOCK;
-    auto height = 8 + GUI90_BLOCK;
+    auto width = 8 * (LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) + LOUI_BLOCK;
+    auto height = 8 + LOUI_BLOCK;
     widget.width = width;
     widget.height = height;
 
@@ -532,18 +532,18 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
 
     widget.is_clicked = frame.is_clicked;
     if (widget.is_clicked) {
-        s_gui.active_text_input_widget_index = widget_index;
+        s_loui.active_text_input_widget_index = widget_index;
     }
 
-    auto global_theme = s_gui.theme;
-    auto local_theme = s_gui.theme;
+    auto global_theme = s_loui.theme;
+    auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawString(widget.text, x + GUI90_BLOCK / 2, y + GUI90_BLOCK / 2, s_gui.theme.text);
+    drawString(widget.text, x + LOUI_BLOCK / 2, y + LOUI_BLOCK / 2, s_loui.theme.text);
     if (is_selected) {
-        auto cursor_x = x + GUI90_BLOCK / 2 + widget.cursor * TEXT_SIZE;
-        auto cursor_y = y + GUI90_BLOCK / 2;
-        drawCursor(cursor_x, cursor_y, s_gui.theme.text);
+        auto cursor_x = x + LOUI_BLOCK / 2 + widget.cursor * TEXT_SIZE;
+        auto cursor_y = y + LOUI_BLOCK / 2;
+        drawCursor(cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
 

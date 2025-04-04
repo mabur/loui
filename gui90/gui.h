@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-#define GUI90_BLOCK 8
-#define GUI90_MAX_SINGLE_LINE_TEXT_INPUT 16
+#define LOUI_BLOCK 8
+#define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 
 typedef struct LouiInput {
     int mouse_x;
@@ -42,7 +42,7 @@ typedef struct LouiHeaderLabel {
     int height;
     const char* text;
     bool is_clicked;
-    GUI90_HeaderLabelTheme theme;
+    LouiHeaderLabelTheme theme;
 } LouiHeaderLabel;
 
 typedef struct LouiSunkenFrame {
@@ -77,7 +77,7 @@ typedef struct LouiTextInput {
     int y;
     int width;
     int height;
-    char text[GUI90_MAX_SINGLE_LINE_TEXT_INPUT];
+    char text[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
     int cursor;
     bool is_clicked;
 } LouiTextInput;
@@ -113,8 +113,8 @@ typedef struct LouiSelectionBoxItem {
 
 void loui_init(int width, int height);
 void loui_set_input(LouiInput input);
-void loui_set_theme(GUI90_Theme theme);
-const GUI90_Color* loui_get_pixel_data();
+void loui_set_theme(LouiTheme theme);
+const LouiColor* loui_get_pixel_data();
 
 void loui_widget_background();
 

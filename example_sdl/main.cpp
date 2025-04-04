@@ -13,12 +13,12 @@ enum GuiThemeIndex {
     THEME_COUNT,
 };
 
-GUI90_Theme themeSettings[] = {
-    [GRAY_THEME_INDEX] = GUI90_THEME_GRAY,
-    [WARM_GRAY_THEME_INDEX] = GUI90_THEME_WARM_GRAY,
-    [SOLARIZE_LIGHT_THEME_INDEX] = GUI90_THEME_SOLARIZE_LIGHT,
-    [YELLOW_THEME_INDEX] = GUI90_THEME_YELLOW,
-    [LEATHER_THEME_INDEX] = GUI90_THEME_LEATHER,
+LouiTheme themeSettings[] = {
+    [GRAY_THEME_INDEX] = LOUI_THEME_GRAY,
+    [WARM_GRAY_THEME_INDEX] = LOUI_THEME_WARM_GRAY,
+    [SOLARIZE_LIGHT_THEME_INDEX] = LOUI_THEME_SOLARIZE_LIGHT,
+    [YELLOW_THEME_INDEX] = LOUI_THEME_YELLOW,
+    [LEATHER_THEME_INDEX] = LOUI_THEME_LEATHER,
 };
 
 const char* themeDescription[] = {
@@ -74,12 +74,12 @@ int main() {
         loui_set_theme(theme);
         
         loui_widget_background();
-        auto x = 2 * GUI90_BLOCK;
-        auto y = 2 * GUI90_BLOCK;
+        auto x = 2 * LOUI_BLOCK;
+        auto y = 2 * LOUI_BLOCK;
         auto label = (LouiLabel){.x=x, .y=y, .text="Label"};
         loui_update(label);
         y += label.height;
-        y += GUI90_BLOCK;
+        y += LOUI_BLOCK;
         auto open_button = (LouiButton){.x=x, .y=y, .text="Open "};
         loui_update(open_button);
         if (open_button.is_clicked) {
@@ -103,10 +103,10 @@ int main() {
             setting++;
         }
         y += stepper.height;
-        y += GUI90_BLOCK;
+        y += LOUI_BLOCK;
 
-        auto width = 13 * GUI90_BLOCK;
-        auto height = (THEME_COUNT + 2) * GUI90_BLOCK;
+        auto width = 13 * LOUI_BLOCK;
+        auto height = (THEME_COUNT + 2) * LOUI_BLOCK;
         auto selection_box = (LouiSelectionBoxInit){.x=x, .y=y, .width=width, .height=height};
         loui_update(selection_box);
         for (auto i = 0; i < THEME_COUNT; ++i) {
@@ -121,7 +121,7 @@ int main() {
             }
         }
         y += selection_box.height;
-        y += GUI90_BLOCK;
+        y += LOUI_BLOCK;
         auto radio_button_a = (LouiRadioButton){
             .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
         };
@@ -140,12 +140,12 @@ int main() {
 
         // Second Column
         x = WIDTH / 2;
-        y = 2 * GUI90_BLOCK;
+        y = 2 * LOUI_BLOCK;
         
-        auto WHITE = GUI90_RGB(255, 255, 255);
-        auto BLACK = GUI90_RGB(0, 0, 0);
-        auto MID = GUI90_InterpolateColors(BLACK, theme.background, 128);
-        auto header_theme = GUI90_HeaderLabelTheme{
+        auto WHITE = LOUI_RGB(255, 255, 255);
+        auto BLACK = LOUI_RGB(0, 0, 0);
+        auto MID = loui_interpolate_colors(BLACK, theme.background, 128);
+        auto header_theme = LouiHeaderLabelTheme{
             .color_up_left = MID,
             .color_up = BLACK,
             .color_up_right = MID,
@@ -168,7 +168,7 @@ int main() {
         auto header = (LouiHeaderLabel){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
         loui_update(header);
 
-        y += header.height + GUI90_BLOCK;
+        y += header.height + LOUI_BLOCK;
         static auto input0 = (LouiTextInput){.x=x, .y=y, .text="Input 0"};
         loui_update(input0);
         y += input0.height;
