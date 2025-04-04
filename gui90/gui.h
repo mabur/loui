@@ -142,15 +142,15 @@ inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_sel
 inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
 inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
 #else
-#define GUI90_Update(widget) \
+#define loui_update(widget) \
     do { widget = _Generic((widget), \
-        LouiLabel: GUI90_UpdateLabel, \
-        LouiHeaderLabel: GUI90_UpdateHeaderLabel, \
-        LouiButton: GUI90_UpdateButton, \
-        LouiRadioButton: GUI90_UpdateRadioButton, \
-        LouiStepper: GUI90_UpdateStepper, \
-        LouiSelectionBoxInit: GUI90_UpdateSelectionBoxInit, \
-        LouiSelectionBoxItem: GUI90_UpdateSelectionBoxItem, \
-        LouiTextInput: GUI90_UpdateTextInput \
+        LouiLabel: loui_update_label, \
+        LouiHeaderLabel: loui_update_header_label, \
+        LouiButton: loui_update_button, \
+        LouiRadioButton: loui_update_radio_button, \
+        LouiStepper: loui_update_stepper, \
+        LouiSelectionBoxInit: loui_update_selection_box_init, \
+        LouiSelectionBoxItem: loui_update_selection_box_item, \
+        LouiTextInput: loui_update_text_input \
     )(widget); } while(0)
 #endif
