@@ -68,7 +68,7 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
 
 static bool is_key_repeating(int frame_tick) {
     auto INITIAL_REPEAT_TIME = 30;
-    auto REPEAT_TIME = 5;
+    auto REPEAT_TIME = 3;
     if (frame_tick < INITIAL_REPEAT_TIME) {
         return false;
     }
