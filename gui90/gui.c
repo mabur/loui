@@ -615,6 +615,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
 
     auto x = widget.x;
     auto y = widget.y;
+    auto text_x = x + LOUI_BLOCK / 2;
+    auto text_y = y + LOUI_BLOCK / 2;
     auto width = 8 * (LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) + LOUI_BLOCK;
     auto height = 8 + LOUI_BLOCK;
     widget.width = width;
@@ -632,10 +634,10 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawString(widget.text, x + LOUI_BLOCK / 2, y + LOUI_BLOCK / 2, s_loui.theme.text);
+    drawString(widget.text, text_x, text_y, s_loui.theme.text);
     if (is_selected) {
-        auto cursor_x = x + LOUI_BLOCK / 2 + widget.cursor * TEXT_SIZE;
-        auto cursor_y = y + LOUI_BLOCK / 2;
+        auto cursor_x = text_x + widget.cursor * TEXT_SIZE;
+        auto cursor_y = text_y;
         drawCursor(cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
