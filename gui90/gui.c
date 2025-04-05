@@ -12,6 +12,11 @@ typedef enum ButtonState {
     BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED
 } ButtonState;
 
+typedef struct RepeatingButtonState {
+    ButtonState state;
+    int frame_tick;
+} RepeatingButtonState;
+
 typedef struct LouiState {
     LouiColor* pixels;
     int width;
@@ -22,10 +27,10 @@ typedef struct LouiState {
     int current_y;
     LouiTheme theme;
     ButtonState left_mouse_button;
-    ButtonState left_arrow_button;
-    ButtonState right_arrow_button;
-    ButtonState backspace_button;
-    ButtonState delete_button;
+    RepeatingButtonState left_arrow_button;
+    RepeatingButtonState right_arrow_button;
+    RepeatingButtonState backspace_button;
+    RepeatingButtonState delete_button;
     ButtonState home_button;
     ButtonState end_button;
     char input_character;
@@ -59,6 +64,25 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     case BUTTON_RELEASED: return BUTTON_UP;
     default: return (ButtonState){};
     }
+}
+
+static RepeatingButtonState updateRepeatingButtonState(RepeatingButtonState old_state, bool is_down) {
+    auto INITIAL_REPEAT_TIME = 30;
+    auto REPEAT_TIME = 5;
+    if (old_state.state == BUTTON_UP) {
+        old_state.frame_tick = 0;
+    }
+    old_state.state = updateButtonState(old_state.state, is_down);
+    if (old_state.state == BUTTON_DOWN) {
+        old_state.frame_tick++;
+        if (old_state.frame_tick == INITIAL_REPEAT_TIME) {
+            old_state.state = BUTTON_CLICKED;
+        }
+        if (old_state.frame_tick > INITIAL_REPEAT_TIME && old_state.frame_tick % REPEAT_TIME == 0) {
+            old_state.state = BUTTON_CLICKED;
+        }
+    }
+    return old_state;
 }
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
@@ -200,10 +224,10 @@ void loui_set_input(LouiInput input) {
     s_loui.mouse_y = input.mouse_y;
     s_loui.left_mouse_button = updateButtonState(s_loui.left_mouse_button, input.is_left_mouse_button_down);
     // Keyboard:
-    s_loui.left_arrow_button = updateButtonState(s_loui.left_arrow_button, input.is_left_arrow_button_down);
-    s_loui.right_arrow_button = updateButtonState(s_loui.right_arrow_button, input.is_right_arrow_button_down);
-    s_loui.backspace_button = updateButtonState(s_loui.backspace_button, input.is_backspace_button_down);
-    s_loui.delete_button = updateButtonState(s_loui.delete_button, input.is_delete_button_down);
+    s_loui.left_arrow_button = updateRepeatingButtonState(s_loui.left_arrow_button, input.is_left_arrow_button_down);
+    s_loui.right_arrow_button = updateRepeatingButtonState(s_loui.right_arrow_button, input.is_right_arrow_button_down);
+    s_loui.backspace_button = updateRepeatingButtonState(s_loui.backspace_button, input.is_backspace_button_down);
+    s_loui.delete_button = updateRepeatingButtonState(s_loui.delete_button, input.is_delete_button_down);
     s_loui.home_button = updateButtonState(s_loui.home_button, input.is_home_button_down);
     s_loui.end_button = updateButtonState(s_loui.end_button, input.is_end_button_down);
     s_loui.input_character = input.input_character;
@@ -566,16 +590,16 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         if (s_loui.end_button == BUTTON_CLICKED) {
             widget.cursor = strlen(widget.text);
         }
-        if (s_loui.left_arrow_button == BUTTON_CLICKED) {
+        if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
             widget = decrementCursor(widget);
         }
-        if (s_loui.right_arrow_button == BUTTON_CLICKED) {
+        if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
             widget = incrementCursor(widget);
         }
-        if (s_loui.delete_button == BUTTON_CLICKED) {
+        if (s_loui.delete_button.state == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.cursor);
         }
-        if (s_loui.backspace_button == BUTTON_CLICKED && widget.cursor > 0) {
+        if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.cursor > 0) {
             deleteCharacter(widget.text, widget.cursor - 1);
             widget = decrementCursor(widget);
         }
