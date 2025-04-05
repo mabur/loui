@@ -628,6 +628,14 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     widget.is_clicked = frame.is_clicked;
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
+
+        widget.cursor = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
+        if (widget.cursor < 0) {
+            widget.cursor = 0;
+        }
+        if (widget.cursor > strlen(widget.text)) {
+            widget.cursor = strlen(widget.text);
+        }
     }
 
     auto global_theme = s_loui.theme;
