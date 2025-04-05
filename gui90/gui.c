@@ -6,6 +6,8 @@
 
 #include "text.h"
 
+#define DRAW_DEBUG_RECTANGLES 0
+
 typedef enum ButtonState {
     BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED
 } ButtonState;
@@ -35,7 +37,7 @@ typedef struct LouiState {
 // PRIVATE STUFF
 
 static const int TEXT_SIZE = 8;
-static const int BUTTON_TEXT_PADDING = 3;
+static const int BUTTON_TEXT_PADDING = 4;
 
 static LouiState s_loui;
 
@@ -222,6 +224,17 @@ void loui_widget_background() {
     for (int i = 0; i < pixel_count; ++i) {
         s_loui.pixels[i] = s_loui.theme.background;
     }
+
+    if (DRAW_DEBUG_RECTANGLES) {
+        auto i = 0;
+        for (auto y = 0; y < s_loui.height; ++y) {
+            for (auto x = 0; x < s_loui.width; ++x, ++i) {
+                if ((x / 8) % 2 != (y / 8 + 1) % 2) {
+                    s_loui.pixels[i] = LOUI_RGB(0, 255, 0);
+                }
+            }
+        }
+    }
 }
 
 static Rectangle textRectangle(int x, int y, const char* text) {
@@ -260,14 +273,14 @@ LouiButton loui_update_button_bevel(LouiButton widget) {
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * (int)(strlen(widget.text)) + 2 * BUTTON_TEXT_PADDING;
-    rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING;
+    rectangle.height = 14;
     auto inner_rectangle = rectangle;
     inner_rectangle.x += 2;
     inner_rectangle.y += 2;
     inner_rectangle.width -= 4;
     inner_rectangle.height -= 4;
-    auto text_x = x + BUTTON_TEXT_PADDING;
-    auto text_y = y + BUTTON_TEXT_PADDING;
+    auto text_x = widget.x + BUTTON_TEXT_PADDING;
+    auto text_y = widget.y + BUTTON_TEXT_PADDING;
     auto theme = s_loui.theme;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
