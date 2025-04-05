@@ -174,7 +174,13 @@ int main() {
         y += input0.height;
         static auto input1 = (LouiTextInput){.x=x, .y=y, .text="Input 1"};
         loui_update(input1);
-        
+        y += input1.height;
+        static auto check_box0 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 0", .is_selected=true};
+        loui_update(check_box0);
+        y += check_box0.height;
+        static auto check_box1 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 1"};
+        loui_update(check_box1);
+
         sdl.draw(loui_get_pixel_data());
     }
     return 0;

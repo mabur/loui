@@ -72,6 +72,16 @@ typedef struct LouiRadioButton {
     bool is_clicked;
 } LouiRadioButton;
 
+typedef struct LouiCheckBox {
+    int x;
+    int y;
+    int width;
+    int height;
+    const char* text;
+    bool is_selected;
+    bool is_clicked;
+} LouiCheckBox;
+
 typedef struct LouiTextInput {
     int x;
     int y;
@@ -122,6 +132,7 @@ LouiLabel loui_update_label(LouiLabel widget);
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
 LouiButton loui_update_button(LouiButton widget);
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
+LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
 LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget);
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
@@ -137,6 +148,7 @@ inline void loui_update(LouiLabel& widget) { widget = loui_update_label(widget);
 inline void loui_update(LouiHeaderLabel& widget) { widget = loui_update_header_label(widget);}
 inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
+inline void loui_update(LouiCheckBox& widget) { widget = loui_update_check_box(widget);}
 inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}
 inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_selection_box_init(widget);}
 inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
@@ -148,6 +160,7 @@ inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input
         LouiHeaderLabel: loui_update_header_label, \
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
+        LouiRadioButton: loui_update_check_box, \
         LouiStepper: loui_update_stepper, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
         LouiSelectionBoxItem: loui_update_selection_box_item, \
