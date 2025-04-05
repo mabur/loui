@@ -66,23 +66,31 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     }
 }
 
-static RepeatingButtonState updateRepeatingButtonState(RepeatingButtonState old_state, bool is_down) {
+static bool is_key_repeating(int frame_tick) {
     auto INITIAL_REPEAT_TIME = 30;
     auto REPEAT_TIME = 5;
-    if (old_state.state == BUTTON_UP) {
-        old_state.frame_tick = 0;
+    if (frame_tick < INITIAL_REPEAT_TIME) {
+        return false;
     }
-    old_state.state = updateButtonState(old_state.state, is_down);
-    if (old_state.state == BUTTON_DOWN) {
-        old_state.frame_tick++;
-        if (old_state.frame_tick == INITIAL_REPEAT_TIME) {
-            old_state.state = BUTTON_CLICKED;
-        }
-        if (old_state.frame_tick > INITIAL_REPEAT_TIME && old_state.frame_tick % REPEAT_TIME == 0) {
-            old_state.state = BUTTON_CLICKED;
+    if (frame_tick == INITIAL_REPEAT_TIME) {
+        return true;
+    }
+    return frame_tick % REPEAT_TIME == 0;
+}
+
+static RepeatingButtonState updateRepeatingButtonState(RepeatingButtonState old_state, bool is_down) {
+    auto button = old_state;
+    if (button.state == BUTTON_UP) {
+        button.frame_tick = 0;
+    }
+    button.state = updateButtonState(button.state, is_down);
+    if (button.state == BUTTON_DOWN) {
+        button.frame_tick++;
+        if (is_key_repeating(old_state.frame_tick)) {
+            button.state = BUTTON_CLICKED;
         }
     }
-    return old_state;
+    return button;
 }
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
