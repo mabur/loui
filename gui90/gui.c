@@ -272,8 +272,8 @@ LouiButton loui_update_button_bevel(LouiButton widget) {
     auto rectangle = (Rectangle){};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * (int)(strlen(widget.text)) + 2 * BUTTON_TEXT_PADDING;
-    rectangle.height = 14;
+    rectangle.width = 8 * (int)(strlen(widget.text)) + 6;
+    rectangle.height = 8 + 6;
     auto inner_rectangle = rectangle;
     inner_rectangle.x += 2;
     inner_rectangle.y += 2;
@@ -321,8 +321,8 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     auto rectangle = (Rectangle){};
     rectangle.x = x;
     rectangle.y = y;
-    rectangle.width = 8 * (int)(strlen(widget.text)) + 2 * BUTTON_TEXT_PADDING;
-    rectangle.height = 8 + 2 * BUTTON_TEXT_PADDING - 1;
+    rectangle.width = 8 * (int)(strlen(widget.text)) + 6;
+    rectangle.height = 8 + 6 - 1;
 
     if (isLeftMouseButtonDownInside(rectangle)) {
         rectangle.y += 1;
@@ -333,8 +333,8 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     inner_rectangle.y += 1;
     inner_rectangle.width -= 2;
     inner_rectangle.height -= 2;
-    auto text_x = x + BUTTON_TEXT_PADDING;
-    auto text_y = y + BUTTON_TEXT_PADDING - 1;
+    auto text_x = x + BUTTON_TEXT_PADDING - 1;
+    auto text_y = y + BUTTON_TEXT_PADDING - 2;
     auto theme = s_loui.theme;
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
