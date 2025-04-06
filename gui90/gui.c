@@ -735,7 +735,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.cursor_column = 0;
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
-            widget.cursor_column = strlen(widget.text);
+            widget.cursor_column = countColumns(widget.text, widget.cursor_row);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
             widget = decrementCursorColumnMulti(widget);
