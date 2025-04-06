@@ -12,6 +12,7 @@ extern "C" {
 
 #define LOUI_BLOCK 8
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
+#define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
 
 typedef struct LouiInput {
     int mouse_x;
@@ -92,6 +93,18 @@ typedef struct LouiTextInput {
     bool is_clicked;
 } LouiTextInput;
 
+typedef struct LouiMultiTextInput {
+    int x;
+    int y;
+    int width;
+    int height;
+    char text[LOUI_MAX_MULTI_LINE_TEXT_INPUT];
+    int rows;
+    int columns;
+    int cursor;
+    bool is_clicked;
+} LouiMultiTextInput;
+
 typedef struct LouiStepper {
     int x;
     int y;
@@ -138,6 +151,7 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget);
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
 LouiTextInput loui_update_text_input(LouiTextInput widget);
+LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 
 #ifdef __cplusplus
 }
@@ -153,6 +167,7 @@ inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widg
 inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_selection_box_init(widget);}
 inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
 inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
+inline void loui_update(LouiMultiTextInput& widget) { widget = loui_update_multi_text_input(widget);}
 #else
 #define loui_update(widget) \
     do { widget = _Generic((widget), \
@@ -164,6 +179,7 @@ inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input
         LouiStepper: loui_update_stepper, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
         LouiSelectionBoxItem: loui_update_selection_box_item, \
-        LouiTextInput: loui_update_text_input \
+        LouiTextInput: loui_update_text_input,     \
+        LouiTextInput: loui_update_multi_text_input \
     )(widget); } while(0)
 #endif

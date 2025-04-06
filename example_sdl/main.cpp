@@ -175,6 +175,14 @@ int main() {
         static auto input1 = (LouiTextInput){.x=x, .y=y, .text="Input 1"};
         loui_update(input1);
         y += input1.height;
+        y += LOUI_BLOCK;
+
+        static auto multi_text_input = (LouiMultiTextInput){
+            .x=x, .y=y, .text="Multi lines", .rows=8, .columns=16
+        };
+        loui_update(multi_text_input);
+        y += multi_text_input.height;
+
         static auto check_box0 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 0", .is_selected=true};
         loui_update(check_box0);
         y += check_box0.height;

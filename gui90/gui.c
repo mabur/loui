@@ -557,7 +557,21 @@ static LouiTextInput decrementCursor(LouiTextInput widget) {
     return widget;
 }
 
+static LouiMultiTextInput decrementCursorMulti(LouiMultiTextInput widget) {
+    if (widget.cursor > 0) {
+        widget.cursor--;
+    }
+    return widget;
+}
+
 static LouiTextInput incrementCursor(LouiTextInput widget) {
+    if (widget.cursor < strlen(widget.text)) {
+        widget.cursor++;
+    }
+    return widget;
+}
+
+static LouiMultiTextInput incrementCursorMulti(LouiMultiTextInput widget) {
     if (widget.cursor < strlen(widget.text)) {
         widget.cursor++;
     }
@@ -582,7 +596,6 @@ static void insertCharacter(char* string, size_t index, char c) {
     }
     string[index] = c;
 }
-
 
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
@@ -619,6 +632,75 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto text_y = y + LOUI_BLOCK / 2;
     auto width = 8 * (LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) + LOUI_BLOCK;
     auto height = 8 + LOUI_BLOCK;
+    widget.width = width;
+    widget.height = height;
+
+    auto frame = (LouiSunkenFrame){.x=x, .y=y, .width=width, .height=height};
+    frame = loui_update_sunken_frame(frame);
+
+    widget.is_clicked = frame.is_clicked;
+    if (widget.is_clicked) {
+        s_loui.active_text_input_widget_index = widget_index;
+
+        widget.cursor = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
+        if (widget.cursor < 0) {
+            widget.cursor = 0;
+        }
+        if (widget.cursor > strlen(widget.text)) {
+            widget.cursor = strlen(widget.text);
+        }
+    }
+
+    auto global_theme = s_loui.theme;
+    auto local_theme = s_loui.theme;
+    local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
+    loui_set_theme(local_theme);
+    drawString(widget.text, text_x, text_y, s_loui.theme.text);
+    if (is_selected) {
+        auto cursor_x = text_x + widget.cursor * TEXT_SIZE;
+        auto cursor_y = text_y;
+        drawCursor(cursor_x, cursor_y, s_loui.theme.text);
+    }
+    loui_set_theme(global_theme);
+
+    return widget;
+}
+
+LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
+    auto widget_index = s_loui.text_input_widget_index_count++;
+    auto is_selected = s_loui.active_text_input_widget_index == widget_index;
+    if (is_selected) {
+        if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_MULTI_LINE_TEXT_INPUT - 1) {
+            insertCharacter(widget.text, widget.cursor, s_loui.input_character);
+            widget = incrementCursorMulti(widget);
+        }
+        if (s_loui.home_button == BUTTON_CLICKED) {
+            widget.cursor = 0;
+        }
+        if (s_loui.end_button == BUTTON_CLICKED) {
+            widget.cursor = strlen(widget.text);
+        }
+        if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
+            widget = decrementCursorMulti(widget);
+        }
+        if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
+            widget = incrementCursorMulti(widget);
+        }
+        if (s_loui.delete_button.state == BUTTON_CLICKED) {
+            deleteCharacter(widget.text, widget.cursor);
+        }
+        if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.cursor > 0) {
+            deleteCharacter(widget.text, widget.cursor - 1);
+            widget = incrementCursorMulti(widget);
+        }
+    }
+
+    auto x = widget.x;
+    auto y = widget.y;
+    auto text_x = x + LOUI_BLOCK / 2;
+    auto text_y = y + LOUI_BLOCK / 2;
+    auto width = 8 * widget.columns + LOUI_BLOCK;
+    auto height = 8 * widget.rows + LOUI_BLOCK;
     widget.width = width;
     widget.height = height;
 
