@@ -103,7 +103,7 @@ typedef struct LouiMultiTextInput {
     char text[LOUI_MAX_MULTI_LINE_TEXT_INPUT];
     int rows;
     int columns;
-    int cursor;
+    int cursor_column;
     int cursor_row;
     bool is_clicked;
 } LouiMultiTextInput;
