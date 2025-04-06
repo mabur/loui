@@ -578,9 +578,9 @@ static LouiTextInput decrementCursor(LouiTextInput widget) {
     return widget;
 }
 
-static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
-    if (widget.cursor_column > 0) {
-        widget.cursor_column--;
+static LouiTextInput incrementCursor(LouiTextInput widget) {
+    if (widget.cursor < strlen(widget.text)) {
+        widget.cursor++;
     }
     return widget;
 }
@@ -596,9 +596,13 @@ static LouiMultiTextInput decrementCursorRowMulti(LouiMultiTextInput widget) {
     return widget;
 }
 
-static LouiTextInput incrementCursor(LouiTextInput widget) {
-    if (widget.cursor < strlen(widget.text)) {
-        widget.cursor++;
+static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
+    if (widget.cursor_column == 0) {
+        widget = decrementCursorRowMulti(widget);
+        widget.cursor_column = countColumns(widget.text, widget.cursor_row) + 1;
+    }
+    if (widget.cursor_column > 0) {
+        widget.cursor_column--;
     }
     return widget;
 }
