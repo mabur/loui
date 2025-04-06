@@ -612,6 +612,10 @@ static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) 
 static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
     if (widget.cursor_row < countRows(widget.text)) {
         widget.cursor_row++;
+        auto columns = countColumns(widget.text, widget.cursor_row);
+        if (widget.cursor_column > columns) {
+            widget.cursor_column = columns;
+        }
     }
     return widget;
 }
