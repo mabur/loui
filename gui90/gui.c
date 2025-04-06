@@ -600,7 +600,7 @@ static LouiTextInput incrementCursor(LouiTextInput widget) {
 }
 
 static LouiMultiTextInput incrementCursorMulti(LouiMultiTextInput widget) {
-    if (widget.cursor < strlen(widget.text)) {
+    if (widget.cursor < countColumns(widget.text, widget.cursor_row)) {
         widget.cursor++;
     }
     return widget;
