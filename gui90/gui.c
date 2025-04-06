@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "string.h"
 #include "text.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
@@ -29,6 +30,8 @@ typedef struct LouiState {
     ButtonState left_mouse_button;
     RepeatingButtonState left_arrow_button;
     RepeatingButtonState right_arrow_button;
+    RepeatingButtonState up_arrow_button;
+    RepeatingButtonState down_arrow_button;
     RepeatingButtonState backspace_button;
     RepeatingButtonState delete_button;
     ButtonState home_button;
@@ -177,6 +180,21 @@ static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
     }
 }
 
+static void drawMultiLineString(const char* s, size_t x, size_t y, LouiColor color) {
+    auto char_x = x;
+    auto char_y = y;
+    for (; *s; ++s) {
+        drawCharacter(*s, char_x, char_y, color);
+        if (*s == '\n') {
+            char_x = x;
+            char_y += TEXT_SIZE;
+        }
+        else {
+            char_x += 8;
+        }
+    }
+}
+
 static void drawSpecialString(const char* s, int x, int y, LouiHeaderLabelTheme theme) {
     for (; *s; ++s, x += 8) {
         if (theme.draw_up_left) {
@@ -231,9 +249,12 @@ void loui_set_input(LouiInput input) {
     s_loui.mouse_x = input.mouse_x;
     s_loui.mouse_y = input.mouse_y;
     s_loui.left_mouse_button = updateButtonState(s_loui.left_mouse_button, input.is_left_mouse_button_down);
-    // Keyboard:
+    // Arrow keys:
     s_loui.left_arrow_button = updateRepeatingButtonState(s_loui.left_arrow_button, input.is_left_arrow_button_down);
     s_loui.right_arrow_button = updateRepeatingButtonState(s_loui.right_arrow_button, input.is_right_arrow_button_down);
+    s_loui.up_arrow_button = updateRepeatingButtonState(s_loui.up_arrow_button, input.is_up_arrow_button_down);
+    s_loui.down_arrow_button = updateRepeatingButtonState(s_loui.down_arrow_button, input.is_down_arrow_button_down);
+    // Other keys:
     s_loui.backspace_button = updateRepeatingButtonState(s_loui.backspace_button, input.is_backspace_button_down);
     s_loui.delete_button = updateRepeatingButtonState(s_loui.delete_button, input.is_delete_button_down);
     s_loui.home_button = updateButtonState(s_loui.home_button, input.is_home_button_down);
@@ -564,6 +585,13 @@ static LouiMultiTextInput decrementCursorMulti(LouiMultiTextInput widget) {
     return widget;
 }
 
+static LouiMultiTextInput decrementCursorRowMulti(LouiMultiTextInput widget) {
+    if (widget.cursor_row > 0) {
+        widget.cursor_row--;
+    }
+    return widget;
+}
+
 static LouiTextInput incrementCursor(LouiTextInput widget) {
     if (widget.cursor < strlen(widget.text)) {
         widget.cursor++;
@@ -574,6 +602,13 @@ static LouiTextInput incrementCursor(LouiTextInput widget) {
 static LouiMultiTextInput incrementCursorMulti(LouiMultiTextInput widget) {
     if (widget.cursor < strlen(widget.text)) {
         widget.cursor++;
+    }
+    return widget;
+}
+
+static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
+    if (widget.cursor_row < countRows(widget.text)) {
+        widget.cursor_row++;
     }
     return widget;
 }
@@ -686,6 +721,12 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
             widget = incrementCursorMulti(widget);
         }
+        if (s_loui.up_arrow_button.state == BUTTON_CLICKED) {
+            widget = decrementCursorRowMulti(widget);
+        }
+        if (s_loui.down_arrow_button.state == BUTTON_CLICKED) {
+            widget = incrementCursorRowMulti(widget);
+        }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.cursor);
         }
@@ -724,10 +765,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawString(widget.text, text_x, text_y, s_loui.theme.text);
+    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text);
     if (is_selected) {
         auto cursor_x = text_x + widget.cursor * TEXT_SIZE;
-        auto cursor_y = text_y;
+        auto cursor_y = text_y + widget.cursor_row * TEXT_SIZE;
         drawCursor(cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);

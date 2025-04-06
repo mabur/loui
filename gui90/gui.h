@@ -20,6 +20,8 @@ typedef struct LouiInput {
     bool is_left_mouse_button_down;
     bool is_left_arrow_button_down;
     bool is_right_arrow_button_down;
+    bool is_up_arrow_button_down;
+    bool is_down_arrow_button_down;
     bool is_backspace_button_down;
     bool is_delete_button_down;
     bool is_home_button_down;
@@ -102,6 +104,7 @@ typedef struct LouiMultiTextInput {
     int rows;
     int columns;
     int cursor;
+    int cursor_row;
     bool is_clicked;
 } LouiMultiTextInput;
 

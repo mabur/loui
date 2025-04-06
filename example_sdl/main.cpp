@@ -59,6 +59,8 @@ int main() {
             .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
             .is_left_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_LEFT],
             .is_right_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
+            .is_up_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_UP],
+            .is_down_arrow_button_down=(bool)input.keyboard[SDL_SCANCODE_DOWN],
             .is_backspace_button_down=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
             .is_delete_button_down=(bool)input.keyboard[SDL_SCANCODE_DELETE],
             .is_home_button_down=(bool)input.keyboard[SDL_SCANCODE_HOME],
@@ -121,7 +123,7 @@ int main() {
             }
         }
         y += selection_box.height;
-        
+
         auto radio_button_a = (LouiRadioButton){
             .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
         };
@@ -178,7 +180,7 @@ int main() {
         y += LOUI_BLOCK;
 
         static auto multi_text_input = (LouiMultiTextInput){
-            .x=x, .y=y, .text="Multi lines", .rows=8, .columns=16
+            .x=x, .y=y, .text="Multi\nlines", .rows=8, .columns=16
         };
         loui_update(multi_text_input);
         y += multi_text_input.height;
