@@ -578,7 +578,7 @@ static LouiTextInput decrementCursor(LouiTextInput widget) {
     return widget;
 }
 
-static LouiMultiTextInput decrementCursorMulti(LouiMultiTextInput widget) {
+static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
     if (widget.cursor_column > 0) {
         widget.cursor_column--;
     }
@@ -599,7 +599,7 @@ static LouiTextInput incrementCursor(LouiTextInput widget) {
     return widget;
 }
 
-static LouiMultiTextInput incrementCursorMulti(LouiMultiTextInput widget) {
+static LouiMultiTextInput incrementCursorColumnMulti(LouiMultiTextInput widget) {
     if (widget.cursor_column < countColumns(widget.text, widget.cursor_row)) {
         widget.cursor_column++;
     }
@@ -707,7 +707,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_MULTI_LINE_TEXT_INPUT - 1) {
             insertCharacter(widget.text, widget.cursor_column, s_loui.input_character);
-            widget = incrementCursorMulti(widget);
+            widget = incrementCursorColumnMulti(widget);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.cursor_column = 0;
@@ -716,10 +716,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.cursor_column = strlen(widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget = decrementCursorMulti(widget);
+            widget = decrementCursorColumnMulti(widget);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
-            widget = incrementCursorMulti(widget);
+            widget = incrementCursorColumnMulti(widget);
         }
         if (s_loui.up_arrow_button.state == BUTTON_CLICKED) {
             widget = decrementCursorRowMulti(widget);
@@ -732,7 +732,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         }
         if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.cursor_column > 0) {
             deleteCharacter(widget.text, widget.cursor_column - 1);
-            widget = incrementCursorMulti(widget);
+            widget = incrementCursorColumnMulti(widget);
         }
     }
 
