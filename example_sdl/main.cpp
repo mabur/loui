@@ -121,7 +121,7 @@ int main() {
             }
         }
         y += selection_box.height;
-        y += LOUI_BLOCK;
+        
         auto radio_button_a = (LouiRadioButton){
             .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
         };
