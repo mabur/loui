@@ -578,15 +578,20 @@ static SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret) {
     return caret;
 }
 
+static SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text) {
+    if (caret.column < strlen(text)) {
+        caret.column++;
+    }
+    return caret;
+}
+
 static LouiTextInput decrementCursor(LouiTextInput widget) {
     widget.caret = moveLeftSingleLineCaret(widget.caret);
     return widget;
 }
 
 static LouiTextInput incrementCursor(LouiTextInput widget) {
-    if (widget.caret.column < strlen(widget.text)) {
-        widget.caret.column++;
-    }
+    widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
     return widget;
 }
 
