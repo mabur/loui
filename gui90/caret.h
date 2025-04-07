@@ -1,7 +1,7 @@
 #pragma once
 
 typedef struct SingleLineCaret {
-    int cursor;
+    int column;
 } SingleLineCaret;
 
 typedef struct MultiLineCaret {

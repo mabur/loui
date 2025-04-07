@@ -572,15 +572,15 @@ LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget)
 }
 
 static LouiTextInput decrementCursor(LouiTextInput widget) {
-    if (widget.caret.cursor > 0) {
-        widget.caret.cursor--;
+    if (widget.caret.column > 0) {
+        widget.caret.column--;
     }
     return widget;
 }
 
 static LouiTextInput incrementCursor(LouiTextInput widget) {
-    if (widget.caret.cursor < strlen(widget.text)) {
-        widget.caret.cursor++;
+    if (widget.caret.column < strlen(widget.text)) {
+        widget.caret.column++;
     }
     return widget;
 }
@@ -609,14 +609,14 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
-            insertCharacter(widget.text, widget.caret.cursor, s_loui.input_character);
+            insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
             widget = incrementCursor(widget);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
-            widget.caret.cursor = 0;
+            widget.caret.column = 0;
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
-            widget.caret.cursor = strlen(widget.text);
+            widget.caret.column = strlen(widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
             widget = decrementCursor(widget);
@@ -625,10 +625,10 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             widget = incrementCursor(widget);
         }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
-            deleteCharacter(widget.text, widget.caret.cursor);
+            deleteCharacter(widget.text, widget.caret.column);
         }
-        if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.cursor > 0) {
-            deleteCharacter(widget.text, widget.caret.cursor - 1);
+        if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.column > 0) {
+            deleteCharacter(widget.text, widget.caret.column - 1);
             widget = decrementCursor(widget);
         }
     }
@@ -649,12 +649,12 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
 
-        widget.caret.cursor = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        if (widget.caret.cursor < 0) {
-            widget.caret.cursor = 0;
+        widget.caret.column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
+        if (widget.caret.column < 0) {
+            widget.caret.column = 0;
         }
-        if (widget.caret.cursor > strlen(widget.text)) {
-            widget.caret.cursor = strlen(widget.text);
+        if (widget.caret.column > strlen(widget.text)) {
+            widget.caret.column = strlen(widget.text);
         }
     }
 
@@ -664,7 +664,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     loui_set_theme(local_theme);
     drawString(widget.text, text_x, text_y, s_loui.theme.text);
     if (is_selected) {
-        auto cursor_x = text_x + widget.caret.cursor * TEXT_SIZE;
+        auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
         drawCursor(cursor_x, cursor_y, s_loui.theme.text);
     }
