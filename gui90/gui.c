@@ -619,14 +619,19 @@ static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) 
     return widget;
 }
 
-static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
-    if (widget.caret.cursor_row < countRows(widget.text)) {
-        widget.caret.cursor_row++;
-        auto columns = countColumns(widget.text, widget.caret.cursor_row);
-        if (widget.caret.cursor_column > columns) {
-            widget.caret.cursor_column = columns;
+static MultiLineCaret moveDownMultiLineCaret(MultiLineCaret caret, const char* text) {
+    if (caret.cursor_row < countRows(text)) {
+        caret.cursor_row++;
+        auto columns = countColumns(text, caret.cursor_row);
+        if (caret.cursor_column > columns) {
+            caret.cursor_column = columns;
         }
     }
+    return caret;
+}
+
+static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
+    widget.caret = moveDownMultiLineCaret(widget.caret, widget.text);
     return widget;
 }
 
