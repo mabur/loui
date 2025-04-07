@@ -585,26 +585,6 @@ static LouiTextInput incrementCursor(LouiTextInput widget) {
     return widget;
 }
 
-static LouiMultiTextInput decrementCursorRowMulti(LouiMultiTextInput widget) {
-    widget.caret = moveUpMultiLineCaret(widget.caret, widget.text);
-    return widget;
-}
-
-static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
-    widget.caret = moveLeftMultiLineCaret(widget.caret, widget.text);
-    return widget;
-}
-
-static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
-    widget.caret = moveDownMultiLineCaret(widget.caret, widget.text);
-    return widget;
-}
-
-static LouiMultiTextInput incrementCursorColumnMulti(LouiMultiTextInput widget) {
-    widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
-    return widget;
-}
-
 static void deleteCharacter(char* string, size_t index) {
     auto len = strlen(string);
     for (size_t i = index; i < len; ++i) {
@@ -699,7 +679,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_MULTI_LINE_TEXT_INPUT - 1) {
             insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
-            widget = incrementCursorColumnMulti(widget);
+            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.caret.column = 0;
@@ -708,23 +688,23 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.caret.column = countColumns(widget.text, widget.caret.line);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget = decrementCursorColumnMulti(widget);
+            widget.caret = moveLeftMultiLineCaret(widget.caret, widget.text);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
-            widget = incrementCursorColumnMulti(widget);
+            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
         }
         if (s_loui.up_arrow_button.state == BUTTON_CLICKED) {
-            widget = decrementCursorRowMulti(widget);
+            widget.caret = moveUpMultiLineCaret(widget.caret, widget.text);
         }
         if (s_loui.down_arrow_button.state == BUTTON_CLICKED) {
-            widget = incrementCursorRowMulti(widget);
+            widget.caret = moveDownMultiLineCaret(widget.caret, widget.text);
         }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.caret.column);
         }
         if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.column > 0) {
             deleteCharacter(widget.text, widget.caret.column - 1);
-            widget = incrementCursorColumnMulti(widget);
+            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
         }
     }
 
