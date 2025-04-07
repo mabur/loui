@@ -92,7 +92,7 @@ typedef struct LouiTextInput {
     int width;
     int height;
     char text[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
-    int cursor;
+    SingleLineCaret caret;
     bool is_clicked;
 } LouiTextInput;
 
