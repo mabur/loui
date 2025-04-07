@@ -601,16 +601,21 @@ static LouiMultiTextInput decrementCursorRowMulti(LouiMultiTextInput widget) {
     return widget;
 }
 
-static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
-    if (widget.caret.cursor_column == 0) {
-        if (widget.caret.cursor_row > 0) {
-            widget = decrementCursorRowMulti(widget);
-            widget.caret.cursor_column = countColumns(widget.text, widget.caret.cursor_row) + 1;
+static MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text) {
+    if (caret.cursor_column == 0) {
+        if (caret.cursor_row > 0) {
+            caret = moveUpMultiLineCaret(caret, text);
+            caret.cursor_column = countColumns(text, caret.cursor_row) + 1;
         }
     }
-    if (widget.caret.cursor_column > 0) {
-        widget.caret.cursor_column--;
+    if (caret.cursor_column > 0) {
+        caret.cursor_column--;
     }
+    return caret;
+}
+
+static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
+    widget.caret = moveLeftMultiLineCaret(widget.caret, widget.text);
     return widget;
 }
 
