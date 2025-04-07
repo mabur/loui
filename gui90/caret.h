@@ -1,8 +1,8 @@
 #pragma once
 
 typedef struct MultiLineCaret {
-    int cursor_row;
-    int cursor_column;
+    int line;
+    int column;
 } MultiLineCaret;
 
 MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text);
