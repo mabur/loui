@@ -571,16 +571,6 @@ LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget)
     return widget;
 }
 
-static LouiTextInput decrementCursor(LouiTextInput widget) {
-    widget.caret = moveLeftSingleLineCaret(widget.caret);
-    return widget;
-}
-
-static LouiTextInput incrementCursor(LouiTextInput widget) {
-    widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
-    return widget;
-}
-
 static void deleteCharacter(char* string, size_t index) {
     auto len = strlen(string);
     for (size_t i = index; i < len; ++i) {
@@ -606,7 +596,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
             insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
-            widget = incrementCursor(widget);
+            widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.caret.column = 0;
@@ -615,17 +605,17 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             widget.caret.column = strlen(widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget = decrementCursor(widget);
+            widget.caret = moveLeftSingleLineCaret(widget.caret);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
-            widget = incrementCursor(widget);
+            widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
         }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.caret.column);
         }
         if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.column > 0) {
             deleteCharacter(widget.text, widget.caret.column - 1);
-            widget = decrementCursor(widget);
+            widget.caret = moveLeftSingleLineCaret(widget.caret);
         }
     }
 
