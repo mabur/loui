@@ -571,10 +571,15 @@ LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget)
     return widget;
 }
 
-static LouiTextInput decrementCursor(LouiTextInput widget) {
-    if (widget.caret.column > 0) {
-        widget.caret.column--;
+static SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret) {
+    if (caret.column > 0) {
+        caret.column--;
     }
+    return caret;
+}
+
+static LouiTextInput decrementCursor(LouiTextInput widget) {
+    widget.caret = moveLeftSingleLineCaret(widget.caret);
     return widget;
 }
 
