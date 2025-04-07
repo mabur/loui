@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "caret.h"
 #include "color.h"
 #include "theme.h"
 
@@ -103,8 +104,7 @@ typedef struct LouiMultiTextInput {
     char text[LOUI_MAX_MULTI_LINE_TEXT_INPUT];
     int rows;
     int columns;
-    int cursor_column;
-    int cursor_row;
+    MultiLineCaret caret;
     bool is_clicked;
 } LouiMultiTextInput;
 
