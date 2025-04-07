@@ -1,6 +1,22 @@
 #include "caret.h"
 
+#include <string.h>
+
 #include "string.h"
+
+SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret) {
+    if (caret.column > 0) {
+        caret.column--;
+    }
+    return caret;
+}
+
+SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text) {
+    if (caret.column < strlen(text)) {
+        caret.column++;
+    }
+    return caret;
+}
 
 MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text) {
     if (caret.line > 0) {
