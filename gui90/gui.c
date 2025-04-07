@@ -585,33 +585,9 @@ static LouiTextInput incrementCursor(LouiTextInput widget) {
     return widget;
 }
 
-static MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text) {
-    if (caret.cursor_row > 0) {
-        caret.cursor_row--;
-        auto columns = countColumns(text, caret.cursor_row);
-        if (caret.cursor_column > columns) {
-            caret.cursor_column = columns;
-        }
-    }
-    return caret;
-}
-
 static LouiMultiTextInput decrementCursorRowMulti(LouiMultiTextInput widget) {
     widget.caret = moveUpMultiLineCaret(widget.caret, widget.text);
     return widget;
-}
-
-static MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text) {
-    if (caret.cursor_column == 0) {
-        if (caret.cursor_row > 0) {
-            caret = moveUpMultiLineCaret(caret, text);
-            caret.cursor_column = countColumns(text, caret.cursor_row) + 1;
-        }
-    }
-    if (caret.cursor_column > 0) {
-        caret.cursor_column--;
-    }
-    return caret;
 }
 
 static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) {
@@ -619,35 +595,9 @@ static LouiMultiTextInput decrementCursorColumnMulti(LouiMultiTextInput widget) 
     return widget;
 }
 
-static MultiLineCaret moveDownMultiLineCaret(MultiLineCaret caret, const char* text) {
-    if (caret.cursor_row < countRows(text)) {
-        caret.cursor_row++;
-        auto columns = countColumns(text, caret.cursor_row);
-        if (caret.cursor_column > columns) {
-            caret.cursor_column = columns;
-        }
-    }
-    return caret;
-}
-
 static LouiMultiTextInput incrementCursorRowMulti(LouiMultiTextInput widget) {
     widget.caret = moveDownMultiLineCaret(widget.caret, widget.text);
     return widget;
-}
-
-static MultiLineCaret moveRightMultiLineCaret(MultiLineCaret caret, const char* text) {
-    auto columns = countColumns(text, caret.cursor_row);
-    if (caret.cursor_column == columns) {
-        if (caret.cursor_row < countRows(text)) {
-            caret = moveDownMultiLineCaret(caret, text);
-            caret.cursor_column = 0;
-        }
-        return caret;
-    }
-    if (caret.cursor_column < columns) {
-        caret.cursor_column++;
-    }
-    return caret;
 }
 
 static LouiMultiTextInput incrementCursorColumnMulti(LouiMultiTextInput widget) {
