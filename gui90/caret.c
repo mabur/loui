@@ -41,6 +41,14 @@ SingleLineCaret insertCharacterSingleLineCaret(char* text, size_t capacity, Sing
     return moveRightSingleLineCaret(caret, text);
 }
 
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
+    auto count = strlen(text);
+    for (size_t i = caret.column; i < count; ++i) {
+        text[i] = text[i + 1];
+    }
+    return caret;
+}
+
 MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text) {
     if (caret.line > 0) {
         caret.line--;
