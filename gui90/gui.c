@@ -603,13 +603,13 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             );
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
-            widget.caret = moveSingleLineCaretHome(widget.caret);
+            widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveSingleLineCaretLeft(widget.caret);
+            widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);

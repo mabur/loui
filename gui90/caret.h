@@ -12,9 +12,9 @@ typedef struct MultiLineCaret {
 } MultiLineCaret;
 
 // Move SingleLineCaret:
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret);
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, const char* text);
 SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text);
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret);
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, const char* text);
 SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text);
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column);
 // Update text for SingleLineCaret:
