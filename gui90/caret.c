@@ -28,6 +28,18 @@ SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text) 
     return caret;
 }
 
+SingleLineCaret setColumnSingleLetCaret(SingleLineCaret caret, const char* text, int column) {
+    auto count = (int)strlen(text);
+    if (column < 0) {
+        column = 0;
+    }
+    if (column > count) {
+        column = count;
+    }
+    caret.column = column;
+    return caret;
+}
+
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
     size_t len = strlen(text);
     if (len + 1 >= capacity) {
