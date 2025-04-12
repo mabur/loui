@@ -4,30 +4,6 @@
 
 #include "string.h"
 
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, const char* text) {
-    if (caret.column > 0) {
-        caret.column--;
-    }
-    return caret;
-}
-
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text) {
-    if (caret.column < strlen(text)) {
-        caret.column++;
-    }
-    return caret;
-}
-
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, const char* text) {
-    caret.column = 0;
-    return caret;
-}
-
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) {
-    caret.column = strlen(text);
-    return caret;
-}
-
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
     auto count = (int)strlen(text);
     if (column < 0) {
@@ -38,6 +14,22 @@ SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* tex
     }
     caret.column = column;
     return caret;
+}
+
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, const char* text) {
+    return moveSingleLineCaretColumn(caret, text, caret.column - 1);
+}
+
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text) {
+    return moveSingleLineCaretColumn(caret, text, caret.column + 1);
+}
+
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, const char* text) {
+    return moveSingleLineCaretColumn(caret, text, 0);
+}
+
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) {
+    return moveSingleLineCaretColumn(caret, text, strlen(text));
 }
 
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
