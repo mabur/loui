@@ -64,7 +64,7 @@ const LouiTheme LOUI_THEME_LEATHER = (LouiTheme){
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
-const LouiTheme LOUI_THEME_SOLARIZE_LIGHT = (LouiTheme){
+const LouiTheme LOUI_THEME_SOLARIZED_LIGHT = (LouiTheme){
     .background = LOUI_RGB(238, 232, 213),
     .text = LOUI_RGB(39, 40, 34), // LOUI_RGB(0, 0, 0),
     .button_background =  LOUI_RGB(238, 232, 213), // LOUI_RGB(255, 255, 255),
