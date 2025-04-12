@@ -23,6 +23,11 @@ SingleLineCaret moveHomeSingleLineCaret(SingleLineCaret caret) {
     return caret;
 }
 
+SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text) {
+    caret.column = strlen(text);
+    return caret;
+}
+
 SingleLineCaret insertCharacterSingleLineCaret(char* text, size_t capacity, SingleLineCaret caret, char c) {
     size_t len = strlen(text);
     size_t max_size = capacity;

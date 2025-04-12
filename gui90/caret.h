@@ -14,6 +14,7 @@ typedef struct MultiLineCaret {
 SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret);
 SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text);
 SingleLineCaret moveHomeSingleLineCaret(SingleLineCaret caret);
+SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text);
 SingleLineCaret insertCharacterSingleLineCaret(char* text, size_t capacity, SingleLineCaret caret, char c);
 
 MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text);

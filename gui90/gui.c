@@ -606,7 +606,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             widget.caret = moveHomeSingleLineCaret(widget.caret);
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
-            widget.caret.column = strlen(widget.text);
+            widget.caret = moveEndSingleLineCaret(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
             widget.caret = moveLeftSingleLineCaret(widget.caret);
