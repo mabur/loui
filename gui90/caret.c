@@ -18,6 +18,11 @@ SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text
     return caret;
 }
 
+SingleLineCaret moveHomeSingleLineCaret(SingleLineCaret caret) {
+    caret.column = 0;
+    return caret;
+}
+
 SingleLineCaret insertCharacterSingleLineCaret(char* text, size_t capacity, SingleLineCaret caret, char c) {
     size_t len = strlen(text);
     size_t max_size = capacity;

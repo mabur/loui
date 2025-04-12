@@ -603,7 +603,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             );
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
-            widget.caret.column = 0;
+            widget.caret = moveHomeSingleLineCaret(widget.caret);
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
             widget.caret.column = strlen(widget.text);
