@@ -156,7 +156,7 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     return widget;
 }
 
-static void drawCursor(size_t x_start, size_t y_start, LouiColor color) {
+static void drawCaret(size_t x_start, size_t y_start, LouiColor color) {
     for (size_t y = 0; y < 8; ++y) {
         s_loui.pixels[(y_start + y) * s_loui.width + x_start] = color;
     }
@@ -649,7 +649,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
-        drawCursor(cursor_x, cursor_y, s_loui.theme.text);
+        drawCaret(cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
 
@@ -724,7 +724,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y + widget.caret.line * TEXT_SIZE;
-        drawCursor(cursor_x, cursor_y, s_loui.theme.text);
+        drawCaret(cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
 
