@@ -30,6 +30,9 @@ SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text) 
 
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
     size_t len = strlen(text);
+    if (len + 1 >= capacity) {
+        return caret;
+    }
     size_t max_size = capacity;
     if (len + 1 >= max_size || caret.column > len) {
         return caret;
