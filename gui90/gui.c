@@ -595,8 +595,12 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
-            insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
-            widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
+            widget.caret = insertCharacterSingleLineCaret(
+                widget.text,
+                LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
+                widget.caret,
+                s_loui.input_character
+            );
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.caret.column = 0;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stddef.h>
+
 typedef struct SingleLineCaret {
     int column;
 } SingleLineCaret;
@@ -11,6 +13,7 @@ typedef struct MultiLineCaret {
 
 SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret);
 SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text);
+SingleLineCaret insertCharacterSingleLineCaret(char* text, size_t capacity, SingleLineCaret caret, char c);
 
 MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text);
 MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text);
