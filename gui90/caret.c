@@ -42,10 +42,22 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text
 }
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
-    auto count = strlen(text);
-    for (size_t i = caret.column; i < count; ++i) {
+    auto count = (int)strlen(text);
+    for (int i = caret.column; i < count; ++i) {
         text[i] = text[i + 1];
     }
+    return caret;
+}
+
+SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char* text) {
+    if (caret.column < 1) {
+        return caret;
+    }
+    auto count = (int)strlen(text);
+    for (int i = caret.column - 1; i < count; ++i) {
+        text[i] = text[i + 1];
+    }
+    caret = moveLeftSingleLineCaret(caret);
     return caret;
 }
 

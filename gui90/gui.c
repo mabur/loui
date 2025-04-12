@@ -617,9 +617,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
         }
-        if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.column > 0) {
-            deleteCharacter(widget.text, widget.caret.column - 1);
-            widget.caret = moveLeftSingleLineCaret(widget.caret);
+        if (s_loui.backspace_button.state == BUTTON_CLICKED) {
+            widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
         }
     }
 
