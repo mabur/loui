@@ -4,31 +4,31 @@
 
 #include "string.h"
 
-SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret) {
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret) {
     if (caret.column > 0) {
         caret.column--;
     }
     return caret;
 }
 
-SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text) {
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text) {
     if (caret.column < strlen(text)) {
         caret.column++;
     }
     return caret;
 }
 
-SingleLineCaret moveHomeSingleLineCaret(SingleLineCaret caret) {
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret) {
     caret.column = 0;
     return caret;
 }
 
-SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text) {
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) {
     caret.column = strlen(text);
     return caret;
 }
 
-SingleLineCaret setColumnSingleLetCaret(SingleLineCaret caret, const char* text, int column) {
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
     auto count = (int)strlen(text);
     if (column < 0) {
         column = 0;
@@ -53,7 +53,7 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text
         text[i] = text[i - 1];
     }
     text[caret.column] = c;
-    return moveRightSingleLineCaret(caret, text);
+    return moveSingleLineCaretRight(caret, text);
 }
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
@@ -72,7 +72,7 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char
     for (int i = caret.column - 1; i < count; ++i) {
         text[i] = text[i + 1];
     }
-    caret = moveLeftSingleLineCaret(caret);
+    caret = moveSingleLineCaretLeft(caret);
     return caret;
 }
 

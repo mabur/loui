@@ -603,16 +603,16 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             );
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
-            widget.caret = moveHomeSingleLineCaret(widget.caret);
+            widget.caret = moveSingleLineCaretHome(widget.caret);
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
-            widget.caret = moveEndSingleLineCaret(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveLeftSingleLineCaret(widget.caret);
+            widget.caret = moveSingleLineCaretLeft(widget.caret);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveRightSingleLineCaret(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
         }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
@@ -638,7 +638,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
         auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        widget.caret = setColumnSingleLetCaret(widget.caret, widget.text, column);
+        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text,
+            column);
     }
 
     auto global_theme = s_loui.theme;

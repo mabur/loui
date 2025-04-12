@@ -12,11 +12,11 @@ typedef struct MultiLineCaret {
 } MultiLineCaret;
 
 // Move SingleLineCaret:
-SingleLineCaret moveLeftSingleLineCaret(SingleLineCaret caret);
-SingleLineCaret moveRightSingleLineCaret(SingleLineCaret caret, const char* text);
-SingleLineCaret moveHomeSingleLineCaret(SingleLineCaret caret);
-SingleLineCaret moveEndSingleLineCaret(SingleLineCaret caret, const char* text);
-SingleLineCaret setColumnSingleLetCaret(SingleLineCaret caret, const char* text, int column);
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret);
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text);
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret);
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text);
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column);
 // Update text for SingleLineCaret:
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c);
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text);
