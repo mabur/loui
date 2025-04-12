@@ -596,9 +596,9 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_SINGLE_LINE_TEXT_INPUT - 1) {
             widget.caret = insertCharacterSingleLineCaret(
+                widget.caret,
                 widget.text,
                 LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
-                widget.caret,
                 s_loui.input_character
             );
         }
