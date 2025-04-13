@@ -119,3 +119,23 @@ MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
     }
     return caret;
 }
+
+MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column) {
+    auto lines = countRows(text);
+    if (line < 0) {
+        line = 0;
+    }
+    if (line > lines - 1) {
+        line = lines - 1;
+    }
+    auto columns = countColumns(text, line);
+    if (column < 0) {
+        column = 0;
+    }
+    if (column > columns) {
+        column = columns;
+    }
+    caret.line = line;
+    caret.column = column;
+    return caret;
+}
