@@ -663,7 +663,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (is_selected) {
         if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_MULTI_LINE_TEXT_INPUT - 1) {
             insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
-            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.caret.column = 0;
@@ -672,23 +672,23 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.caret.column = countColumns(widget.text, widget.caret.line);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveLeftMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretLeft(widget.caret, widget.text);
         }
         if (s_loui.right_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
         if (s_loui.up_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveUpMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretUp(widget.caret, widget.text);
         }
         if (s_loui.down_arrow_button.state == BUTTON_CLICKED) {
-            widget.caret = moveDownMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretDown(widget.caret, widget.text);
         }
         if (s_loui.delete_button.state == BUTTON_CLICKED) {
             deleteCharacter(widget.text, widget.caret.column);
         }
         if (s_loui.backspace_button.state == BUTTON_CLICKED && widget.caret.column > 0) {
             deleteCharacter(widget.text, widget.caret.column - 1);
-            widget.caret = moveRightMultiLineCaret(widget.caret, widget.text);
+            widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
     }
 

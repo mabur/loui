@@ -21,8 +21,8 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text);
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c);
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text);
 SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char* text);
-
-MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text);
-MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text);
-MultiLineCaret moveDownMultiLineCaret(MultiLineCaret caret, const char* text);
-MultiLineCaret moveRightMultiLineCaret(MultiLineCaret caret, const char* text);
+// Move MultiLineCaret:
+MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text);

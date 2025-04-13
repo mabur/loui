@@ -68,7 +68,7 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char
     return caret;
 }
 
-MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text) {
+MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text) {
     if (caret.line > 0) {
         caret.line--;
         auto columns = countColumns(text, caret.line);
@@ -80,10 +80,10 @@ MultiLineCaret moveUpMultiLineCaret(MultiLineCaret caret, const char* text) {
 }
 
 
-MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text) {
+MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text) {
     if (caret.column == 0) {
         if (caret.line > 0) {
-            caret = moveUpMultiLineCaret(caret, text);
+            caret = moveMultiLineCaretUp(caret, text);
             caret.column = countColumns(text, caret.line) + 1;
         }
     }
@@ -94,7 +94,7 @@ MultiLineCaret moveLeftMultiLineCaret(MultiLineCaret caret, const char* text) {
 }
 
 
-MultiLineCaret moveDownMultiLineCaret(MultiLineCaret caret, const char* text) {
+MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text) {
     if (caret.line < countRows(text)) {
         caret.line++;
         auto columns = countColumns(text, caret.line);
@@ -105,11 +105,11 @@ MultiLineCaret moveDownMultiLineCaret(MultiLineCaret caret, const char* text) {
     return caret;
 }
 
-MultiLineCaret moveRightMultiLineCaret(MultiLineCaret caret, const char* text) {
+MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
     auto columns = countColumns(text, caret.line);
     if (caret.column == columns) {
         if (caret.line < countRows(text)) {
-            caret = moveDownMultiLineCaret(caret, text);
+            caret = moveMultiLineCaretDown(caret, text);
             caret.column = 0;
         }
         return caret;
