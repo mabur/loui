@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-int countRows(const char* text);
+int countLines(const char* text);
 int countColumns(const char* text, int row);
 
 #ifdef __cplusplus

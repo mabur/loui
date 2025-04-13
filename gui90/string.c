@@ -1,13 +1,13 @@
 #include "string.h"
 
-int countRows(const char* text) {
-    auto rows = 0;
+int countLines(const char* text) {
+    auto lines = 0;
     for (; *text; ++text) {
         if (*text == '\n') {
-            ++rows;
+            ++lines;
         }
     }
-    return rows;
+    return lines;
 }
 
 static const char* gotoEndOfLine(const char* text) {

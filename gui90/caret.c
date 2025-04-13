@@ -95,7 +95,7 @@ MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text) {
 
 
 MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text) {
-    if (caret.line < countRows(text)) {
+    if (caret.line < countLines(text)) {
         caret.line++;
         auto columns = countColumns(text, caret.line);
         if (caret.column > columns) {
@@ -108,7 +108,7 @@ MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text) {
 MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
     auto columns = countColumns(text, caret.line);
     if (caret.column == columns) {
-        if (caret.line < countRows(text)) {
+        if (caret.line < countLines(text)) {
             caret = moveMultiLineCaretDown(caret, text);
             caret.column = 0;
         }
@@ -121,7 +121,7 @@ MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
 }
 
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column) {
-    auto lines = countRows(text);
+    auto lines = countLines(text);
     if (line < 0) {
         line = 0;
     }
