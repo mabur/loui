@@ -95,7 +95,7 @@ MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text) {
 
 
 MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text) {
-    if (caret.line < countLines(text)) {
+    if (caret.line < countLines(text) - 1) {
         caret.line++;
         auto columns = countColumns(text, caret.line);
         if (caret.column > columns) {
@@ -108,7 +108,7 @@ MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text) {
 MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
     auto columns = countColumns(text, caret.line);
     if (caret.column == columns) {
-        if (caret.line < countLines(text)) {
+        if (caret.line < countLines(text) - 1) {
             caret = moveMultiLineCaretDown(caret, text);
             caret.column = 0;
         }
