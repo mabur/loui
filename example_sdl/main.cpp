@@ -31,10 +31,10 @@ const char* themeDescription[] = {
 
 LouiInput createLouiInput(Input input, char input_character) {
     LouiInput loui_input = {};
-    loui_input.mouse_x=input.mouse_x;
-    loui_input.mouse_y=input.mouse_y;
-    loui_input.is_left_mouse_button_down=input.isLeftMouseButtonDown();
-    loui_input.input_character=input_character;
+    loui_input.mouse_x = input.mouse_x;
+    loui_input.mouse_y = input.mouse_y;
+    loui_input.is_left_mouse_button_down = input.isLeftMouseButtonDown();
+    loui_input.input_character = input_character;
 
     loui_input.is_keyboard_key_down[LOUI_KEYBOARD_LEFT_ARROW] = input.keyboard[SDL_SCANCODE_LEFT];
     loui_input.is_keyboard_key_down[LOUI_KEYBOARD_RIGHT_ARROW] = input.keyboard[SDL_SCANCODE_RIGHT];
