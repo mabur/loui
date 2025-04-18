@@ -15,21 +15,26 @@ extern "C" {
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 #define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
 
+typedef enum LouiKeyboard {
+    LOUI_KEYBOARD_LEFT_ARROW,
+    LOUI_KEYBOARD_RIGHT_ARROW,
+    LOUI_KEYBOARD_UP_ARROW,
+    LOUI_KEYBOARD_DOWN_ARROW,
+    LOUI_KEYBOARD_BACKSPACE,
+    LOUI_KEYBOARD_DELETE,
+    LOUI_KEYBOARD_ENTER,
+    LOUI_KEYBOARD_HOME,
+    LOUI_KEYBOARD_END,
+    LOUI_KEYBOARD_PAGE_UP,
+    LOUI_KEYBOARD_PAGE_DOWN,
+    LOUI_KEYBOARD_KEY_COUNT,
+} LouiKeyboard;
+
 typedef struct LouiInput {
     int mouse_x;
     int mouse_y;
     bool is_left_mouse_button_down;
-    bool is_left_arrow_button_down;
-    bool is_right_arrow_button_down;
-    bool is_up_arrow_button_down;
-    bool is_down_arrow_button_down;
-    bool is_backspace_button_down;
-    bool is_delete_button_down;
-    bool is_home_button_down;
-    bool is_end_button_down;
-    bool is_page_up_button_down;
-    bool is_page_down_button_down;
-    bool is_enter_button_down;
+    bool is_keyboard_key_down[LOUI_KEYBOARD_KEY_COUNT];
     char input_character;
 } LouiInput;
 
