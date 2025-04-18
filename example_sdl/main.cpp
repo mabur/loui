@@ -65,6 +65,7 @@ int main() {
             .is_delete_button_down=(bool)input.keyboard[SDL_SCANCODE_DELETE],
             .is_home_button_down=(bool)input.keyboard[SDL_SCANCODE_HOME],
             .is_end_button_down=(bool)input.keyboard[SDL_SCANCODE_END],
+            .is_enter_button_down=(bool)input.keyboard[SDL_SCANCODE_RETURN],
             .input_character=input_character
         };
         loui_set_input(gui90_input);

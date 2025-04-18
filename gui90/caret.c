@@ -213,6 +213,10 @@ MultiLineCaret insertCharacterMultiLineCaret(
     return moveMultiLineCaretRight(caret, text);
 }
 
+MultiLineCaret insertLineBreakMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity) {
+    return insertCharacterMultiLineCaret(caret, text, capacity, '\n');
+}
+
 MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text) {
     auto index = getIndexOfLineColumn(text, caret.line, caret.column);
     deleteCharacter(text, index);

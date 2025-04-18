@@ -33,6 +33,7 @@ typedef struct LouiState {
     RepeatingButtonState down_arrow_button;
     RepeatingButtonState backspace_button;
     RepeatingButtonState delete_button;
+    RepeatingButtonState enter_button;
     ButtonState home_button;
     ButtonState end_button;
     char input_character;
@@ -256,6 +257,7 @@ void loui_set_input(LouiInput input) {
     // Other keys:
     s_loui.backspace_button = updateRepeatingButtonState(s_loui.backspace_button, input.is_backspace_button_down);
     s_loui.delete_button = updateRepeatingButtonState(s_loui.delete_button, input.is_delete_button_down);
+    s_loui.enter_button = updateRepeatingButtonState(s_loui.enter_button, input.is_enter_button_down);
     s_loui.home_button = updateButtonState(s_loui.home_button, input.is_home_button_down);
     s_loui.end_button = updateButtonState(s_loui.end_button, input.is_end_button_down);
     s_loui.input_character = input.input_character;
@@ -654,6 +656,11 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
                 widget.text,
                 LOUI_MAX_MULTI_LINE_TEXT_INPUT,
                 s_loui.input_character
+            );
+        }
+        if (s_loui.enter_button.state == BUTTON_CLICKED) {
+            widget.caret = insertLineBreakMultiLineCaret(
+                widget.caret, widget.text, LOUI_MAX_MULTI_LINE_TEXT_INPUT
             );
         }
         if (s_loui.home_button == BUTTON_CLICKED) {

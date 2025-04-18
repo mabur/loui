@@ -31,5 +31,6 @@ MultiLineCaret moveMultiLineCaretEnd(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column);
 // Update text for MultiLineCaret:
 MultiLineCaret insertCharacterMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity, char c);
+MultiLineCaret insertLineBreakMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity);
 MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text);
 MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text);
