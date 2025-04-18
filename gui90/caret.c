@@ -212,3 +212,9 @@ MultiLineCaret insertCharacterMultiLineCaret(
     insertCharacter(text, index, c);
     return moveMultiLineCaretRight(caret, text);
 }
+
+MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text) {
+    auto index = getIndexOfLineColumn(text, caret.line, caret.column);
+    deleteCharacter(text, index);
+    return caret;
+}
