@@ -30,14 +30,14 @@ static const char* gotoNextLine(const char* text) {
     }
 }
 
-static const char* gotoRow(const char* text, int row) {
-    for (;row > 0; --row) {
+static const char* gotoLine(const char* text, int line) {
+    for (; line > 0; --line) {
         text = gotoNextLine(text);
     }
     return text;
 }
 
-static int countColumnsOfFirstRow(const char* text) {
+static int countColumnsOfFirstLine(const char* text) {
     auto columns = 0;
     for (; *text && *text != '\n'; ++text, ++columns) {
     }
@@ -45,7 +45,7 @@ static int countColumnsOfFirstRow(const char* text) {
 }
 
 static int countColumns(const char* text, int row) {
-    return countColumnsOfFirstRow(gotoRow(text, row));
+    return countColumnsOfFirstLine(gotoLine(text, row));
 }
 
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
