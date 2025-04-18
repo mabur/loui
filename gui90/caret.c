@@ -44,8 +44,8 @@ static int countColumnsOfFirstLine(const char* text) {
     return columns;
 }
 
-static int countColumns(const char* text, int row) {
-    return countColumnsOfFirstLine(gotoLine(text, row));
+static int countColumns(const char* text, int line) {
+    return countColumnsOfFirstLine(gotoLine(text, line));
 }
 
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
