@@ -28,6 +28,8 @@ MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretHome(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretEnd(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretPageUp(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretPageDown(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column);
 // Update text for MultiLineCaret:
 MultiLineCaret insertCharacterMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity, char c);

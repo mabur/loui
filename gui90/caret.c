@@ -178,6 +178,16 @@ MultiLineCaret moveMultiLineCaretEnd(MultiLineCaret caret, const char* text) {
     return caret;
 }
 
+MultiLineCaret moveMultiLineCaretPageUp(MultiLineCaret caret, const char* text) {
+    auto line = 0;
+    return moveMultiLineCaretLineColumn(caret, text, line, caret.column);
+}
+
+MultiLineCaret moveMultiLineCaretPageDown(MultiLineCaret caret, const char* text) {
+    auto line = countLines(text) - 1;
+    return moveMultiLineCaretLineColumn(caret, text, line, caret.column);
+}
+
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column) {
     auto lines = countLines(text);
     if (line < 0) {

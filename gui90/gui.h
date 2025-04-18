@@ -27,6 +27,8 @@ typedef struct LouiInput {
     bool is_delete_button_down;
     bool is_home_button_down;
     bool is_end_button_down;
+    bool is_page_up_button_down;
+    bool is_page_down_button_down;
     bool is_enter_button_down;
     char input_character;
 } LouiInput;

@@ -65,6 +65,8 @@ int main() {
             .is_delete_button_down=(bool)input.keyboard[SDL_SCANCODE_DELETE],
             .is_home_button_down=(bool)input.keyboard[SDL_SCANCODE_HOME],
             .is_end_button_down=(bool)input.keyboard[SDL_SCANCODE_END],
+            .is_page_up_button_down=(bool)input.keyboard[SDL_SCANCODE_PAGEUP],
+            .is_page_down_button_down=(bool)input.keyboard[SDL_SCANCODE_PAGEDOWN],
             .is_enter_button_down=(bool)input.keyboard[SDL_SCANCODE_RETURN],
             .input_character=input_character
         };
