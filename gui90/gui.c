@@ -655,7 +655,6 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
                 LOUI_MAX_MULTI_LINE_TEXT_INPUT,
                 s_loui.input_character
             );
-            widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretHome(widget.caret, widget.text);

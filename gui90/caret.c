@@ -42,6 +42,12 @@ static int countColumns(const char* text, int line) {
     return countColumnsOfFirstLine(gotoLine(text, line));
 }
 
+static int getIndexOfLineColumn(const char* text, int line, int column) {
+    auto line_start = gotoLine(text, line);
+    auto position = line_start + column;
+    return (int)(position - text);
+}
+
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
     auto count = (int)strlen(text);
     if (column < 0) {
@@ -195,17 +201,14 @@ MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* te
 MultiLineCaret insertCharacterMultiLineCaret(
     MultiLineCaret caret, char* text, size_t capacity, char c
 ) {
+    auto index = getIndexOfLineColumn(text, caret.line, caret.column);
     size_t len = strlen(text);
+    if (index > len) {
+        return caret;
+    }
     if (len + 1 >= capacity) {
         return caret;
     }
-    size_t max_size = capacity;
-    if (len + 1 >= max_size || caret.column > len) {
-        return caret;
-    }
-    for (size_t i = len + 1; i > caret.column; i--) {
-        text[i] = text[i - 1];
-    }
-    text[caret.column] = c;
+    insertCharacter(text, index, c);
     return moveMultiLineCaretRight(caret, text);
 }
