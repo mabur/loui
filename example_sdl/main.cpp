@@ -29,6 +29,28 @@ const char* themeDescription[] = {
     [LEATHER_THEME_INDEX] = "Leather",
 };
 
+LouiInput createLouiInput(Input input, char input_character) {
+    return (LouiInput){
+            .mouse_x=input.mouse_x,
+            .mouse_y=input.mouse_y,
+            .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
+            .is_keyboard_key_down={
+                [LOUI_KEYBOARD_LEFT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_LEFT],
+                [LOUI_KEYBOARD_RIGHT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
+                [LOUI_KEYBOARD_UP_ARROW]=(bool)input.keyboard[SDL_SCANCODE_UP],
+                [LOUI_KEYBOARD_DOWN_ARROW]=(bool)input.keyboard[SDL_SCANCODE_DOWN],
+                [LOUI_KEYBOARD_BACKSPACE]=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
+                [LOUI_KEYBOARD_DELETE]=(bool)input.keyboard[SDL_SCANCODE_DELETE],
+                [LOUI_KEYBOARD_ENTER]=(bool)input.keyboard[SDL_SCANCODE_RETURN],
+                [LOUI_KEYBOARD_HOME]=(bool)input.keyboard[SDL_SCANCODE_HOME],
+                [LOUI_KEYBOARD_END]=(bool)input.keyboard[SDL_SCANCODE_END],
+                [LOUI_KEYBOARD_PAGE_UP]=(bool)input.keyboard[SDL_SCANCODE_PAGEUP],
+                [LOUI_KEYBOARD_PAGE_DOWN]=(bool)input.keyboard[SDL_SCANCODE_PAGEDOWN],
+            },
+            .input_character=input_character,
+        };
+}
+
 int main() {
     auto WINDOW_TITLE = "GUI90";
     auto WIDTH = 320;
@@ -49,30 +71,12 @@ int main() {
                 input_character = event.text.text[0];
             }
         }
-        auto input = sdl.getInput();
-        if (input.escape_button == BUTTON_CLICKED) {
+        auto sdl_input = sdl.getInput();
+        if (sdl_input.escape_button == BUTTON_CLICKED) {
             break;
         }
-        auto gui90_input = (LouiInput){
-            .mouse_x=input.mouse_x,
-            .mouse_y=input.mouse_y,
-            .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
-            .is_keyboard_key_down={
-                [LOUI_KEYBOARD_LEFT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_LEFT],
-                [LOUI_KEYBOARD_RIGHT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
-                [LOUI_KEYBOARD_UP_ARROW]=(bool)input.keyboard[SDL_SCANCODE_UP],
-                [LOUI_KEYBOARD_DOWN_ARROW]=(bool)input.keyboard[SDL_SCANCODE_DOWN],
-                [LOUI_KEYBOARD_BACKSPACE]=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
-                [LOUI_KEYBOARD_DELETE]=(bool)input.keyboard[SDL_SCANCODE_DELETE],
-                [LOUI_KEYBOARD_ENTER]=(bool)input.keyboard[SDL_SCANCODE_RETURN],
-                [LOUI_KEYBOARD_HOME]=(bool)input.keyboard[SDL_SCANCODE_HOME],
-                [LOUI_KEYBOARD_END]=(bool)input.keyboard[SDL_SCANCODE_END],
-                [LOUI_KEYBOARD_PAGE_UP]=(bool)input.keyboard[SDL_SCANCODE_PAGEUP],
-                [LOUI_KEYBOARD_PAGE_DOWN]=(bool)input.keyboard[SDL_SCANCODE_PAGEDOWN],
-            },
-            .input_character=input_character
-        };
-        loui_set_input(gui90_input);
+        auto loui_input = createLouiInput(sdl_input, input_character);
+        loui_set_input(loui_input);
         
         static auto theme_index = YELLOW_THEME_INDEX;
         static auto button_type = BUTTON_TYPE_BEVEL;
