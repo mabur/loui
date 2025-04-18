@@ -34,10 +34,10 @@ typedef struct LouiState {
     RepeatingButtonState backspace_button;
     RepeatingButtonState delete_button;
     RepeatingButtonState enter_button;
-    ButtonState home_button;
-    ButtonState end_button;
-    ButtonState page_up_button;
-    ButtonState page_down_button;
+    RepeatingButtonState home_button;
+    RepeatingButtonState end_button;
+    RepeatingButtonState page_up_button;
+    RepeatingButtonState page_down_button;
     char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
@@ -260,10 +260,10 @@ void loui_set_input(LouiInput input) {
     s_loui.backspace_button = updateRepeatingButtonState(s_loui.backspace_button, input.is_backspace_button_down);
     s_loui.delete_button = updateRepeatingButtonState(s_loui.delete_button, input.is_delete_button_down);
     s_loui.enter_button = updateRepeatingButtonState(s_loui.enter_button, input.is_enter_button_down);
-    s_loui.home_button = updateButtonState(s_loui.home_button, input.is_home_button_down);
-    s_loui.end_button = updateButtonState(s_loui.end_button, input.is_end_button_down);
-    s_loui.page_up_button = updateButtonState(s_loui.page_up_button, input.is_page_up_button_down);
-    s_loui.page_down_button = updateButtonState(s_loui.page_down_button, input.is_page_down_button_down);
+    s_loui.home_button = updateRepeatingButtonState(s_loui.home_button, input.is_home_button_down);
+    s_loui.end_button = updateRepeatingButtonState(s_loui.end_button, input.is_end_button_down);
+    s_loui.page_up_button = updateRepeatingButtonState(s_loui.page_up_button, input.is_page_up_button_down);
+    s_loui.page_down_button = updateRepeatingButtonState(s_loui.page_down_button, input.is_page_down_button_down);
 
     s_loui.input_character = input.input_character;
     // Other:
@@ -596,10 +596,10 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 s_loui.input_character
             );
         }
-        if (s_loui.home_button == BUTTON_CLICKED) {
+        if (s_loui.home_button.state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
         }
-        if (s_loui.end_button == BUTTON_CLICKED) {
+        if (s_loui.end_button.state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
@@ -668,16 +668,16 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
                 widget.caret, widget.text, LOUI_MAX_MULTI_LINE_TEXT_INPUT
             );
         }
-        if (s_loui.home_button == BUTTON_CLICKED) {
+        if (s_loui.home_button.state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretHome(widget.caret, widget.text);
         }
-        if (s_loui.end_button == BUTTON_CLICKED) {
+        if (s_loui.end_button.state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretEnd(widget.caret, widget.text);
         }
-        if (s_loui.page_up_button == BUTTON_CLICKED) {
+        if (s_loui.page_up_button.state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretPageUp(widget.caret, widget.text);
         }
-        if (s_loui.page_down_button == BUTTON_CLICKED) {
+        if (s_loui.page_down_button.state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretPageDown(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
