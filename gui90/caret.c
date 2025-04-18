@@ -12,12 +12,6 @@ static int countLines(const char* text) {
     return lines;
 }
 
-static const char* gotoEndOfLine(const char* text) {
-    for (;*text != '\0' || *text != '\n'; ++text) {
-    }
-    return text;
-}
-
 static const char* gotoNextLine(const char* text) {
     for (;; ++text) {
         if (*text == '\0') {
@@ -127,7 +121,6 @@ MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text) {
     }
     return caret;
 }
-
 
 MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text) {
     if (caret.column == 0) {
