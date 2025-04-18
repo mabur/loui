@@ -578,18 +578,6 @@ static void deleteCharacter(char* string, size_t index) {
     }
 }
 
-static void insertCharacter(char* string, size_t index, char c) {
-    size_t len = strlen(string);
-    size_t max_size = LOUI_MAX_SINGLE_LINE_TEXT_INPUT;
-    if (len + 1 >= max_size || index > len) {
-        return;
-    }
-    for (size_t i = len + 1; i > index; i--) {
-        string[i] = string[i - 1];
-    }
-    string[index] = c;
-}
-
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
@@ -661,8 +649,13 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     if (is_selected) {
-        if (s_loui.input_character && strlen(widget.text) < LOUI_MAX_MULTI_LINE_TEXT_INPUT - 1) {
-            insertCharacter(widget.text, widget.caret.column, s_loui.input_character);
+        if (s_loui.input_character) {
+            widget.caret = insertCharacterMultiLineCaret(
+                widget.caret,
+                widget.text,
+                LOUI_MAX_MULTI_LINE_TEXT_INPUT,
+                s_loui.input_character
+            );
             widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
         if (s_loui.home_button == BUTTON_CLICKED) {
