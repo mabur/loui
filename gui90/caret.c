@@ -48,6 +48,21 @@ static int getIndexOfLineColumn(const char* text, int line, int column) {
     return (int)(position - text);
 }
 
+static void insertCharacter(char* text, size_t index, char character) {
+    size_t len = strlen(text);
+    for (size_t i = len + 1; i > index; i--) {
+        text[i] = text[i - 1];
+    }
+    text[index] = character;
+}
+
+static void deleteCharacter(char* text, int index) {
+    auto count = (int)strlen(text);
+    for (int i = index; i < count; ++i) {
+        text[i] = text[i + 1];
+    }
+}
+
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
     auto count = (int)strlen(text);
     if (column < 0) {
@@ -76,14 +91,6 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) 
     return moveSingleLineCaretColumn(caret, text, strlen(text));
 }
 
-static void insertCharacter(char* text, size_t index, char character) {
-    size_t len = strlen(text);
-    for (size_t i = len + 1; i > index; i--) {
-        text[i] = text[i - 1];
-    }
-    text[index] = character;
-}
-
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
     size_t len = strlen(text);
     if (caret.column > len) {
@@ -94,13 +101,6 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text
     }
     insertCharacter(text, caret.column, c);
     return moveSingleLineCaretRight(caret, text);
-}
-
-static void deleteCharacter(char* text, int index) {
-    auto count = (int)strlen(text);
-    for (int i = index; i < count; ++i) {
-        text[i] = text[i + 1];
-    }
 }
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
