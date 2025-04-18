@@ -76,6 +76,14 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) 
     return moveSingleLineCaretColumn(caret, text, strlen(text));
 }
 
+static void insertCharacter(char* text, size_t index, char character) {
+    size_t len = strlen(text);
+    for (size_t i = len + 1; i > index; i--) {
+        text[i] = text[i - 1];
+    }
+    text[index] = character;
+}
+
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
     size_t len = strlen(text);
     if (len + 1 >= capacity) {
@@ -85,10 +93,7 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text
     if (len + 1 >= max_size || caret.column > len) {
         return caret;
     }
-    for (size_t i = len + 1; i > caret.column; i--) {
-        text[i] = text[i - 1];
-    }
-    text[caret.column] = c;
+    insertCharacter(text, caret.column, c);
     return moveSingleLineCaretRight(caret, text);
 }
 
