@@ -218,3 +218,13 @@ MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* te
     deleteCharacter(text, index);
     return caret;
 }
+
+MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text) {
+    auto index = getIndexOfLineColumn(text, caret.line, caret.column);
+    if (index < 1) {
+        return caret;
+    }
+    caret = moveMultiLineCaretLeft(caret, text);
+    deleteCharacter(text, index - 1);
+    return caret;
+}
