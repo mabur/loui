@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "string.h"
 #include "text.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
