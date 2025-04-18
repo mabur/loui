@@ -30,25 +30,24 @@ const char* themeDescription[] = {
 };
 
 LouiInput createLouiInput(Input input, char input_character) {
-    return (LouiInput){
-            .mouse_x=input.mouse_x,
-            .mouse_y=input.mouse_y,
-            .is_left_mouse_button_down=input.isLeftMouseButtonDown(),
-            .is_keyboard_key_down={
-                [LOUI_KEYBOARD_LEFT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_LEFT],
-                [LOUI_KEYBOARD_RIGHT_ARROW]=(bool)input.keyboard[SDL_SCANCODE_RIGHT],
-                [LOUI_KEYBOARD_UP_ARROW]=(bool)input.keyboard[SDL_SCANCODE_UP],
-                [LOUI_KEYBOARD_DOWN_ARROW]=(bool)input.keyboard[SDL_SCANCODE_DOWN],
-                [LOUI_KEYBOARD_BACKSPACE]=(bool)input.keyboard[SDL_SCANCODE_BACKSPACE],
-                [LOUI_KEYBOARD_DELETE]=(bool)input.keyboard[SDL_SCANCODE_DELETE],
-                [LOUI_KEYBOARD_ENTER]=(bool)input.keyboard[SDL_SCANCODE_RETURN],
-                [LOUI_KEYBOARD_HOME]=(bool)input.keyboard[SDL_SCANCODE_HOME],
-                [LOUI_KEYBOARD_END]=(bool)input.keyboard[SDL_SCANCODE_END],
-                [LOUI_KEYBOARD_PAGE_UP]=(bool)input.keyboard[SDL_SCANCODE_PAGEUP],
-                [LOUI_KEYBOARD_PAGE_DOWN]=(bool)input.keyboard[SDL_SCANCODE_PAGEDOWN],
-            },
-            .input_character=input_character,
-        };
+    LouiInput loui_input = {};
+    loui_input.mouse_x=input.mouse_x;
+    loui_input.mouse_y=input.mouse_y;
+    loui_input.is_left_mouse_button_down=input.isLeftMouseButtonDown();
+    loui_input.input_character=input_character;
+
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_LEFT_ARROW] = input.keyboard[SDL_SCANCODE_LEFT];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_RIGHT_ARROW] = input.keyboard[SDL_SCANCODE_RIGHT];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_UP_ARROW] = input.keyboard[SDL_SCANCODE_UP];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_DOWN_ARROW] = input.keyboard[SDL_SCANCODE_DOWN];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_BACKSPACE] = input.keyboard[SDL_SCANCODE_BACKSPACE];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_DELETE] = input.keyboard[SDL_SCANCODE_DELETE];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_ENTER] = input.keyboard[SDL_SCANCODE_RETURN];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_HOME] = input.keyboard[SDL_SCANCODE_HOME];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_END] = input.keyboard[SDL_SCANCODE_END];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_PAGE_UP] = input.keyboard[SDL_SCANCODE_PAGEUP];
+    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_PAGE_DOWN] = input.keyboard[SDL_SCANCODE_PAGEDOWN];
+    return loui_input;
 }
 
 int main() {
