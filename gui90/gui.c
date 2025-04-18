@@ -669,7 +669,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.caret.column = 0;
         }
         if (s_loui.end_button == BUTTON_CLICKED) {
-            widget.caret.column = countColumns(widget.text, widget.caret.line);
+            widget.caret = moveMultiLineCaretEnd(widget.caret, widget.text);
         }
         if (s_loui.left_arrow_button.state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretLeft(widget.caret, widget.text);

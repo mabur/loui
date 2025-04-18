@@ -26,4 +26,5 @@ MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretDown(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text);
+MultiLineCaret moveMultiLineCaretEnd(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column);

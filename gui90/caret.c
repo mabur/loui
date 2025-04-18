@@ -120,6 +120,11 @@ MultiLineCaret moveMultiLineCaretRight(MultiLineCaret caret, const char* text) {
     return caret;
 }
 
+MultiLineCaret moveMultiLineCaretEnd(MultiLineCaret caret, const char* text) {
+    caret.column = countColumns(text, caret.line);
+    return caret;
+}
+
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column) {
     auto lines = countLines(text);
     if (line < 0) {
