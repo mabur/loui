@@ -96,11 +96,15 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text
     return moveSingleLineCaretRight(caret, text);
 }
 
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
+static void deleteCharacter(char* text, int index) {
     auto count = (int)strlen(text);
-    for (int i = caret.column; i < count; ++i) {
+    for (int i = index; i < count; ++i) {
         text[i] = text[i + 1];
     }
+}
+
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
+    deleteCharacter(text, caret.column);
     return caret;
 }
 
@@ -108,10 +112,7 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char
     if (caret.column < 1) {
         return caret;
     }
-    auto count = (int)strlen(text);
-    for (int i = caret.column - 1; i < count; ++i) {
-        text[i] = text[i + 1];
-    }
+    deleteCharacter(text, caret.column - 1);
     caret = moveSingleLineCaretLeft(caret, text);
     return caret;
 }
