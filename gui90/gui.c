@@ -692,6 +692,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         }
     }
 
+    auto columns = widget.columns;
+    auto lines = widget.lines;
     auto x = widget.x;
     auto y = widget.y;
     auto text_x = x + LOUI_BLOCK / 2;
@@ -716,11 +718,12 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, widget.lines, widget.columns);
-    if (is_selected && widget.caret.line < widget.lines && widget.caret.column < widget.columns) {
-        auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
-        auto cursor_y = text_y + widget.caret.line * TEXT_SIZE;
-        drawCaret(cursor_x, cursor_y, s_loui.theme.text);
+    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, lines, columns);
+    auto caret = widget.caret;
+    if (is_selected && caret.line < lines && caret.column < columns) {
+        auto caret_x = text_x + caret.column * TEXT_SIZE;
+        auto caret_y = text_y + caret.line * TEXT_SIZE;
+        drawCaret(caret_x, caret_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
 
