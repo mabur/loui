@@ -158,6 +158,20 @@ static void drawCaret(size_t x_start, size_t y_start, LouiColor color) {
     }
 }
 
+static void drawMultiLineCaret(
+    size_t x_start,
+    size_t y_start,
+    LouiColor color,
+    MultiLineCaret caret,
+    MultiLineCaret draw_caret
+) {
+    auto draw_caret_line = caret.line - draw_caret.line;
+    auto draw_caret_column = caret.column - draw_caret.column;
+    auto caret_x = x_start + draw_caret_column * TEXT_SIZE;
+    auto caret_y = y_start + draw_caret_line * TEXT_SIZE;
+    drawCaret(caret_x, caret_y, color);
+}
+
 static void drawCharacter(char character, size_t x_start, size_t y_start, LouiColor color) {
     auto W = s_loui.width;
     auto character_bitmap = character_bitmap8x8(character);
@@ -754,16 +768,9 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         columns,
         widget.draw_caret
     );
-
-    auto draw_caret_line = widget.caret.line - widget.draw_caret.line;
-    auto draw_caret_column = widget.caret.column - widget.draw_caret.column;
-    auto caret_x = text_x + draw_caret_column * TEXT_SIZE;
-    auto caret_y = text_y + draw_caret_line * TEXT_SIZE;
-    if (is_selected &&
-        0 <= draw_caret_line && draw_caret_line < lines &&
-        0 <= draw_caret_column && draw_caret_column < columns
-    ) {
-        drawCaret(caret_x, caret_y, s_loui.theme.text);
+    if (is_selected) {
+        drawMultiLineCaret(text_x, text_y, s_loui.theme.text, widget.caret,
+            widget.draw_caret);
     }
     loui_set_theme(global_theme);
 
