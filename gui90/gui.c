@@ -752,10 +752,15 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         columns,
         widget.draw_caret
     );
-    auto caret = widget.caret;
-    if (is_selected && caret.line < lines && caret.column < columns) {
-        auto caret_x = text_x + caret.column * TEXT_SIZE;
-        auto caret_y = text_y + caret.line * TEXT_SIZE;
+
+    auto draw_caret_line = widget.caret.line - widget.draw_caret.line;
+    auto draw_caret_column = widget.caret.column - widget.draw_caret.column;
+    auto caret_x = text_x + draw_caret_column * TEXT_SIZE;
+    auto caret_y = text_y + draw_caret_line * TEXT_SIZE;
+    if (is_selected &&
+        0 <= draw_caret_line && draw_caret_line < lines &&
+        0 <= draw_caret_column && draw_caret_column < columns
+    ) {
         drawCaret(caret_x, caret_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
