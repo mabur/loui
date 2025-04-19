@@ -569,6 +569,7 @@ static void deleteCharacter(char* string, size_t index) {
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
+    auto keyboard = s_loui.keyboard_keys;
     if (is_selected) {
         if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(
@@ -578,22 +579,22 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 s_loui.input_character
             );
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_HOME].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_HOME].state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_END].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_END].state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_LEFT].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_LEFT].state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_RIGHT].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_RIGHT].state == BUTTON_CLICKED) {
             widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_DELETE].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_DELETE].state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_BACKSPACE].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_BACKSPACE].state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
         }
     }
@@ -636,6 +637,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
 LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
+    auto keyboard = s_loui.keyboard_keys;
     if (is_selected) {
         if (s_loui.input_character) {
             widget.caret = insertCharacterMultiLineCaret(
@@ -645,39 +647,39 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
                 s_loui.input_character
             );
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ENTER].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ENTER].state == BUTTON_CLICKED) {
             widget.caret = insertLineBreakMultiLineCaret(
                 widget.caret, widget.text, LOUI_MAX_MULTI_LINE_TEXT_INPUT
             );
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_HOME].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_HOME].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretHome(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_END].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_END].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretEnd(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_PAGE_UP].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_PAGE_UP].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretPageUp(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_PAGE_DOWN].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_PAGE_DOWN].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretPageDown(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_LEFT].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_LEFT].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretLeft(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_RIGHT].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_RIGHT].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_UP].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_UP].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretUp(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_ARROW_DOWN].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_ARROW_DOWN].state == BUTTON_CLICKED) {
             widget.caret = moveMultiLineCaretDown(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_DELETE].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_DELETE].state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterAfterMultiLineCaret(widget.caret, widget.text);
         }
-        if (s_loui.keyboard_keys[LOUI_KEY_BACKSPACE].state == BUTTON_CLICKED) {
+        if (keyboard[LOUI_KEY_BACKSPACE].state == BUTTON_CLICKED) {
             widget.caret = deleteCharacterBeforeMultiLineCaret(widget.caret, widget.text);
         }
     }
