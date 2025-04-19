@@ -192,7 +192,8 @@ int main() {
             .y=y,
             .text="Multi\nlines of\ntext\na very very long line\nb\nc\nd\ne\nf",
             .lines=8,
-            .columns=15
+            .columns=15,
+            .draw_caret=(MultiLineCaret){.line=0, .column=0},
         };
         loui_update(multi_text_input);
         y += multi_text_input.height;

@@ -177,13 +177,25 @@ static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
 }
 
 static void drawMultiLineString(
-    const char* s, size_t x, size_t y, LouiColor color, int max_lines, int max_columns
+    const char* s,
+    size_t x,
+    size_t y,
+    LouiColor color,
+    int max_lines,
+    int max_columns,
+    MultiLineCaret draw_caret
 ) {
     auto line = 0;
     auto column = 0;
     for (; *s; ++s) {
-        if (line < max_lines && column < max_columns) {
-            drawCharacter(*s, x + column * TEXT_SIZE, y + line * TEXT_SIZE, color);
+        auto draw_line = line - draw_caret.line;
+        auto draw_column = column - draw_caret.column;
+        auto draw_x = x + draw_column * TEXT_SIZE;
+        auto draw_y = y + draw_line * TEXT_SIZE;
+        if (0 <= draw_line && draw_line < max_lines &&
+            0 <= draw_column && draw_column < max_columns
+        ) {
+            drawCharacter(*s, draw_x, draw_y, color);
         }
         if (*s == '\n') {
             column = 0;
@@ -714,11 +726,32 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.caret = moveMultiLineCaretLineColumn(widget.caret, widget.text, line, column);
     }
 
+    while (widget.caret.line < widget.draw_caret.line) {
+        widget.draw_caret.line--;
+    }
+    while (widget.caret.line > widget.draw_caret.line + widget.lines - 1) {
+        widget.draw_caret.line++;
+    }
+    while (widget.caret.column < widget.draw_caret.column) {
+        widget.draw_caret.column--;
+    }
+    while (widget.caret.column > widget.draw_caret.column + widget.columns - 1) {
+        widget.draw_caret.column++;
+    }
+
     auto global_theme = s_loui.theme;
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, lines, columns);
+    drawMultiLineString(
+        widget.text,
+        text_x,
+        text_y,
+        s_loui.theme.text,
+        lines,
+        columns,
+        widget.draw_caret
+    );
     auto caret = widget.caret;
     if (is_selected && caret.line < lines && caret.column < columns) {
         auto caret_x = text_x + caret.column * TEXT_SIZE;
