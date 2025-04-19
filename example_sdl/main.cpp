@@ -51,7 +51,7 @@ LouiInput createLouiInput(Input input, char input_character) {
 }
 
 int main() {
-    auto WINDOW_TITLE = "GUI90";
+    auto WINDOW_TITLE = "Loui";
     auto WIDTH = 320;
     auto HEIGHT = 200;
     
