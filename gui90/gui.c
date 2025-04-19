@@ -179,22 +179,17 @@ static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
 static void drawMultiLineString(
     const char* s, size_t x, size_t y, LouiColor color, int max_lines, int max_columns
 ) {
-    auto char_x = x;
-    auto char_y = y;
     auto line = 0;
     auto column = 0;
     for (; *s; ++s) {
         if (line < max_lines && column < max_columns) {
-            drawCharacter(*s, char_x, char_y, color);
+            drawCharacter(*s, x + column * TEXT_SIZE, y + line * TEXT_SIZE, color);
         }
         if (*s == '\n') {
-            char_x = x;
-            char_y += TEXT_SIZE;
             column = 0;
             line++;
         }
         else {
-            char_x += 8;
             column++;
         }
     }
