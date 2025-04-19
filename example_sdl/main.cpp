@@ -36,17 +36,17 @@ LouiInput createLouiInput(Input input, char input_character) {
     loui_input.is_left_mouse_button_down = input.isLeftMouseButtonDown();
     loui_input.input_character = input_character;
 
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_LEFT_ARROW] = input.keyboard[SDL_SCANCODE_LEFT];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_RIGHT_ARROW] = input.keyboard[SDL_SCANCODE_RIGHT];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_UP_ARROW] = input.keyboard[SDL_SCANCODE_UP];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_DOWN_ARROW] = input.keyboard[SDL_SCANCODE_DOWN];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_BACKSPACE] = input.keyboard[SDL_SCANCODE_BACKSPACE];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_DELETE] = input.keyboard[SDL_SCANCODE_DELETE];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_ENTER] = input.keyboard[SDL_SCANCODE_RETURN];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_HOME] = input.keyboard[SDL_SCANCODE_HOME];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_END] = input.keyboard[SDL_SCANCODE_END];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_PAGE_UP] = input.keyboard[SDL_SCANCODE_PAGEUP];
-    loui_input.is_keyboard_key_down[LOUI_KEYBOARD_PAGE_DOWN] = input.keyboard[SDL_SCANCODE_PAGEDOWN];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_LEFT] = input.keyboard[SDL_SCANCODE_LEFT];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_RIGHT] = input.keyboard[SDL_SCANCODE_RIGHT];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_UP] = input.keyboard[SDL_SCANCODE_UP];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_DOWN] = input.keyboard[SDL_SCANCODE_DOWN];
+    loui_input.is_keyboard_key_down[LOUI_KEY_BACKSPACE] = input.keyboard[SDL_SCANCODE_BACKSPACE];
+    loui_input.is_keyboard_key_down[LOUI_KEY_DELETE] = input.keyboard[SDL_SCANCODE_DELETE];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ENTER] = input.keyboard[SDL_SCANCODE_RETURN];
+    loui_input.is_keyboard_key_down[LOUI_KEY_HOME] = input.keyboard[SDL_SCANCODE_HOME];
+    loui_input.is_keyboard_key_down[LOUI_KEY_END] = input.keyboard[SDL_SCANCODE_END];
+    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_UP] = input.keyboard[SDL_SCANCODE_PAGEUP];
+    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_DOWN] = input.keyboard[SDL_SCANCODE_PAGEDOWN];
     return loui_input;
 }
 
