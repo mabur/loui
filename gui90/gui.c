@@ -697,7 +697,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto text_x = x + LOUI_BLOCK / 2;
     auto text_y = y + LOUI_BLOCK / 2;
     auto width = 8 * widget.columns + LOUI_BLOCK;
-    auto height = 8 * widget.rows + LOUI_BLOCK;
+    auto height = 8 * widget.lines + LOUI_BLOCK;
     widget.width = width;
     widget.height = height;
 
@@ -716,8 +716,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, widget.rows, widget.columns);
-    if (is_selected && widget.caret.line < widget.rows && widget.caret.column < widget.columns) {
+    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, widget.lines, widget.columns);
+    if (is_selected && widget.caret.line < widget.lines && widget.caret.column < widget.columns) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y + widget.caret.line * TEXT_SIZE;
         drawCaret(cursor_x, cursor_y, s_loui.theme.text);

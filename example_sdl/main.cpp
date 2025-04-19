@@ -191,7 +191,7 @@ int main() {
             .x=x,
             .y=y,
             .text="Multi\nlines of\ntext\na very very long line\nb\nc\nd\ne\nf",
-            .rows=8,
+            .lines=8,
             .columns=15
         };
         loui_update(multi_text_input);
