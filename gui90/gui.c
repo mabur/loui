@@ -176,17 +176,26 @@ static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
     }
 }
 
-static void drawMultiLineString(const char* s, size_t x, size_t y, LouiColor color) {
+static void drawMultiLineString(
+    const char* s, size_t x, size_t y, LouiColor color, int max_lines, int max_columns
+) {
     auto char_x = x;
     auto char_y = y;
+    auto line = 0;
+    auto column = 0;
     for (; *s; ++s) {
-        drawCharacter(*s, char_x, char_y, color);
+        if (line < max_lines && column < max_columns) {
+            drawCharacter(*s, char_x, char_y, color);
+        }
         if (*s == '\n') {
             char_x = x;
             char_y += TEXT_SIZE;
+            column = 0;
+            line++;
         }
         else {
             char_x += 8;
+            column++;
         }
     }
 }
@@ -712,7 +721,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text);
+    drawMultiLineString(widget.text, text_x, text_y, s_loui.theme.text, widget.rows, widget.columns);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y + widget.caret.line * TEXT_SIZE;
