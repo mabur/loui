@@ -721,8 +721,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     widget.is_clicked = frame.is_clicked;
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
-        auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        auto line = (s_loui.mouse_y - text_y) / TEXT_SIZE;
+        auto draw_column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
+        auto draw_line = (s_loui.mouse_y - text_y) / TEXT_SIZE;
+        auto column = draw_column + widget.draw_caret.column;
+        auto line = draw_line + widget.draw_caret.line;
         widget.caret = moveMultiLineCaretLineColumn(widget.caret, widget.text, line, column);
     }
 
