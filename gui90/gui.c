@@ -5,7 +5,6 @@
 #include <string.h>
 
 #include "draw.h"
-#include "text.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
 
@@ -39,13 +38,6 @@ static const int TEXT_SIZE = 8;
 static const int BUTTON_TEXT_PADDING = 4;
 
 static LouiState s_loui;
-
-typedef struct Rectangle {
-    int x;
-    int y;
-    int width;
-    int height;
-} Rectangle;
 
 // -----------------------------------------------------------------------------
 // PRIVATE MOUSE & KEYBOARD FUNCTIONS
@@ -106,51 +98,6 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
-    screen.data[y * screen.width + x] = color;
-}
-
-static void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
-    for (auto dy = 0; dy < rectangle.height; ++dy) {
-        for (auto dx = 0; dx < rectangle.width; ++dx) {
-            drawPoint(screen, rectangle.x + dx, rectangle.y + dy, color);
-        }
-    }
-}
-
-static void drawLineHorizontal(LouiScreen screen, int x, int y, int width, LouiColor color) {
-    auto r = (Rectangle){};
-    r.x = x;
-    r.y = y;
-    r.width = width;
-    r.height = 1;
-    drawRectangle(screen, r, color);
-}
-
-static void drawLineVertical(LouiScreen screen, int x, int y, int height, LouiColor color) {
-    auto r = (Rectangle){};
-    r.x = x;
-    r.y = y;
-    r.width = 1;
-    r.height = height;
-    drawRectangle(screen, r, color);
-}
-
-LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
-    auto x = widget.x;
-    auto y = widget.y;
-    auto width = widget.width;
-    auto height = widget.height;
-    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
-    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
-    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
-    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
-    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
-    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
-    return widget;
-}
-
 static void drawCaret(size_t x_start, size_t y_start, LouiColor color) {
     for (size_t y = 0; y < 8; ++y) {
         s_loui.screen.data[(y_start + y) * s_loui.screen.width + x_start] = color;
@@ -169,24 +116,6 @@ static void drawMultiLineCaret(
     auto caret_x = x_start + draw_caret_column * TEXT_SIZE;
     auto caret_y = y_start + draw_caret_line * TEXT_SIZE;
     drawCaret(caret_x, caret_y, color);
-}
-
-static void drawCharacter(LouiScreen screen, char character, size_t x_start, size_t y_start, LouiColor color) {
-    auto W = s_loui.screen.width;
-    auto character_bitmap = character_bitmap8x8(character);
-    for (size_t y = 0; y < 8; ++y) {
-        for (size_t x = 0; x < 8; ++x) {
-            if (character_bitmap[y * 8 + x]) {
-                s_loui.screen.data[(y_start + y) * W + x_start + x] = color;
-            }
-        }
-    }
-}
-
-static void drawString(LouiScreen screen, const char* s, size_t x, size_t y, LouiColor color) {
-    for (; *s; ++s, x += 8) {
-        drawCharacter(screen, *s, x, y, color);
-    }
 }
 
 static void drawMultiLineString(
@@ -237,7 +166,7 @@ static void drawSpecialString(
         if (theme.draw_down_right) {
             drawCharacter(screen, *s, x + 1, y + 1, theme.color_down_right);
         }
-        
+
         if (theme.draw_up) {
             drawCharacter(screen, *s, x + 0, y - 1, theme.color_up);
         }
@@ -250,7 +179,7 @@ static void drawSpecialString(
         if (theme.draw_down) {
             drawCharacter(screen, *s, x + 0, y + 1, theme.color_down);
         }
-        
+
         if (theme.draw_center) {
             drawCharacter(screen, *s, x + 0, y + 0, theme.color_center);
         }
@@ -330,6 +259,21 @@ static Rectangle textRectangle(int x, int y, const char* text) {
         .width = 8 * (int)(strlen(text)),
         .height = 8,    
     };
+}
+
+LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
+    auto x = widget.x;
+    auto y = widget.y;
+    auto width = widget.width;
+    auto height = widget.height;
+    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
+    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
+    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
+    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
 }
 
 LouiLabel loui_update_label(LouiLabel widget) {
