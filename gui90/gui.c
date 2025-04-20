@@ -106,34 +106,34 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawPoint(int x, int y, LouiColor color) {
-    s_loui.screen.data[y * s_loui.screen.width + x] = color;
+static void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
+    screen.data[y * screen.width + x] = color;
 }
 
-static void drawRectangle(Rectangle rectangle, LouiColor color) {
+static void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
-            drawPoint(rectangle.x + dx, rectangle.y + dy, color);
+            drawPoint(screen, rectangle.x + dx, rectangle.y + dy, color);
         }
     }
 }
 
-static void drawLineHorizontal(int x, int y, int width, LouiColor color) {
+static void drawLineHorizontal(LouiScreen screen, int x, int y, int width, LouiColor color) {
     auto r = (Rectangle){};
     r.x = x;
     r.y = y;
     r.width = width;
     r.height = 1;
-    drawRectangle(r, color);
+    drawRectangle(screen, r, color);
 }
 
-static void drawLineVertical(int x, int y, int height, LouiColor color) {
+static void drawLineVertical(LouiScreen screen, int x, int y, int height, LouiColor color) {
     auto r = (Rectangle){};
     r.x = x;
     r.y = y;
     r.width = 1;
     r.height = height;
-    drawRectangle(r, color);
+    drawRectangle(screen, r, color);
 }
 
 LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
@@ -142,11 +142,11 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto width = widget.width;
     auto height = widget.height;
     auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(rectangle, s_loui.theme.recess_background);
-    drawLineHorizontal(x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
-    drawLineHorizontal(x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
-    drawLineVertical(x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
-    drawLineVertical(x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
+    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
+    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
+    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     return widget;
 }
@@ -171,7 +171,7 @@ static void drawMultiLineCaret(
     drawCaret(caret_x, caret_y, color);
 }
 
-static void drawCharacter(char character, size_t x_start, size_t y_start, LouiColor color) {
+static void drawCharacter(LouiScreen screen, char character, size_t x_start, size_t y_start, LouiColor color) {
     auto W = s_loui.screen.width;
     auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
@@ -183,13 +183,14 @@ static void drawCharacter(char character, size_t x_start, size_t y_start, LouiCo
     }
 }
 
-static void drawString(const char* s, size_t x, size_t y, LouiColor color) {
+static void drawString(LouiScreen screen, const char* s, size_t x, size_t y, LouiColor color) {
     for (; *s; ++s, x += 8) {
-        drawCharacter(*s, x, y, color);
+        drawCharacter(screen, *s, x, y, color);
     }
 }
 
 static void drawMultiLineString(
+    LouiScreen screen,
     const char* s,
     size_t x,
     size_t y,
@@ -208,7 +209,7 @@ static void drawMultiLineString(
         if (0 <= draw_line && draw_line < max_lines &&
             0 <= draw_column && draw_column < max_columns
         ) {
-            drawCharacter(*s, draw_x, draw_y, color);
+            drawCharacter(s_loui.screen, *s, draw_x, draw_y, color);
         }
         if (*s == '\n') {
             column = 0;
@@ -220,36 +221,38 @@ static void drawMultiLineString(
     }
 }
 
-static void drawSpecialString(const char* s, int x, int y, LouiHeaderLabelTheme theme) {
+static void drawSpecialString(
+    LouiScreen screen, const char* s, int x, int y, LouiHeaderLabelTheme theme
+) {
     for (; *s; ++s, x += 8) {
         if (theme.draw_up_left) {
-            drawCharacter(*s, x - 1, y - 1, theme.color_up_left);
+            drawCharacter(screen, *s, x - 1, y - 1, theme.color_up_left);
         }
         if (theme.draw_up_right) {
-            drawCharacter(*s, x + 1, y - 1, theme.color_up_right);
+            drawCharacter(screen, *s, x + 1, y - 1, theme.color_up_right);
         }
         if (theme.draw_down_left) {
-            drawCharacter(*s, x - 1, y + 1, theme.color_down_left);
+            drawCharacter(screen, *s, x - 1, y + 1, theme.color_down_left);
         }
         if (theme.draw_down_right) {
-            drawCharacter(*s, x + 1, y + 1, theme.color_down_right);
+            drawCharacter(screen, *s, x + 1, y + 1, theme.color_down_right);
         }
         
         if (theme.draw_up) {
-            drawCharacter(*s, x + 0, y - 1, theme.color_up);
+            drawCharacter(screen, *s, x + 0, y - 1, theme.color_up);
         }
         if (theme.draw_left) {
-            drawCharacter(*s, x - 1, y + 0, theme.color_left);
+            drawCharacter(screen, *s, x - 1, y + 0, theme.color_left);
         }
         if (theme.draw_right) {
-            drawCharacter(*s, x + 1, y + 0, theme.color_right);
+            drawCharacter(screen, *s, x + 1, y + 0, theme.color_right);
         }
         if (theme.draw_down) {
-            drawCharacter(*s, x + 0, y + 1, theme.color_down);
+            drawCharacter(screen, *s, x + 0, y + 1, theme.color_down);
         }
         
         if (theme.draw_center) {
-            drawCharacter(*s, x + 0, y + 0, theme.color_center);
+            drawCharacter(screen, *s, x + 0, y + 0, theme.color_center);
         }
     }
 }
@@ -330,7 +333,7 @@ static Rectangle textRectangle(int x, int y, const char* text) {
 }
 
 LouiLabel loui_update_label(LouiLabel widget) {
-    drawString(widget.text, widget.x, widget.y, s_loui.theme.text);
+    drawString(s_loui.screen, widget.text, widget.x, widget.y, s_loui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
     widget.height = rectangle.height;
@@ -339,7 +342,7 @@ LouiLabel loui_update_label(LouiLabel widget) {
 }
 
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget) {
-    drawSpecialString(widget.text, widget.x, widget.y, widget.theme);
+    drawSpecialString(s_loui.screen, widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
     widget.height = rectangle.height;
@@ -371,7 +374,7 @@ LouiButton loui_update_button_bevel(LouiButton widget) {
         theme.button_bevel_dark = s_loui.theme.button_background;
     }
     
-    drawRectangle(rectangle, s_loui.theme.button_border);
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_border);
     
     // Rounded corners:
     // drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
@@ -383,12 +386,12 @@ LouiButton loui_update_button_bevel(LouiButton widget) {
     // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
     // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
     
-    drawRectangle(inner_rectangle, theme.button_background);
-    drawLineHorizontal(x + 2, y + 1, rectangle.width - 4, theme.button_bevel_light);
-    drawLineHorizontal(x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
-    drawLineVertical(x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
-    drawLineVertical(x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
-    drawString(widget.text, text_x, text_y, theme.text);
+    drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
+    drawLineHorizontal(s_loui.screen, x + 2, y + 1, rectangle.width - 4, theme.button_bevel_light);
+    drawLineHorizontal(s_loui.screen, x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
+    drawLineVertical(s_loui.screen, x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
+    drawLineVertical(s_loui.screen, x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
+    drawString(s_loui.screen, widget.text, text_x, text_y, theme.text);
 
     widget.width = rectangle.width + 2;
     widget.height = rectangle.height + 2;
@@ -424,33 +427,33 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     }
 
     // Shadow:
-    drawPoint(x, y + rectangle.height - 1, theme.button_border);
-    drawPoint(x + rectangle.width - 1, y + rectangle.height - 1, theme.button_border);
-    drawLineHorizontal(x + 1, y + rectangle.height, rectangle.width - 2, theme.button_border);
+    drawPoint(s_loui.screen, x, y + rectangle.height - 1, theme.button_border);
+    drawPoint(s_loui.screen, x + rectangle.width - 1, y + rectangle.height - 1, theme.button_border);
+    drawLineHorizontal(s_loui.screen, x + 1, y + rectangle.height, rectangle.width - 2, theme.button_border);
     
     //drawRectangle(rectangle, s_loui.theme.button_border);
-    drawRectangle(inner_rectangle, theme.button_background);
+    drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
     
     // Rounded corners:
-    drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
-    drawLineHorizontal(rectangle.x + 1, rectangle.y + rectangle.height - 1, rectangle.width - 2, theme.button_border);
-    drawLineVertical(rectangle.x, rectangle.y + 1, rectangle.height - 2, theme.button_border);
-    drawLineVertical(rectangle.x + rectangle.width - 1, rectangle.y + 1, rectangle.height - 2, theme.button_border);
-    drawPoint(rectangle.x + 1, rectangle.y + 1, theme.button_border);
-    drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 2, theme.button_border);
-    drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
-    drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
+    drawLineHorizontal(s_loui.screen, rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
+    drawLineHorizontal(s_loui.screen, rectangle.x + 1, rectangle.y + rectangle.height - 1, rectangle.width - 2, theme.button_border);
+    drawLineVertical(s_loui.screen, rectangle.x, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    drawLineVertical(s_loui.screen, rectangle.x + rectangle.width - 1, rectangle.y + 1, rectangle.height - 2, theme.button_border);
+    drawPoint(s_loui.screen, rectangle.x + 1, rectangle.y + 1, theme.button_border);
+    drawPoint(s_loui.screen, rectangle.x + 1, rectangle.y + rectangle.height - 2, theme.button_border);
+    drawPoint(s_loui.screen, rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
+    drawPoint(s_loui.screen, rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
     
-    drawPoint(rectangle.x + 2, rectangle.y + 1, theme.button_bevel_dark);
-    drawPoint(rectangle.x + 1, rectangle.y + 2, theme.button_bevel_dark);
-    drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
-    drawPoint(rectangle.x + 2, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
-    drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + 1, theme.button_bevel_dark);
-    drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + 2, theme.button_bevel_dark);
-    drawPoint(rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
-    drawPoint(rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + 2, rectangle.y + 1, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + 1, rectangle.y + 2, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + 1, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + 2, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + rectangle.width - 3, rectangle.y + 1, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + rectangle.width - 2, rectangle.y + 2, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
+    drawPoint(s_loui.screen, rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
     
-    drawString(widget.text, text_x, text_y, theme.text);
+    drawString(s_loui.screen, widget.text, text_x, text_y, theme.text);
     widget.width = rectangle.width + 2;
     widget.height = 2 * LOUI_BLOCK;
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
@@ -484,7 +487,7 @@ LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {
             if (r2 < 2.0 * 2.0 && widget.is_selected) {
                 color = s_loui.theme.recess_text_selected;
             }
-            drawPoint(widget.x + xi - 2, widget.y + yi, color);
+            drawPoint(s_loui.screen, widget.x + xi - 2, widget.y + yi, color);
         }
     }
     auto left_rectangle = (Rectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
@@ -526,7 +529,7 @@ LouiCheckBox loui_update_check_box(LouiCheckBox widget) {
         for (auto dy = 0; dy < 8; ++dy) {
             for (auto dx = 0; dx < 8; ++dx) {
                 if (check[dy * 8 + dx]) {
-                    drawPoint(x + 1 + dx, y + 4 + dy, s_loui.theme.recess_text_selected);
+                    drawPoint(s_loui.screen, x + 1 + dx, y + 4 + dy, s_loui.theme.recess_text_selected);
                 }
             }
         }
@@ -665,7 +668,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
-    drawString(widget.text, text_x, text_y, s_loui.theme.text);
+    drawString(s_loui.screen, widget.text, text_x, text_y, s_loui.theme.text);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
@@ -768,6 +771,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
     drawMultiLineString(
+        s_loui.screen,
         widget.text,
         text_x,
         text_y,
