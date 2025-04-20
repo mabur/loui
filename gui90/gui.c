@@ -4,19 +4,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "button.h"
 #include "draw.h"
 #include "rectangle.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
-
-typedef enum ButtonState {
-    BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED
-} ButtonState;
-
-typedef struct RepeatingButtonState {
-    ButtonState state;
-    int frame_tick;
-} RepeatingButtonState;
 
 typedef struct LouiState {
     LouiScreen screen;
@@ -42,47 +34,6 @@ static LouiState s_loui;
 
 // -----------------------------------------------------------------------------
 // PRIVATE MOUSE & KEYBOARD FUNCTIONS
-
-static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
-    switch (old_state) {
-    case BUTTON_UP: return is_down ? BUTTON_CLICKED : BUTTON_UP;
-    case BUTTON_CLICKED: return BUTTON_DOWN;
-    case BUTTON_DOWN: return is_down ? BUTTON_DOWN : BUTTON_RELEASED;
-    case BUTTON_RELEASED: return BUTTON_UP;
-    default: return (ButtonState){};
-    }
-}
-
-static bool is_key_repeating(int frame_tick) {
-    auto INITIAL_REPEAT_TIME = 30;
-    auto REPEAT_TIME = 3;
-    if (frame_tick < INITIAL_REPEAT_TIME) {
-        return false;
-    }
-    if (frame_tick == INITIAL_REPEAT_TIME) {
-        return true;
-    }
-    return frame_tick % REPEAT_TIME == 0;
-}
-
-static RepeatingButtonState updateRepeatingButtonState(RepeatingButtonState old_state, bool is_down) {
-    auto button = old_state;
-    if (button.state == BUTTON_UP) {
-        button.frame_tick = 0;
-    }
-    button.state = updateButtonState(button.state, is_down);
-    if (button.state == BUTTON_DOWN) {
-        button.frame_tick++;
-        if (is_key_repeating(old_state.frame_tick)) {
-            button.state = BUTTON_CLICKED;
-        }
-    }
-    return button;
-}
-
-static bool isClicked(RepeatingButtonState button) {
-    return button.state == BUTTON_CLICKED;
-}
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
     return s_loui.left_mouse_button == BUTTON_DOWN &&
