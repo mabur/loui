@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "draw.h"
+#include "rectangle.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
 

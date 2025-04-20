@@ -1,5 +1,6 @@
 #include "draw.h"
 
+#include "rectangle.h"
 #include "text.h"
 
 void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {

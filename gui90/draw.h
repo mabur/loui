@@ -2,20 +2,14 @@
 
 #include "color.h"
 
+typedef struct Rectangle Rectangle;
+
 typedef struct LouiScreen {
     LouiColor* data;
     int width;
     int height;
     int count;
 } LouiScreen;
-
-// TODO: move
-typedef struct Rectangle {
-    int x;
-    int y;
-    int width;
-    int height;
-} Rectangle;
 
 void drawPoint(LouiScreen screen, int x, int y, LouiColor color);
 void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color);
