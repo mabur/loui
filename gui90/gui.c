@@ -99,13 +99,15 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawCaret(size_t x_start, size_t y_start, LouiColor color) {
+static void drawCaret(
+    LouiScreen screen, size_t x_start, size_t y_start, LouiColor color) {
     for (size_t y = 0; y < 8; ++y) {
-        s_loui.screen.data[(y_start + y) * s_loui.screen.width + x_start] = color;
+        screen.data[(y_start + y) * screen.width + x_start] = color;
     }
 }
 
 static void drawMultiLineCaret(
+    LouiScreen screen,
     size_t x_start,
     size_t y_start,
     LouiColor color,
@@ -116,7 +118,7 @@ static void drawMultiLineCaret(
     auto draw_caret_column = caret.column - draw_caret.column;
     auto caret_x = x_start + draw_caret_column * TEXT_SIZE;
     auto caret_y = y_start + draw_caret_line * TEXT_SIZE;
-    drawCaret(caret_x, caret_y, color);
+    drawCaret(screen, caret_x, caret_y, color);
 }
 
 static void drawMultiLineString(
@@ -139,7 +141,7 @@ static void drawMultiLineString(
         if (0 <= draw_line && draw_line < max_lines &&
             0 <= draw_column && draw_column < max_columns
         ) {
-            drawCharacter(s_loui.screen, *s, draw_x, draw_y, color);
+            drawCharacter(screen, *s, draw_x, draw_y, color);
         }
         if (*s == '\n') {
             column = 0;
@@ -617,7 +619,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
-        drawCaret(cursor_x, cursor_y, s_loui.theme.text);
+        drawCaret(s_loui.screen, cursor_x, cursor_y, s_loui.theme.text);
     }
     loui_set_theme(global_theme);
 
@@ -726,8 +728,9 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.draw_caret
     );
     if (is_selected) {
-        drawMultiLineCaret(text_x, text_y, s_loui.theme.text, widget.caret,
-            widget.draw_caret);
+        drawMultiLineCaret(
+            s_loui.screen, text_x, text_y, s_loui.theme.text, widget.caret, widget.draw_caret
+        );
     }
     loui_set_theme(global_theme);
 
