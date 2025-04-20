@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "draw.h"
 #include "text.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
@@ -16,14 +17,6 @@ typedef struct RepeatingButtonState {
     ButtonState state;
     int frame_tick;
 } RepeatingButtonState;
-
-
-typedef struct LouiScreen {
-    LouiColor* data;
-    int width;
-    int height;
-    int count;
-} LouiScreen;
 
 typedef struct LouiState {
     LouiScreen screen;
