@@ -17,10 +17,16 @@ typedef struct RepeatingButtonState {
     int frame_tick;
 } RepeatingButtonState;
 
-typedef struct LouiState {
-    LouiColor* pixels;
+
+typedef struct LouiScreen {
+    LouiColor* data;
     int width;
     int height;
+    int count;
+} LouiScreen;
+
+typedef struct LouiState {
+    LouiScreen screen;
     int mouse_x;
     int mouse_y;
     int current_x;
@@ -108,7 +114,7 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // PRIVATE DRAW FUNCTIONS
 
 static void drawPoint(int x, int y, LouiColor color) {
-    s_loui.pixels[y * s_loui.width + x] = color;
+    s_loui.screen.data[y * s_loui.screen.width + x] = color;
 }
 
 static void drawRectangle(Rectangle rectangle, LouiColor color) {
@@ -154,7 +160,7 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
 
 static void drawCaret(size_t x_start, size_t y_start, LouiColor color) {
     for (size_t y = 0; y < 8; ++y) {
-        s_loui.pixels[(y_start + y) * s_loui.width + x_start] = color;
+        s_loui.screen.data[(y_start + y) * s_loui.screen.width + x_start] = color;
     }
 }
 
@@ -173,12 +179,12 @@ static void drawMultiLineCaret(
 }
 
 static void drawCharacter(char character, size_t x_start, size_t y_start, LouiColor color) {
-    auto W = s_loui.width;
+    auto W = s_loui.screen.width;
     auto character_bitmap = character_bitmap8x8(character);
     for (size_t y = 0; y < 8; ++y) {
         for (size_t x = 0; x < 8; ++x) {
             if (character_bitmap[y * 8 + x]) {
-                s_loui.pixels[(y_start + y) * W + x_start + x] = color;
+                s_loui.screen.data[(y_start + y) * W + x_start + x] = color;
             }
         }
     }
@@ -258,14 +264,23 @@ static void drawSpecialString(const char* s, int x, int y, LouiHeaderLabelTheme 
 // -----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS
 
-void loui_init(int width, int height) {
-    if (s_loui.pixels != NULL) {
-        free(s_loui.pixels);
+static LouiScreen initScreen(int width, int height) {
+    auto data = (LouiColor*)malloc(width * height * sizeof(LouiColor));
+    if (data) {
+        return (LouiScreen){.data=data, .width=width, .height=height, .count=width * height};
     }
+    return (LouiScreen){};
+}
+
+static LouiScreen freeScreen(LouiScreen screen) {
+    free(screen.data);
+    return (LouiScreen){};
+}
+
+void loui_init(int width, int height) {
+    freeScreen(s_loui.screen);
     s_loui = (LouiState){};
-    s_loui.pixels = (LouiColor *)malloc(width * height * sizeof(LouiColor));
-    s_loui.width = s_loui.pixels ? width : 0;
-    s_loui.height = s_loui.pixels ? height : 0;
+    s_loui.screen = initScreen(width, height);
     s_loui.theme = LOUI_THEME_GRAY;
     s_loui.active_text_input_widget_index = -1;
 }
@@ -291,21 +306,21 @@ void loui_set_theme(LouiTheme theme) {
 }
 
 const LouiColor* loui_get_pixel_data() {
-    return s_loui.pixels;
+    return s_loui.screen.data;
 }
 
 void loui_widget_background() {
-    auto pixel_count = s_loui.width * s_loui.height;
+    auto pixel_count = s_loui.screen.width * s_loui.screen.height;
     for (int i = 0; i < pixel_count; ++i) {
-        s_loui.pixels[i] = s_loui.theme.background;
+        s_loui.screen.data[i] = s_loui.theme.background;
     }
 
     if (DRAW_DEBUG_RECTANGLES) {
         auto i = 0;
-        for (auto y = 0; y < s_loui.height; ++y) {
-            for (auto x = 0; x < s_loui.width; ++x, ++i) {
+        for (auto y = 0; y < s_loui.screen.height; ++y) {
+            for (auto x = 0; x < s_loui.screen.width; ++x, ++i) {
                 if ((x / 8) % 2 != (y / 8 + 1) % 2) {
-                    s_loui.pixels[i] = LOUI_RGB(0, 255, 0);
+                    s_loui.screen.data[i] = LOUI_RGB(0, 255, 0);
                 }
             }
         }
