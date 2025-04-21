@@ -693,22 +693,22 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         );
     }
 
+    // Draw scrollbars:
+    auto scroll_bar_thickness = 10;
     // Draw vertical scrollbar background:
-    auto scroll_bar_width = 10;
-    for (auto dy = 0; dy < widget.height - 4; ++dy) {
-        for (auto dx = 0; dx < scroll_bar_width - 2; ++dx) {
-            auto x = widget.x + widget.width - scroll_bar_width + dx;
+    for (auto dy = 0; dy < widget.height - 4 - scroll_bar_thickness; ++dy) {
+        for (auto dx = 0; dx < scroll_bar_thickness - 2; ++dx) {
+            auto x = widget.x + widget.width - scroll_bar_thickness + dx;
             auto y = widget.y + dy + 2;
             auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
             drawPoint(s_loui.screen, x, y, color);
         }
     }
     // Draw horizontal scrollbar background:
-    auto scroll_bar_height = 10;
-    for (auto dy = 0; dy < scroll_bar_height - 2; ++dy) {
-        for (auto dx = 0; dx < widget.width - 4; ++dx) {
+    for (auto dy = 0; dy < scroll_bar_thickness - 2; ++dy) {
+        for (auto dx = 0; dx < widget.width - 4 - scroll_bar_thickness; ++dx) {
             auto x = widget.x + dx + 2;
-            auto y = widget.y + widget.height - scroll_bar_height + dy;
+            auto y = widget.y + widget.height - scroll_bar_thickness + dy;
             auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
             drawPoint(s_loui.screen, x, y, color);
         }
@@ -716,12 +716,12 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     // Draw vertical scrollbar button:
     auto hidden_lines = countLines(widget.text) - widget.lines;
     if (hidden_lines > 0) {
-        auto scrollbar_height = (widget.height - 2);
+        auto scrollbar_height = (widget.height - 2 - scroll_bar_thickness);
         auto scroll_button_height = scrollbar_height * widget.lines / countLines(widget.text);
         auto rectangle = (Rectangle){
-            .x=widget.x + widget.width - scroll_bar_width - 1,
+            .x=widget.x + widget.width - scroll_bar_thickness - 1,
             .y=widget.y + 1 + widget.draw_caret.line / hidden_lines * (scrollbar_height - scroll_button_height),
-            .width=scroll_bar_width,
+            .width=scroll_bar_thickness,
             .height=scroll_button_height
         };
         drawButton(rectangle, "");
@@ -730,13 +730,13 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto max_columns = countMaxColumns(widget.text);
     auto hidden_columns = max_columns - widget.columns;
     if (hidden_columns > 0) {
-        auto scrollbar_width = (widget.width - 2);
+        auto scrollbar_width = (widget.width - 2 - scroll_bar_thickness);
         auto scroll_button_width = scrollbar_width * widget.columns / max_columns;
         auto rectangle = (Rectangle){
             .x=widget.x + 1 + widget.draw_caret.column / hidden_columns * (scrollbar_width - scroll_button_width),
-            .y=widget.y + widget.height - scroll_bar_height - 1,
+            .y=widget.y + widget.height - scroll_bar_thickness - 1,
             .width=scroll_button_width,
-            .height=scroll_bar_height
+            .height=scroll_bar_thickness
         };
         drawButton(rectangle, "");
     }
