@@ -637,8 +637,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto y = widget.y;
     auto text_x = x + LOUI_BLOCK / 2;
     auto text_y = y + LOUI_BLOCK / 2;
-    auto width = 8 * widget.columns + LOUI_BLOCK;
-    auto height = 8 * widget.lines + LOUI_BLOCK;
+    auto width = 8 * (widget.columns + 1) + LOUI_BLOCK;
+    auto height = 8 * (widget.lines + 1) + LOUI_BLOCK;
     widget.width = width;
     widget.height = height;
 
@@ -694,7 +694,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     }
 
     // Draw scrollbars:
-    auto scroll_bar_thickness = 10;
+    auto scroll_bar_thickness = 9;
     // Draw vertical scrollbar background:
     for (auto dy = 0; dy < widget.height - 4 - scroll_bar_thickness; ++dy) {
         for (auto dx = 0; dx < scroll_bar_thickness - 2; ++dx) {
