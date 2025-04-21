@@ -720,20 +720,20 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         auto scroll_button_height = scrollbar_height * widget.lines / countLines(widget.text);
         auto rectangle = (Rectangle){
             .x=widget.x + widget.width - scroll_bar_thickness - 1,
-            .y=widget.y + 1 + widget.draw_caret.line / hidden_lines * (scrollbar_height - scroll_button_height),
+            .y=widget.y + 1 + widget.draw_caret.line * (scrollbar_height - scroll_button_height) / hidden_lines,
             .width=scroll_bar_thickness,
             .height=scroll_button_height
         };
         drawButton(rectangle, "");
     }
-    // Draw vertical scrollbar button:
+    // Draw horizontal scrollbar button:
     auto max_columns = countMaxColumns(widget.text);
     auto hidden_columns = max_columns - widget.columns;
     if (hidden_columns > 0) {
         auto scrollbar_width = (widget.width - 2 - scroll_bar_thickness);
         auto scroll_button_width = scrollbar_width * widget.columns / max_columns;
         auto rectangle = (Rectangle){
-            .x=widget.x + 1 + widget.draw_caret.column / hidden_columns * (scrollbar_width - scroll_button_width),
+            .x=widget.x + 1 + widget.draw_caret.column * (scrollbar_width - scroll_button_width) / hidden_columns,
             .y=widget.y + widget.height - scroll_bar_thickness - 1,
             .width=scroll_button_width,
             .height=scroll_bar_thickness
