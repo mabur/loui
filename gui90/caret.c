@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-static int countLines(const char* text) {
+int countLines(const char* text) {
     auto lines = 1;
     for (; *text; ++text) {
         if (*text == '\n') {

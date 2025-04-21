@@ -680,9 +680,39 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     );
     if (is_selected) {
         drawMultiLineCaret(
-            s_loui.screen, text_x, text_y, s_loui.theme.text, widget.caret, widget.draw_caret
+            s_loui.screen,
+            text_x,
+            text_y,
+            s_loui.theme.text,
+            widget.caret,
+            widget.draw_caret
         );
     }
+
+    // Draw scrollbar.
+    // Draw scrollbar background:
+    for (auto dy = 0; dy < widget.height - 2; ++dy) {
+        for (auto dx = 0; dx < 12 - 1; ++dx) {
+            auto x = widget.x + widget.width - 12 + dx;
+            auto y = widget.y + dy + 1;
+            auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
+            drawPoint(s_loui.screen, x, y, color);
+        }
+    }
+    // Draw scrollbar button:
+    auto hidden_lines = countLines(widget.text) - widget.lines;
+    if (hidden_lines > 0) {
+        auto scrollbar_height = (widget.height - 2);
+        auto scroll_button_height = scrollbar_height * widget.lines / countLines(widget.text);
+        auto rectangle = (Rectangle){
+            .x=widget.x + widget.width - 12,
+            .y=widget.y + 1 + widget.draw_caret.line / hidden_lines * (scrollbar_height - scroll_button_height),
+            .width=12 - 1,
+            .height=scroll_button_height
+        };
+        drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_background);
+    }
+
     loui_set_theme(global_theme);
 
     return widget;

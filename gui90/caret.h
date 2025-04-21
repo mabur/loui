@@ -36,3 +36,5 @@ MultiLineCaret insertCharacterMultiLineCaret(MultiLineCaret caret, char* text, s
 MultiLineCaret insertLineBreakMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity);
 MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text);
 MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text);
+
+int countLines(const char* text);
