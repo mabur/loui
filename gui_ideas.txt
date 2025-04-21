@@ -11,11 +11,8 @@ INPSIRATION
 * Make it easy to have buttons with different nice colors.
 
 MISSING WIDGETS
-- Checkbox
-- Multi line text input
-- Slider
-- Scrollbars
 - Windows / Modals
+- Slider
 
 WINDOWS APPROACH
 * Have a discrete depth buffer.
