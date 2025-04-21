@@ -32,6 +32,7 @@ typedef enum LouiKeyboard {
 typedef struct LouiInput {
     int mouse_x;
     int mouse_y;
+    int mouse_wheel_y;
     bool is_left_mouse_button_down;
     bool is_keyboard_key_down[LOUI_KEY_COUNT];
     char input_character;

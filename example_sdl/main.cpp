@@ -29,10 +29,11 @@ const char* themeDescription[] = {
     [LEATHER_THEME_INDEX] = "Leather",
 };
 
-LouiInput createLouiInput(Input input, char input_character) {
+LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) {
     LouiInput loui_input = {};
     loui_input.mouse_x = input.mouse_x;
     loui_input.mouse_y = input.mouse_y;
+    loui_input.mouse_wheel_y = mouse_wheel_y;
     loui_input.is_left_mouse_button_down = input.isLeftMouseButtonDown();
     loui_input.input_character = input_character;
 
@@ -62,6 +63,7 @@ int main() {
     for (;;) {
         auto event = SDL_Event();
         char input_character = '\0';
+        auto mouse_wheel_y = 0;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 break;
@@ -69,12 +71,15 @@ int main() {
             if (event.type == SDL_TEXTINPUT) {
                 input_character = event.text.text[0];
             }
+            if (event.type == SDL_MOUSEWHEEL) {
+                mouse_wheel_y = event.wheel.y;
+            }
         }
         auto sdl_input = sdl.getInput();
         if (sdl_input.escape_button == BUTTON_CLICKED) {
             break;
         }
-        auto loui_input = createLouiInput(sdl_input, input_character);
+        auto loui_input = createLouiInput(sdl_input, input_character, mouse_wheel_y);
         loui_set_input(loui_input);
         
         static auto theme_index = YELLOW_THEME_INDEX;

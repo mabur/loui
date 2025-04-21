@@ -14,6 +14,7 @@ typedef struct LouiState {
     LouiScreen screen;
     int mouse_x;
     int mouse_y;
+    int mouse_wheel_y;
     int current_x;
     int current_y;
     LouiTheme theme;
@@ -193,6 +194,7 @@ void loui_set_input(LouiInput input) {
     // Mouse:
     s_loui.mouse_x = input.mouse_x;
     s_loui.mouse_y = input.mouse_y;
+    s_loui.mouse_wheel_y = input.mouse_wheel_y;
     s_loui.left_mouse_button = updateButtonState(s_loui.left_mouse_button, input.is_left_mouse_button_down);
     // Keyboard keys:
     for (auto i = 0; i < LOUI_KEY_COUNT; ++i) {
@@ -615,6 +617,16 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             widget.caret = deleteCharacterBeforeMultiLineCaret(widget.caret, widget.text);
+        }
+        if (s_loui.mouse_wheel_y > 0) {
+            for (auto i = 0; i < s_loui.mouse_wheel_y; ++i) {
+                widget.caret = moveMultiLineCaretUp(widget.caret, widget.text);
+            }
+        }
+        if (s_loui.mouse_wheel_y < 0) {
+            for (auto i = 0; i < -s_loui.mouse_wheel_y; ++i) {
+                widget.caret = moveMultiLineCaretDown(widget.caret, widget.text);
+            }
         }
     }
 
