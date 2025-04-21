@@ -38,3 +38,4 @@ MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* te
 MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text);
 
 int countLines(const char* text);
+int countMaxColumns(const char* text);

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "button.h"
@@ -692,8 +693,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         );
     }
 
-    // Draw scrollbar.
-    // Draw scrollbar background:
+    // Draw vertical scrollbar background:
     auto scroll_bar_width = 10;
     for (auto dy = 0; dy < widget.height - 4; ++dy) {
         for (auto dx = 0; dx < scroll_bar_width - 2; ++dx) {
@@ -703,7 +703,17 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             drawPoint(s_loui.screen, x, y, color);
         }
     }
-    // Draw scrollbar button:
+    // Draw horizontal scrollbar background:
+    auto scroll_bar_height = 10;
+    for (auto dy = 0; dy < scroll_bar_height - 2; ++dy) {
+        for (auto dx = 0; dx < widget.width - 4; ++dx) {
+            auto x = widget.x + dx + 2;
+            auto y = widget.y + widget.height - scroll_bar_height + dy;
+            auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
+            drawPoint(s_loui.screen, x, y, color);
+        }
+    }
+    // Draw vertical scrollbar button:
     auto hidden_lines = countLines(widget.text) - widget.lines;
     if (hidden_lines > 0) {
         auto scrollbar_height = (widget.height - 2);
@@ -713,6 +723,20 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             .y=widget.y + 1 + widget.draw_caret.line / hidden_lines * (scrollbar_height - scroll_button_height),
             .width=scroll_bar_width,
             .height=scroll_button_height
+        };
+        drawButton(rectangle, "");
+    }
+    // Draw vertical scrollbar button:
+    auto max_columns = countMaxColumns(widget.text);
+    auto hidden_columns = max_columns - widget.columns;
+    if (hidden_columns > 0) {
+        auto scrollbar_width = (widget.width - 2);
+        auto scroll_button_width = scrollbar_width * widget.columns / max_columns;
+        auto rectangle = (Rectangle){
+            .x=widget.x + 1 + widget.draw_caret.column / hidden_columns * (scrollbar_width - scroll_button_width),
+            .y=widget.y + widget.height - scroll_bar_height - 1,
+            .width=scroll_button_width,
+            .height=scroll_bar_height
         };
         drawButton(rectangle, "");
     }

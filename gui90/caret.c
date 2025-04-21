@@ -42,6 +42,17 @@ static int countColumns(const char* text, int line) {
     return countColumnsOfFirstLine(gotoLine(text, line));
 }
 
+int countMaxColumns(const char* text) {
+    auto max_columns = 0;
+    for (; *text; text = gotoNextLine(text)) {
+        auto columns = countColumnsOfFirstLine(text);
+        if (max_columns < columns) {
+            max_columns = columns;
+        }
+    }
+    return max_columns;
+}
+
 static int getIndexOfLineColumn(const char* text, int line, int column) {
     auto line_start = gotoLine(text, line);
     auto position = line_start + column;
