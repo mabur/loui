@@ -682,9 +682,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
 
     // Draw scrollbar.
     // Draw scrollbar background:
+    auto scroll_bar_width = 10;
     for (auto dy = 0; dy < widget.height - 2; ++dy) {
-        for (auto dx = 0; dx < 12 - 1; ++dx) {
-            auto x = widget.x + widget.width - 12 + dx;
+        for (auto dx = 0; dx < scroll_bar_width; ++dx) {
+            auto x = widget.x + widget.width - scroll_bar_width - 1 + dx;
             auto y = widget.y + dy + 1;
             auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
             drawPoint(s_loui.screen, x, y, color);
@@ -696,9 +697,9 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         auto scrollbar_height = (widget.height - 2);
         auto scroll_button_height = scrollbar_height * widget.lines / countLines(widget.text);
         auto rectangle = (Rectangle){
-            .x=widget.x + widget.width - 12,
+            .x=widget.x + widget.width - scroll_bar_width - 1,
             .y=widget.y + 1 + widget.draw_caret.line / hidden_lines * (scrollbar_height - scroll_button_height),
-            .width=12 - 1,
+            .width=scroll_bar_width,
             .height=scroll_button_height
         };
         drawButton(rectangle, "");
