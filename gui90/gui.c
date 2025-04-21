@@ -140,6 +140,31 @@ static void drawSpecialString(
     }
 }
 
+static void drawButton(Rectangle rectangle, const char* text) {
+    // Inside the bevels:
+    auto inner_rectangle = rectangle;
+    inner_rectangle.x += 2;
+    inner_rectangle.y += 2;
+    inner_rectangle.width -= 4;
+    inner_rectangle.height -= 4;
+    auto text_x = rectangle.x - 1 + BUTTON_TEXT_PADDING;
+    auto text_y = rectangle.y - 1 + BUTTON_TEXT_PADDING;
+    auto theme = s_loui.theme;
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        ++text_y;
+        theme.button_bevel_light = s_loui.theme.button_background;
+        theme.button_bevel_dark = s_loui.theme.button_background;
+    }
+
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_border);
+    drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
+    drawLineHorizontal(s_loui.screen, rectangle.x + 2, rectangle.y + 1, rectangle.width - 4, theme.button_bevel_light);
+    drawLineHorizontal(s_loui.screen, rectangle.x + 2, rectangle.y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
+    drawLineVertical(s_loui.screen, rectangle.x + 1, rectangle.y + 2, rectangle.height - 4, theme.button_bevel_light);
+    drawLineVertical(s_loui.screen, rectangle.x + rectangle.width - 2, rectangle.y + 2, rectangle.height - 4, theme.button_bevel_dark);
+    drawString(s_loui.screen, text, text_x, text_y, theme.text);
+}
+
 // -----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS
 
@@ -249,47 +274,13 @@ LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget) {
 }
 
 LouiButton loui_update_button_bevel(LouiButton widget) {
-    auto x = widget.x;
-    auto y = widget.y;
-    x += 1;
-    y += 1;
     auto rectangle = (Rectangle){};
-    rectangle.x = x;
-    rectangle.y = y;
+    rectangle.x = widget.x + 1;
+    rectangle.y = widget.y + 1;
     rectangle.width = 8 * (int)(strlen(widget.text)) + 6;
     rectangle.height = 8 + 6;
-    auto inner_rectangle = rectangle;
-    inner_rectangle.x += 2;
-    inner_rectangle.y += 2;
-    inner_rectangle.width -= 4;
-    inner_rectangle.height -= 4;
-    auto text_x = widget.x + BUTTON_TEXT_PADDING;
-    auto text_y = widget.y + BUTTON_TEXT_PADDING;
-    auto theme = s_loui.theme;
-    if (isLeftMouseButtonDownInside(rectangle)) {
-        ++text_y;
-        theme.button_bevel_light = s_loui.theme.button_background;
-        theme.button_bevel_dark = s_loui.theme.button_background;
-    }
-    
-    drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_border);
-    
-    // Rounded corners:
-    // drawLineHorizontal(rectangle.x + 1, rectangle.y, rectangle.width - 2, theme.button_border);
-    // drawLineHorizontal(rectangle.x + 1, rectangle.y + rectangle.height - 1, rectangle.width - 2, theme.button_border);
-    // drawLineVertical(rectangle.x, rectangle.y + 1, rectangle.height - 2, theme.button_border);
-    // drawLineVertical(rectangle.x + rectangle.width - 1, rectangle.y + 1, rectangle.height - 2, theme.button_border);
-    // drawPoint(rectangle.x + 1, rectangle.y + 1, theme.button_border);
-    // drawPoint(rectangle.x + 1, rectangle.y + rectangle.height - 2, theme.button_border);
-    // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + 1, theme.button_border);
-    // drawPoint(rectangle.x + + rectangle.width - 2, rectangle.y + rectangle.height - 2, theme.button_border);
-    
-    drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
-    drawLineHorizontal(s_loui.screen, x + 2, y + 1, rectangle.width - 4, theme.button_bevel_light);
-    drawLineHorizontal(s_loui.screen, x + 2, y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
-    drawLineVertical(s_loui.screen, x + 1, y + 2, rectangle.height - 4, theme.button_bevel_light);
-    drawLineVertical(s_loui.screen, x + rectangle.width - 2, y + 2, rectangle.height - 4, theme.button_bevel_dark);
-    drawString(s_loui.screen, widget.text, text_x, text_y, theme.text);
+
+    drawButton(rectangle, widget.text);
 
     widget.width = rectangle.width + 2;
     widget.height = rectangle.height + 2;
@@ -710,7 +701,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             .width=12 - 1,
             .height=scroll_button_height
         };
-        drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_background);
+        drawButton(rectangle, "");
     }
 
     loui_set_theme(global_theme);
