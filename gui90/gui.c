@@ -655,18 +655,41 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.caret = moveMultiLineCaretLineColumn(widget.caret, widget.text, line, column);
     }
 
-    if (widget.draw_caret.line > widget.caret.line) {
-        widget.draw_caret.line = widget.caret.line;
+    // Handle caret moving too far above the draw caret:
+    if (widget.draw_caret.line > widget.caret.line - widget.lines + 1) {
+        widget.draw_caret.line = widget.caret.line - widget.lines - 1;
     }
+    // Handle caret moving too far below draw caret:
     if (widget.draw_caret.line < widget.caret.line - widget.lines + 1) {
         widget.draw_caret.line = widget.caret.line - widget.lines + 1;
     }
-    if (widget.draw_caret.column > widget.caret.column) {
-        widget.draw_caret.column = widget.caret.column;
+    // Handle draw caret being below the text:
+    if (widget.draw_caret.line > countLines(widget.text) - widget.lines) {
+        widget.draw_caret.line = countLines(widget.text) - widget.lines;
     }
+    // Handle draw caret being above the text:
+    if (widget.draw_caret.line < 0) {
+        widget.draw_caret.line = 0;
+    }
+
+    // Handle caret moving too far to the left of the draw caret:
+    if (widget.draw_caret.column > widget.caret.column - widget.columns + 1) {
+        widget.draw_caret.column = widget.caret.column - widget.columns - 1;
+    }
+    // Handle caret moving too far to the right of the draw caret:
     if (widget.draw_caret.column < widget.caret.column - widget.columns + 1) {
         widget.draw_caret.column = widget.caret.column - widget.columns + 1;
     }
+    // Handle draw caret being on the left of the text:
+    if (widget.draw_caret.column > countMaxColumns(widget.text) - widget.columns) {
+        widget.draw_caret.column = countMaxColumns(widget.text) - widget.columns;
+    }
+    // Handle draw caret being on the right of the text:
+    if (widget.draw_caret.column < 0) {
+        widget.draw_caret.column = 0;
+    }
+
+
 
     auto global_theme = s_loui.theme;
     auto local_theme = s_loui.theme;
