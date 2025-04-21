@@ -683,10 +683,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     // Draw scrollbar.
     // Draw scrollbar background:
     auto scroll_bar_width = 10;
-    for (auto dy = 0; dy < widget.height - 2; ++dy) {
-        for (auto dx = 0; dx < scroll_bar_width; ++dx) {
-            auto x = widget.x + widget.width - scroll_bar_width - 1 + dx;
-            auto y = widget.y + dy + 1;
+    for (auto dy = 0; dy < widget.height - 4; ++dy) {
+        for (auto dx = 0; dx < scroll_bar_width - 2; ++dx) {
+            auto x = widget.x + widget.width - scroll_bar_width + dx;
+            auto y = widget.y + dy + 2;
             auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
             drawPoint(s_loui.screen, x, y, color);
         }
