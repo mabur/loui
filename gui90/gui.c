@@ -655,14 +655,14 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.caret = moveMultiLineCaretLineColumn(widget.caret, widget.text, line, column);
     }
 
-    while (widget.caret.line < widget.draw_caret.line) {
-        widget.draw_caret.line--;
+    if (widget.draw_caret.line > widget.caret.line) {
+        widget.draw_caret.line = widget.caret.line;
     }
     while (widget.caret.line > widget.draw_caret.line + widget.lines - 1) {
         widget.draw_caret.line++;
     }
-    while (widget.caret.column < widget.draw_caret.column) {
-        widget.draw_caret.column--;
+    if (widget.draw_caret.column > widget.caret.column) {
+        widget.draw_caret.column = widget.caret.column;
     }
     while (widget.caret.column > widget.draw_caret.column + widget.columns - 1) {
         widget.draw_caret.column++;
