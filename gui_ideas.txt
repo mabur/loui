@@ -12,6 +12,10 @@ INPSIRATION
 
 MISSING WIDGETS
 - Windows / Modals
+  - Pop up where you have to take some action and closing before returning.
+  - Not movable.
+  - Like a detailed settings window.
+  - Like an info screen in a game (Golf instructions).
 - Slider
 
 WINDOWS APPROACH
