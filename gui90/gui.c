@@ -265,17 +265,21 @@ LouiWindow loui_update_window(LouiWindow widget) {
     auto height = widget.height;
 
     auto border_color = s_loui.theme.button_border;
-    drawLineHorizontal(s_loui.screen, x, y, width, border_color);
-    drawLineHorizontal(s_loui.screen, x, y + height - 1, width, border_color);
-    drawLineVertical(s_loui.screen, x, y, height, border_color);
-    drawLineVertical(s_loui.screen, x + width - 1, y, height, border_color);
+    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, border_color);
+    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, border_color);
+    drawLineVertical(s_loui.screen, x, y + 1, height - 2, border_color);
+    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, border_color);
+    drawPoint(s_loui.screen, x + 1, y + 1, border_color);
+    drawPoint(s_loui.screen, x + width - 2, y + 1, border_color);
+    drawPoint(s_loui.screen, x + 1, y + height - 2, border_color);
+    drawPoint(s_loui.screen, x + width - 2, y + height - 2, border_color);
 
-    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
+    auto rectangle = (Rectangle){x + 2, y + 2, width - 4, height - 4};
     drawRectangle(s_loui.screen, rectangle, s_loui.theme.background);
-    drawLineHorizontal(s_loui.screen, x + 1, y + 1, width - 2, s_loui.theme.recess_bevel_light);
-    drawLineHorizontal(s_loui.screen, x + 1, y + height - 2, width - 2, s_loui.theme.recess_bevel_dark);
-    drawLineVertical(s_loui.screen, x + 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
-    drawLineVertical(s_loui.screen, x + width - 2, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
+    drawLineHorizontal(s_loui.screen, x + 2, y + 1, width - 4, s_loui.theme.recess_bevel_light);
+    drawLineHorizontal(s_loui.screen, x + 2, y + height - 2, width - 4, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(s_loui.screen, x + 1, y + 2, height - 4, s_loui.theme.recess_bevel_light);
+    drawLineVertical(s_loui.screen, x + width - 2, y + 2, height - 4, s_loui.theme.recess_bevel_dark);
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     return widget;
 }
