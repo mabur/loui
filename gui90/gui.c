@@ -263,12 +263,19 @@ LouiWindow loui_update_window(LouiWindow widget) {
     auto y = widget.y;
     auto width = widget.width;
     auto height = widget.height;
+
+    auto border_color = s_loui.theme.button_border;
+    drawLineHorizontal(s_loui.screen, x, y, width, border_color);
+    drawLineHorizontal(s_loui.screen, x, y + height - 1, width, border_color);
+    drawLineVertical(s_loui.screen, x, y, height, border_color);
+    drawLineVertical(s_loui.screen, x + width - 1, y, height, border_color);
+
     auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
-    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
-    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
-    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
-    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.background);
+    drawLineHorizontal(s_loui.screen, x + 1, y + 1, width - 2, s_loui.theme.recess_bevel_light);
+    drawLineHorizontal(s_loui.screen, x + 1, y + height - 2, width - 2, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(s_loui.screen, x + 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
+    drawLineVertical(s_loui.screen, x + width - 2, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     return widget;
 }
