@@ -258,6 +258,21 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     return widget;
 }
 
+LouiWindow loui_update_window(LouiWindow widget) {
+    auto x = widget.x;
+    auto y = widget.y;
+    auto width = widget.width;
+    auto height = widget.height;
+    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
+    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
+    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
+    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
+    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
+    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    return widget;
+}
+
 LouiLabel loui_update_label(LouiLabel widget) {
     drawString(s_loui.screen, widget.text, widget.x, widget.y, s_loui.theme.text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);

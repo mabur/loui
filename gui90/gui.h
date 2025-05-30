@@ -65,6 +65,14 @@ typedef struct LouiSunkenFrame {
     bool is_clicked;
 } LouiSunkenFrame;
 
+typedef struct LouiWindow {
+    int x;
+    int y;
+    int width;
+    int height;
+    bool is_clicked;
+} LouiWindow;
+
 typedef struct LouiButton {
     int x;
     int y;
@@ -160,6 +168,7 @@ LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
 LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget);
+LouiWindow loui_update_window(LouiWindow widget);
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
 LouiTextInput loui_update_text_input(LouiTextInput widget);
@@ -180,6 +189,7 @@ inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_sel
 inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
 inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
 inline void loui_update(LouiMultiTextInput& widget) { widget = loui_update_multi_text_input(widget);}
+inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget);}
 #else
 #define loui_update(widget) \
     do { widget = _Generic((widget), \
@@ -191,7 +201,8 @@ inline void loui_update(LouiMultiTextInput& widget) { widget = loui_update_multi
         LouiStepper: loui_update_stepper, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
         LouiSelectionBoxItem: loui_update_selection_box_item, \
-        LouiTextInput: loui_update_text_input,     \
-        LouiTextInput: loui_update_multi_text_input \
+        LouiTextInput: loui_update_text_input, \
+        LouiTextInput: loui_update_multi_text_input, \
+        LouiWindow: loui_update_window \
     )(widget); } while(0)
 #endif

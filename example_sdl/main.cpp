@@ -181,6 +181,9 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     static auto check_box1 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 1"};
     loui_update(check_box1);
 
+    static auto window = (LouiWindow){.x=8*9, .y=8, .width=8*9, .height=8*6};
+    loui_update(window);
+
     return loui_get_pixel_data();
 }
 
