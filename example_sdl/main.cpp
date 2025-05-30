@@ -69,12 +69,15 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     y += LOUI_BLOCK;
     auto open_button = (LouiButton){.x=x, .y=y, .text="Open "};
     loui_update(open_button);
+    static auto show_window = false;
     if (open_button.is_clicked) {
+        show_window = true;
     }
     y += open_button.height;
     auto close_button = (LouiButton){.x=x, .y=y, .text="Close"};
     loui_update(close_button);
     if (close_button.is_clicked) {
+        show_window = false;
     }
     y += close_button.height;
 
@@ -182,7 +185,9 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     loui_update(check_box1);
 
     static auto window = (LouiWindow){.x=8*9, .y=8, .width=8*9, .height=8*6};
-    loui_update(window);
+    if (show_window) {
+        loui_update(window);
+    }
 
     return loui_get_pixel_data();
 }
