@@ -51,26 +51,7 @@ LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) 
     return loui_input;
 }
 
-bool update(Sdl& sdl, int WIDTH, int HEIGHT) {
-    auto event = SDL_Event();
-    char input_character = '\0';
-    auto mouse_wheel_y = 0;
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            break;
-        }
-        if (event.type == SDL_TEXTINPUT) {
-            input_character = event.text.text[0];
-        }
-        if (event.type == SDL_MOUSEWHEEL) {
-            mouse_wheel_y = event.wheel.y;
-        }
-    }
-    auto sdl_input = sdl.getInput();
-    if (sdl_input.escape_button == BUTTON_CLICKED) {
-        return false;
-    }
-    auto loui_input = createLouiInput(sdl_input, input_character, mouse_wheel_y);
+const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     loui_set_input(loui_input);
 
     static auto theme_index = YELLOW_THEME_INDEX;
@@ -200,8 +181,7 @@ bool update(Sdl& sdl, int WIDTH, int HEIGHT) {
     static auto check_box1 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 1"};
     loui_update(check_box1);
 
-    sdl.draw(loui_get_pixel_data());
-    return true;
+    return loui_get_pixel_data();
 }
 
 int main() {
@@ -214,9 +194,27 @@ int main() {
     sdl.setMouseModeAbsolute();
     
     for (;;) {
-       if (!update(sdl, WIDTH, HEIGHT)) {
-           break;
-       }
+        auto event = SDL_Event();
+        char input_character = '\0';
+        auto mouse_wheel_y = 0;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                break;
+            }
+            if (event.type == SDL_TEXTINPUT) {
+                input_character = event.text.text[0];
+            }
+            if (event.type == SDL_MOUSEWHEEL) {
+                mouse_wheel_y = event.wheel.y;
+            }
+        }
+        auto sdl_input = sdl.getInput();
+        if (sdl_input.escape_button == BUTTON_CLICKED) {
+            break;
+        }
+        auto loui_input = createLouiInput(sdl_input, input_character, mouse_wheel_y);
+        auto screen = updateGui(loui_input, WIDTH, HEIGHT);
+        sdl.draw(screen);
     }
     return 0;
 }
