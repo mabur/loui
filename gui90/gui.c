@@ -149,17 +149,24 @@ static void drawButton(Rectangle rectangle, const char* text) {
     auto text_x = rectangle.x - 1 + BUTTON_TEXT_PADDING;
     auto text_y = rectangle.y - 1 + BUTTON_TEXT_PADDING;
     auto theme = s_loui.theme;
+    auto screen = s_loui.screen;
+
+    auto background_color = s_loui.theme.button_background;
+    auto border_color = s_loui.theme.button_border;
+    auto light_bevel_color = s_loui.theme.button_bevel_light;
+    auto dark_bevel_color = s_loui.theme.button_bevel_dark;
+
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
-        theme.button_bevel_light = s_loui.theme.button_background;
-        theme.button_bevel_dark = s_loui.theme.button_background;
+        light_bevel_color = background_color;
+        dark_bevel_color = background_color;
     }
-    drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_border);
-    drawRectangle(s_loui.screen, innermost_rectangle, theme.button_background);
+    drawRectangle(screen, rectangle, border_color);
+    drawRectangle(screen, innermost_rectangle, background_color);
     drawRoundedRectangleOutline(
-        s_loui.screen, inner_rectangle, s_loui.theme.button_bevel_light, s_loui.theme.button_bevel_dark
+        screen, inner_rectangle, light_bevel_color, dark_bevel_color
     );
-    drawString(s_loui.screen, text, text_x, text_y, theme.text);
+    drawString(screen, text, text_x, text_y, theme.text);
 }
 
 // -----------------------------------------------------------------------------
