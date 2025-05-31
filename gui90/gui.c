@@ -744,8 +744,10 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         .width=widget.width - 4 - scroll_bar_thickness,
         .height=scroll_bar_thickness - 2,
     };
-    drawCheckers(s_loui.screen, rectangle_scroll_bar_vertical, s_loui.theme.recess_text, s_loui.theme.recess_background);
-    drawCheckers(s_loui.screen, rectangle_scroll_bar_horizontal, s_loui.theme.recess_text, s_loui.theme.recess_background);
+    auto light = s_loui.theme.recess_text;
+    auto dark = s_loui.theme.recess_background;
+    drawCheckers(s_loui.screen, rectangle_scroll_bar_vertical, light, dark);
+    drawCheckers(s_loui.screen, rectangle_scroll_bar_horizontal, light, dark);
 
     // Draw vertical scrollbar button:
     auto hidden_lines = countLines(widget.text) - widget.lines;
