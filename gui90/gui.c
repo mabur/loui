@@ -261,16 +261,16 @@ LouiWindow loui_update_window(LouiWindow widget) {
     auto rectangle = (Rectangle){x, y, width, height};
     auto inner_rectangle = shrinkRectangle(rectangle);
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
+
     auto border_color = s_loui.theme.button_border;
+    auto background_color = s_loui.theme.background;
+    auto light_bevel_color = s_loui.theme.recess_bevel_light;
+    auto dark_bevel_color = s_loui.theme.recess_bevel_dark;
 
     drawRoundedRectangleOutline(s_loui.screen, rectangle, border_color, border_color);
-    drawRoundedRectangleOutline(s_loui.screen, inner_rectangle, s_loui.theme.recess_bevel_light, s_loui.theme.recess_bevel_dark);
-    drawRectangle(s_loui.screen, innermost_rectangle, s_loui.theme.background);
-
-    drawPoint(s_loui.screen, x + 1, y + 1, border_color);
-    drawPoint(s_loui.screen, x + width - 2, y + 1, border_color);
-    drawPoint(s_loui.screen, x + 1, y + height - 2, border_color);
-    drawPoint(s_loui.screen, x + width - 2, y + height - 2, border_color);
+    drawRoundedRectangleOutline(s_loui.screen, inner_rectangle, light_bevel_color, dark_bevel_color);
+    drawRectangleCorners(s_loui.screen, inner_rectangle, border_color);
+    drawRectangle(s_loui.screen, innermost_rectangle, background_color);
 
     widget.is_clicked = isLeftMouseButtonReleasedInside(innermost_rectangle);
     return widget;

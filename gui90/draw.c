@@ -15,6 +15,17 @@ void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
     }
 }
 
+void drawRectangleCorners(LouiScreen screen, Rectangle rectangle, LouiColor color) {
+    auto x = rectangle.x;
+    auto y = rectangle.y;
+    auto width = rectangle.width;
+    auto height = rectangle.height;
+    drawPoint(screen, x, y, color);
+    drawPoint(screen, x + width - 1, y, color);
+    drawPoint(screen, x, y + height - 1, color);
+    drawPoint(screen, x + width - 1, y + height - 1, color);
+}
+
 void drawRoundedRectangleOutline(LouiScreen screen, Rectangle rectangle, LouiColor color_top_left, LouiColor color_bottom_right) {
     auto x_left = rectangle.x;
     auto y_top = rectangle.y;
