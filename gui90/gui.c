@@ -517,13 +517,6 @@ LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget)
     return widget;
 }
 
-static void deleteCharacter(char* string, size_t index) {
-    auto len = strlen(string);
-    for (size_t i = index; i < len; ++i) {
-        string[i] = string[i + 1];
-    }
-}
-
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
