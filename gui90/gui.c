@@ -328,11 +328,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
         rectangle.y += 1;
     }
     
-    auto inner_rectangle = rectangle;
-    inner_rectangle.x += 1;
-    inner_rectangle.y += 1;
-    inner_rectangle.width -= 2;
-    inner_rectangle.height -= 2;
+    auto inner_rectangle = shrinkRectangle(rectangle);
     auto text_x = x + BUTTON_TEXT_PADDING - 1;
     auto text_y = y + BUTTON_TEXT_PADDING - 2;
     auto theme = s_loui.theme;
