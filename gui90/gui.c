@@ -730,24 +730,23 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
 
     // Draw scrollbars:
     auto scroll_bar_thickness = 9;
-    // Draw vertical scrollbar background:
-    for (auto dy = 0; dy < widget.height - 4 - scroll_bar_thickness; ++dy) {
-        for (auto dx = 0; dx < scroll_bar_thickness - 2; ++dx) {
-            auto x = widget.x + widget.width - scroll_bar_thickness + dx;
-            auto y = widget.y + dy + 2;
-            auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
-            drawPoint(s_loui.screen, x, y, color);
-        }
-    }
-    // Draw horizontal scrollbar background:
-    for (auto dy = 0; dy < scroll_bar_thickness - 2; ++dy) {
-        for (auto dx = 0; dx < widget.width - 4 - scroll_bar_thickness; ++dx) {
-            auto x = widget.x + dx + 2;
-            auto y = widget.y + widget.height - scroll_bar_thickness + dy;
-            auto color = (x + y) % 2 ? s_loui.theme.recess_text : s_loui.theme.recess_background;
-            drawPoint(s_loui.screen, x, y, color);
-        }
-    }
+
+    // Draw scrollbar checker backgrounds:
+    auto rectangle_scroll_bar_vertical = (Rectangle){
+        .x=widget.x + widget.width - scroll_bar_thickness,
+        .y=widget.y + 2,
+        .width=scroll_bar_thickness - 2,
+        .height=widget.height - 4 - scroll_bar_thickness,
+    };
+    auto rectangle_scroll_bar_horizontal = (Rectangle){
+        .x=widget.x + 2,
+        .y=widget.y + widget.height - scroll_bar_thickness,
+        .width=widget.width - 4 - scroll_bar_thickness,
+        .height=scroll_bar_thickness - 2,
+    };
+    drawCheckers(s_loui.screen, rectangle_scroll_bar_vertical, s_loui.theme.recess_text, s_loui.theme.recess_background);
+    drawCheckers(s_loui.screen, rectangle_scroll_bar_horizontal, s_loui.theme.recess_text, s_loui.theme.recess_background);
+
     // Draw vertical scrollbar button:
     auto hidden_lines = countLines(widget.text) - widget.lines;
     if (hidden_lines > 0) {

@@ -12,6 +12,7 @@ typedef struct LouiScreen {
 } LouiScreen;
 
 void drawPoint(LouiScreen screen, int x, int y, LouiColor color);
+void drawCheckers(LouiScreen screen, Rectangle rectangle, LouiColor light, LouiColor dark);
 void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color);
 void drawRectangleCorners(LouiScreen screen, Rectangle rectangle, LouiColor color);
 void drawRoundedRectangleOutline(LouiScreen screen, Rectangle rectangle, LouiColor color_top_left, LouiColor color_bottom_right);

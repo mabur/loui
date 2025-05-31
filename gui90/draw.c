@@ -7,6 +7,17 @@ void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
     screen.data[y * screen.width + x] = color;
 }
 
+void drawCheckers(LouiScreen screen, Rectangle rectangle, LouiColor light, LouiColor dark) {
+    for (auto dy = 0; dy < rectangle.height; ++dy) {
+        for (auto dx = 0; dx < rectangle.width; ++dx) {
+            auto x = rectangle.x + dx;
+            auto y = rectangle.y + dy;
+            auto color = (x + y) % 2 ? light : dark;
+            drawPoint(screen, x, y, color);
+        }
+    }
+}
+
 void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
