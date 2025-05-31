@@ -244,13 +244,13 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto y = widget.y;
     auto width = widget.width;
     auto height = widget.height;
-    auto rectangle = (Rectangle){x + 1, y + 1, width - 2, height - 2};
-    drawRectangle(s_loui.screen, rectangle, s_loui.theme.recess_background);
-    drawLineHorizontal(s_loui.screen, x + 1, y, width - 2, s_loui.theme.recess_bevel_dark);
-    drawLineHorizontal(s_loui.screen, x + 1, y + height - 1, width - 2, s_loui.theme.recess_bevel_light);
-    drawLineVertical(s_loui.screen, x, y + 1, height - 2, s_loui.theme.recess_bevel_dark);
-    drawLineVertical(s_loui.screen, x + width - 1, y + 1, height - 2, s_loui.theme.recess_bevel_light);
-    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    auto rectangle = (Rectangle){x, y, width, height};
+    auto inner_rectangle = shrinkRectangle(rectangle);
+    drawRectangle(s_loui.screen, inner_rectangle, s_loui.theme.recess_background);
+    drawRoundedRectangleOutline(
+        s_loui.screen, rectangle, s_loui.theme.recess_bevel_dark, s_loui.theme.recess_bevel_light
+    );
+    widget.is_clicked = isLeftMouseButtonReleasedInside(inner_rectangle);
     return widget;
 }
 
