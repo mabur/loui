@@ -144,7 +144,8 @@ static void drawSpecialString(
 
 static void drawButton(Rectangle rectangle, const char* text) {
     // Inside the bevels:
-    auto inner_rectangle = shrinkRectangle(shrinkRectangle(rectangle));
+    auto inner_rectangle = shrinkRectangle(rectangle);
+    auto innermost_rectangle = shrinkRectangle(inner_rectangle);
     auto text_x = rectangle.x - 1 + BUTTON_TEXT_PADDING;
     auto text_y = rectangle.y - 1 + BUTTON_TEXT_PADDING;
     auto theme = s_loui.theme;
@@ -153,13 +154,11 @@ static void drawButton(Rectangle rectangle, const char* text) {
         theme.button_bevel_light = s_loui.theme.button_background;
         theme.button_bevel_dark = s_loui.theme.button_background;
     }
-
     drawRectangle(s_loui.screen, rectangle, s_loui.theme.button_border);
-    drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
-    drawLineHorizontal(s_loui.screen, rectangle.x + 2, rectangle.y + 1, rectangle.width - 4, theme.button_bevel_light);
-    drawLineHorizontal(s_loui.screen, rectangle.x + 2, rectangle.y + rectangle.height - 2, rectangle.width - 4, theme.button_bevel_dark);
-    drawLineVertical(s_loui.screen, rectangle.x + 1, rectangle.y + 2, rectangle.height - 4, theme.button_bevel_light);
-    drawLineVertical(s_loui.screen, rectangle.x + rectangle.width - 2, rectangle.y + 2, rectangle.height - 4, theme.button_bevel_dark);
+    drawRectangle(s_loui.screen, innermost_rectangle, theme.button_background);
+    drawRoundedRectangleOutline(
+        s_loui.screen, inner_rectangle, s_loui.theme.button_bevel_light, s_loui.theme.button_bevel_dark
+    );
     drawString(s_loui.screen, text, text_x, text_y, theme.text);
 }
 
