@@ -144,11 +144,7 @@ static void drawSpecialString(
 
 static void drawButton(Rectangle rectangle, const char* text) {
     // Inside the bevels:
-    auto inner_rectangle = rectangle;
-    inner_rectangle.x += 2;
-    inner_rectangle.y += 2;
-    inner_rectangle.width -= 4;
-    inner_rectangle.height -= 4;
+    auto inner_rectangle = shrinkRectangle(shrinkRectangle(rectangle));
     auto text_x = rectangle.x - 1 + BUTTON_TEXT_PADDING;
     auto text_y = rectangle.y - 1 + BUTTON_TEXT_PADDING;
     auto theme = s_loui.theme;

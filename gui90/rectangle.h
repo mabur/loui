@@ -6,3 +6,5 @@ typedef struct Rectangle {
     int width;
     int height;
 } Rectangle;
+
+Rectangle shrinkRectangle(Rectangle rectangle);
