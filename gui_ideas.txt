@@ -11,27 +11,10 @@ INPSIRATION
 * Make it easy to have buttons with different nice colors.
 
 MISSING WIDGETS
-- Windows / Modals
-  - Pop up where you have to take some action and closing before returning.
-  - Not movable.
-  - Like a detailed settings window.
-  - Like an info screen in a game (Golf instructions).
+- Better scrollbars for multi-line text field.
 - Slider
-
-WINDOWS APPROACH
-* Simple approach
-  - Have global toggle that enables or disables input.
-  - Enable or disable it manually based on what window you are handling.
-  - Force user to handle windows in the order that they should be drawn.
-  - Have a call to draw background, window, modal, popup, with a certain size
-* Advanced appraoch
-  - Have a discrete depth buffer.
-  - Keep track of current depth.
-  - Process widgets from front to back.
-  - Set active window region before adding widgets.
-    - Draw this window to the depth buffer.
-  - Clip outside of resulting active window region in depth buffer.
-  - Allow cutting out sub-windows, like scrollable areas.
+- Drop down menu
+- Tool tips
 
 NAMING
 * GUI90_Widget is hard to type
