@@ -157,6 +157,8 @@ typedef struct LouiSelectionBoxItem {
 void loui_init(int width, int height);
 void loui_set_input(LouiInput input);
 void loui_set_theme(LouiTheme theme);
+void loui_enable_input();
+void loui_disable_input();
 const LouiColor* loui_get_pixel_data();
 
 void loui_widget_background();

@@ -54,6 +54,11 @@ LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) 
 const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     loui_set_input(loui_input);
 
+    static auto show_window = false;
+    if (show_window) {
+        loui_disable_input();
+    }
+
     static auto theme_index = YELLOW_THEME_INDEX;
     static auto button_type = BUTTON_TYPE_BEVEL;
     auto theme = themeSettings[theme_index];
@@ -69,7 +74,7 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     y += LOUI_BLOCK;
     auto open_button = (LouiButton){.x=x, .y=y, .text="Open "};
     loui_update(open_button);
-    static auto show_window = false;
+
     if (open_button.is_clicked) {
         show_window = true;
     }
@@ -187,8 +192,9 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
 
     x = 8 * 9;
     y = 8;
-    static auto window = (LouiWindow){.x=x, .y=y, .width=8*9, .height=8*6};
+    static auto window = (LouiWindow){.x=x, .y=y, .width=8*9, .height=8*8};
     if (show_window) {
+        loui_enable_input();
         loui_update(window);
         x += LOUI_BLOCK;
         y += LOUI_BLOCK;

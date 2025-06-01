@@ -24,6 +24,7 @@ typedef struct LouiState {
     char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
+    bool is_input_enabled;
 } LouiState;
 
 // -----------------------------------------------------------------------------
@@ -38,13 +39,13 @@ static LouiState s_loui;
 // PRIVATE MOUSE & KEYBOARD FUNCTIONS
 
 static bool isLeftMouseButtonDownInside(Rectangle r) {
-    return s_loui.left_mouse_button == BUTTON_DOWN &&
+    return s_loui.is_input_enabled && s_loui.left_mouse_button == BUTTON_DOWN &&
            r.x <= s_loui.mouse_x && s_loui.mouse_x < r.x + r.width &&
            r.y <= s_loui.mouse_y && s_loui.mouse_y < r.y + r.height;
 }
 
 static bool isLeftMouseButtonReleasedInside(Rectangle r) {
-    return s_loui.left_mouse_button == BUTTON_RELEASED &&
+    return s_loui.is_input_enabled && s_loui.left_mouse_button == BUTTON_RELEASED &&
            r.x <= s_loui.mouse_x && s_loui.mouse_x < r.x + r.width &&
            r.y <= s_loui.mouse_y && s_loui.mouse_y < r.y + r.height;
 }
@@ -191,6 +192,7 @@ void loui_init(int width, int height) {
     s_loui.screen = initScreen(width, height);
     s_loui.theme = LOUI_THEME_GRAY;
     s_loui.active_text_input_widget_index = -1;
+    s_loui.is_input_enabled = true;
 }
 
 void loui_set_input(LouiInput input) {
@@ -212,6 +214,14 @@ void loui_set_input(LouiInput input) {
 
 void loui_set_theme(LouiTheme theme) {
     s_loui.theme = theme;
+}
+
+void loui_enable_input() {
+    s_loui.is_input_enabled = true;
+}
+
+void loui_disable_input() {
+    s_loui.is_input_enabled = false;
 }
 
 const LouiColor* loui_get_pixel_data() {
