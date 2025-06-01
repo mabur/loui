@@ -204,12 +204,12 @@ inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget
         LouiHeaderLabel: loui_update_header_label, \
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
-        LouiRadioButton: loui_update_check_box, \
+        LouiCheckBox: loui_update_check_box, \
         LouiStepper: loui_update_stepper, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
         LouiSelectionBoxItem: loui_update_selection_box_item, \
         LouiTextInput: loui_update_text_input, \
-        LouiTextInput: loui_update_multi_text_input, \
+        LouiMultiTextInput: loui_update_multi_text_input, \
         LouiWindow: loui_update_window \
     )(widget); } while(0)
 #endif
