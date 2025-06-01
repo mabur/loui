@@ -13,10 +13,10 @@ INPSIRATION
 MISSING WIDGETS
 - Better scrollbars for multi-line text field.
 - Slider
-- Drop down menu
 - Buttons with images/icons
 - Images
 - Tool tips
+- Drop down menu
 
 NAMING
 * GUI90_Widget is hard to type
