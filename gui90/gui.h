@@ -154,15 +154,20 @@ typedef struct LouiSelectionBoxItem {
     bool is_clicked;
 } LouiSelectionBoxItem;
 
+// Call once:
 void loui_init(int width, int height);
+
+// Call once per frame:
 void loui_set_input(LouiInput input);
-void loui_set_theme(LouiTheme theme);
-void loui_enable_input();
-void loui_disable_input();
 const LouiColor* loui_get_pixel_data();
 
-void loui_widget_background();
+// Optionally call when needed:
+void loui_enable_input();
+void loui_disable_input();
+void loui_set_theme(LouiTheme theme);
 
+// Widgets:
+void loui_widget_background();
 LouiLabel loui_update_label(LouiLabel widget);
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
 LouiButton loui_update_button(LouiButton widget);
