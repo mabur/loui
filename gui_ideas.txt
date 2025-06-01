@@ -14,6 +14,8 @@ MISSING WIDGETS
 - Better scrollbars for multi-line text field.
 - Slider
 - Drop down menu
+- Buttons with images/icons
+- Images
 - Tool tips
 
 NAMING
