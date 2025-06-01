@@ -13,10 +13,17 @@ INPSIRATION
 MISSING WIDGETS
 - Better scrollbars for multi-line text field.
 - Slider
+  - Paint90
 - Buttons with images/icons
+  - Kretzlop
+  - Paint90
+  - Grid90?
 - Images
 - Tool tips
+  - For buttons with images
 - Drop down menu
+  - Paint90?
+  - Grid90?
 
 NAMING
 * GUI90_Widget is hard to type
