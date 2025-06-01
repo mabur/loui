@@ -166,7 +166,7 @@ void loui_enable_input();
 void loui_disable_input();
 void loui_set_theme(LouiTheme theme);
 
-// Widgets:
+// Implementation details:
 void loui_widget_background();
 LouiLabel loui_update_label(LouiLabel widget);
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
@@ -184,6 +184,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 #ifdef __cplusplus
 }
 #endif
+
+// Overloaded/generic loui_update function for widgets:
 
 #ifdef __cplusplus
 inline void loui_update(LouiLabel& widget) { widget = loui_update_label(widget);}
