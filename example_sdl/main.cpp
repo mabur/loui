@@ -10,6 +10,7 @@ enum GuiThemeIndex {
     SOLARIZED_LIGHT_THEME_INDEX,
     YELLOW_THEME_INDEX,
     LEATHER_THEME_INDEX,
+    FLAT_WHITE_THEME_INDEX,
     THEME_COUNT,
 };
 
@@ -19,6 +20,7 @@ LouiTheme themeSettings[] = {
     [SOLARIZED_LIGHT_THEME_INDEX] = LOUI_THEME_SOLARIZED_LIGHT,
     [YELLOW_THEME_INDEX] = LOUI_THEME_YELLOW,
     [LEATHER_THEME_INDEX] = LOUI_THEME_LEATHER,
+    [FLAT_WHITE_THEME_INDEX] = LOUI_THEME_FLAT_WHITE,
 };
 
 const char* themeDescription[] = {
@@ -27,6 +29,7 @@ const char* themeDescription[] = {
     [SOLARIZED_LIGHT_THEME_INDEX] = "Solarized",
     [YELLOW_THEME_INDEX] = "Yellow",
     [LEATHER_THEME_INDEX] = "Leather",
+    [FLAT_WHITE_THEME_INDEX] = "Flat White",
 };
 
 LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) {
