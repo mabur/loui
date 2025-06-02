@@ -4,7 +4,7 @@ INPSIRATION
 * RectCut: https://halt.software/dead-simple-layouts/
 * https://hedy.org/
 * https://www.lexaloffle.com/pico-8.php
-
+* https://m3.material.io/
 * Example applications:
   - Games: Rogue, Golf, Kretzlop, Code
   - Paint 90, grid3d
