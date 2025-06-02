@@ -167,7 +167,7 @@ static void drawButton(Rectangle rectangle, const char* text) {
     drawRoundedRectangleOutline(
         screen, inner_rectangle, light_bevel_color, dark_bevel_color
     );
-    drawString(screen, text, text_x, text_y, theme.text);
+    drawString(screen, text, text_x, text_y, theme.button_text);
 }
 
 // -----------------------------------------------------------------------------
@@ -376,7 +376,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     drawPoint(s_loui.screen, rectangle.x + rectangle.width - 3, rectangle.y + rectangle.height - 2, theme.button_bevel_dark);
     drawPoint(s_loui.screen, rectangle.x + rectangle.width - 2, rectangle.y + rectangle.height - 3, theme.button_bevel_dark);
     
-    drawString(s_loui.screen, widget.text, text_x, text_y, theme.text);
+    drawString(s_loui.screen, widget.text, text_x, text_y, theme.button_text);
     widget.width = rectangle.width + 2;
     widget.height = 2 * LOUI_BLOCK;
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
