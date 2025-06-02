@@ -95,3 +95,20 @@ const LouiTheme LOUI_THEME_FLAT_WHITE = (LouiTheme){
     .recess_bevel_light = LOUI_RGB(236, 236, 236),
     .button_type = BUTTON_TYPE_BEVEL,
 };
+
+const LouiTheme LOUI_THEME_FLAT_SOLARIZED = (LouiTheme){
+    .background = LOUI_RGB(253, 246, 227),
+    .text = LOUI_RGB(68, 67, 62),
+    .button_background = LOUI_RGB(58, 113, 236),
+    .button_text = LOUI_RGB(255, 255, 255),
+    .button_border = LOUI_RGB(253, 246, 227),
+    .button_bevel_dark = LOUI_RGB(58, 113, 236), // LOUI_RGB(28, 75, 170),
+    .button_bevel_light = LOUI_RGB(58, 113, 236), // LOUI_RGB(173, 200, 255),
+    .recess_background = LOUI_RGB(238, 232, 213),
+    .recess_text = LOUI_RGB(128, 128, 128),
+    .recess_text_selected = LOUI_RGB(68, 67, 62),
+    .recess_bevel_dark = LOUI_RGB(205, 200, 183),
+    .recess_bevel_light = LOUI_RGB(205, 200, 183),
+    .button_type = BUTTON_TYPE_BEVEL,
+};
+

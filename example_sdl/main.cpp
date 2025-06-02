@@ -11,6 +11,7 @@ enum GuiThemeIndex {
     YELLOW_THEME_INDEX,
     LEATHER_THEME_INDEX,
     FLAT_WHITE_THEME_INDEX,
+    FLAT_SOLARIZED_THEME_INDEX,
     THEME_COUNT,
 };
 
@@ -21,6 +22,7 @@ LouiTheme themeSettings[] = {
     [YELLOW_THEME_INDEX] = LOUI_THEME_YELLOW,
     [LEATHER_THEME_INDEX] = LOUI_THEME_LEATHER,
     [FLAT_WHITE_THEME_INDEX] = LOUI_THEME_FLAT_WHITE,
+    [FLAT_SOLARIZED_THEME_INDEX] = LOUI_THEME_FLAT_SOLARIZED,
 };
 
 const char* themeDescription[] = {
@@ -30,6 +32,7 @@ const char* themeDescription[] = {
     [YELLOW_THEME_INDEX] = "Yellow",
     [LEATHER_THEME_INDEX] = "Leather",
     [FLAT_WHITE_THEME_INDEX] = "Flat White",
+    [FLAT_SOLARIZED_THEME_INDEX] = "Flat Solarized",
 };
 
 LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) {
@@ -141,7 +144,7 @@ const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     y += stepper.height;
     y += LOUI_BLOCK;
 
-    auto width = 13 * LOUI_BLOCK;
+    auto width = 16 * LOUI_BLOCK;
     auto height = (THEME_COUNT + 2) * LOUI_BLOCK;
     auto selection_box = (LouiSelectionBoxInit){.x=x, .y=y, .width=width, .height=height};
     loui_update(selection_box);
