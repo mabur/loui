@@ -11,7 +11,9 @@ INPSIRATION
 * Make it easy to have buttons with different nice colors.
 
 MISSING WIDGETS
+- Theming for header label
 - Better scrollbars for multi-line text field.
+  - Programming game
 - Slider
   - Paint90
 - Buttons with images/icons
