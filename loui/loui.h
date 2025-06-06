@@ -159,7 +159,7 @@ void loui_init(int width, int height);
 
 // Call once per frame:
 void loui_set_input(LouiInput input);
-const LouiColor* loui_get_pixel_data();
+LouiColor* loui_get_pixel_data();
 
 // Optionally call when needed:
 void loui_enable_input();

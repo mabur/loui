@@ -224,7 +224,7 @@ void loui_disable_input() {
     s_loui.is_input_enabled = false;
 }
 
-const LouiColor* loui_get_pixel_data() {
+LouiColor* loui_get_pixel_data() {
     return s_loui.screen.data;
 }
 
