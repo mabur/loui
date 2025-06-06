@@ -111,4 +111,3 @@ const LouiTheme LOUI_THEME_FLAT_SOLARIZED = (LouiTheme){
     .recess_bevel_light = LOUI_RGB(205, 200, 183),
     .button_type = BUTTON_TYPE_BEVEL,
 };
-
