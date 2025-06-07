@@ -37,16 +37,37 @@ const char* themeDescription[] = {
     [FLAT_SOLARIZED_THEME_INDEX] = "Flat Solarized",
 };
 
-LouiInput createLouiInput() {
-    auto mouse_position = getAbsoluteMousePosition();
+void updateInput(void);
+const LouiColor* updateGui(int WIDTH, int HEIGHT);
 
+int main() {
+    auto WINDOW_TITLE = "Loui";
+    auto WIDTH = 320;
+    auto HEIGHT = 200;
+
+    auto window = makeDesktopWindow(WIDTH, HEIGHT, 5, WINDOW_TITLE);
+    loui_init(WIDTH, HEIGHT);
+
+    for (;;) {
+        registerFrameInput(window.renderer);
+        if (isKeyClicked(SDL_SCANCODE_ESCAPE) || hasReceivedQuitEvent()) {
+            break;
+        }
+        updateInput();
+        auto screen = updateGui(WIDTH, HEIGHT);
+        drawPixels(window, screen);
+        presentWindow(window);
+    }
+    return 0;
+}
+
+void updateInput() {
     LouiInput loui_input = {};
-    loui_input.mouse_x = mouse_position.x;
-    loui_input.mouse_y = mouse_position.y;
+    loui_input.mouse_x = getAbsoluteMousePosition().x;
+    loui_input.mouse_y = getAbsoluteMousePosition().y;
     loui_input.mouse_wheel_y = getMouseWheelY();
     loui_input.is_left_mouse_button_down = isLeftMouseButtonDown();
     loui_input.input_character = getInputCharacter();
-
     loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_LEFT] = isKeyDown(SDL_SCANCODE_LEFT);
     loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_RIGHT] = isKeyDown(SDL_SCANCODE_RIGHT);
     loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_UP] = isKeyDown(SDL_SCANCODE_UP);
@@ -58,35 +79,10 @@ LouiInput createLouiInput() {
     loui_input.is_keyboard_key_down[LOUI_KEY_END] = isKeyDown(SDL_SCANCODE_END);
     loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_UP] = isKeyDown(SDL_SCANCODE_PAGEUP);
     loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_DOWN] = isKeyDown(SDL_SCANCODE_PAGEDOWN);
-    return loui_input;
-}
-
-const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT);
-
-int main() {
-    auto WINDOW_TITLE = "Loui";
-    auto WIDTH = 320;
-    auto HEIGHT = 200;
-    
-    auto window = makeDesktopWindow(WIDTH, HEIGHT, 5, WINDOW_TITLE);
-    loui_init(WIDTH, HEIGHT);
-
-    for (;;) {
-        registerFrameInput(window.renderer);
-        if (isKeyClicked(SDL_SCANCODE_ESCAPE) || hasReceivedQuitEvent()) {
-            break;
-        }
-        auto loui_input = createLouiInput();
-        auto screen = updateGui(loui_input, WIDTH, HEIGHT);
-        drawPixels(window, screen);
-        presentWindow(window);
-    }
-    return 0;
-}
-
-const LouiColor* updateGui(LouiInput loui_input, int WIDTH, int HEIGHT) {
     loui_set_input(loui_input);
+}
 
+const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     static auto show_window = false;
     if (show_window) {
         loui_disable_input();
