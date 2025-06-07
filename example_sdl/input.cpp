@@ -50,7 +50,6 @@ static void registerEvents() {
             s_mouse_wheel_dy = event.wheel.y;
         }
         if (event.type == SDL_QUIT) {
-            printf("Quit event");
             s_has_received_quit_event = true;
         }
     }
