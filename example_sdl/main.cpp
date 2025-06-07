@@ -1,8 +1,10 @@
 #define SDL_MAIN_HANDLED
 
 #include <loui/loui.h>
+#include <SDL2/SDL.h>
 
-#include "sdl_wrappers.hpp"
+#include "window.hpp"
+#include "input.hpp"
 
 enum GuiThemeIndex {
     GRAY_THEME_INDEX,
@@ -35,25 +37,27 @@ const char* themeDescription[] = {
     [FLAT_SOLARIZED_THEME_INDEX] = "Flat Solarized",
 };
 
-LouiInput createLouiInput(Input input, char input_character, int mouse_wheel_y) {
+LouiInput createLouiInput(char input_character, int mouse_wheel_y) {
+    auto mouse_position = getAbsoluteMousePosition();
+
     LouiInput loui_input = {};
-    loui_input.mouse_x = input.mouse_x;
-    loui_input.mouse_y = input.mouse_y;
+    loui_input.mouse_x = mouse_position.x;
+    loui_input.mouse_y = mouse_position.y;
     loui_input.mouse_wheel_y = mouse_wheel_y;
-    loui_input.is_left_mouse_button_down = input.isLeftMouseButtonDown();
+    loui_input.is_left_mouse_button_down = isLeftMouseButtonDown();
     loui_input.input_character = input_character;
 
-    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_LEFT] = input.keyboard[SDL_SCANCODE_LEFT];
-    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_RIGHT] = input.keyboard[SDL_SCANCODE_RIGHT];
-    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_UP] = input.keyboard[SDL_SCANCODE_UP];
-    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_DOWN] = input.keyboard[SDL_SCANCODE_DOWN];
-    loui_input.is_keyboard_key_down[LOUI_KEY_BACKSPACE] = input.keyboard[SDL_SCANCODE_BACKSPACE];
-    loui_input.is_keyboard_key_down[LOUI_KEY_DELETE] = input.keyboard[SDL_SCANCODE_DELETE];
-    loui_input.is_keyboard_key_down[LOUI_KEY_ENTER] = input.keyboard[SDL_SCANCODE_RETURN];
-    loui_input.is_keyboard_key_down[LOUI_KEY_HOME] = input.keyboard[SDL_SCANCODE_HOME];
-    loui_input.is_keyboard_key_down[LOUI_KEY_END] = input.keyboard[SDL_SCANCODE_END];
-    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_UP] = input.keyboard[SDL_SCANCODE_PAGEUP];
-    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_DOWN] = input.keyboard[SDL_SCANCODE_PAGEDOWN];
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_LEFT] = isKeyDown(SDL_SCANCODE_LEFT);
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_RIGHT] = isKeyDown(SDL_SCANCODE_RIGHT);
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_UP] = isKeyDown(SDL_SCANCODE_UP);
+    loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_DOWN] = isKeyDown(SDL_SCANCODE_DOWN);
+    loui_input.is_keyboard_key_down[LOUI_KEY_BACKSPACE] = isKeyDown(SDL_SCANCODE_BACKSPACE);
+    loui_input.is_keyboard_key_down[LOUI_KEY_DELETE] = isKeyDown(SDL_SCANCODE_DELETE);
+    loui_input.is_keyboard_key_down[LOUI_KEY_ENTER] = isKeyDown(SDL_SCANCODE_RETURN);
+    loui_input.is_keyboard_key_down[LOUI_KEY_HOME] = isKeyDown(SDL_SCANCODE_HOME);
+    loui_input.is_keyboard_key_down[LOUI_KEY_END] = isKeyDown(SDL_SCANCODE_END);
+    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_UP] = isKeyDown(SDL_SCANCODE_PAGEUP);
+    loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_DOWN] = isKeyDown(SDL_SCANCODE_PAGEDOWN);
     return loui_input;
 }
 
@@ -64,11 +68,11 @@ int main() {
     auto WIDTH = 320;
     auto HEIGHT = 200;
 
-    auto sdl = Sdl(WINDOW_TITLE, WIDTH, HEIGHT);
+    auto window = makeFullScreenWindow(WIDTH, HEIGHT, WINDOW_TITLE);
     loui_init(WIDTH, HEIGHT);
-    sdl.setMouseModeAbsolute();
 
     for (;;) {
+        registerFrameInput(window.renderer);
         auto event = SDL_Event();
         char input_character = '\0';
         auto mouse_wheel_y = 0;
@@ -83,13 +87,13 @@ int main() {
                 mouse_wheel_y = event.wheel.y;
             }
         }
-        auto sdl_input = sdl.getInput();
-        if (sdl_input.escape_button == BUTTON_CLICKED) {
+        if (isKeyClicked(SDL_SCANCODE_ESCAPE)) {
             break;
         }
-        auto loui_input = createLouiInput(sdl_input, input_character, mouse_wheel_y);
+        auto loui_input = createLouiInput(input_character, mouse_wheel_y);
         auto screen = updateGui(loui_input, WIDTH, HEIGHT);
-        sdl.draw(screen);
+        drawPixels(window, screen);
+        presentWindow(window);
     }
     return 0;
 }
