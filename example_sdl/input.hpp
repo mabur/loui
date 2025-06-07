@@ -13,6 +13,9 @@ bool hasReceivedQuitEvent();
 
 SDL_Point getAbsoluteMousePosition();
 SDL_Point getRelativeMousePosition();
+int getMouseWheelY();
+
+char getInputCharacter();
 
 bool isKeyUp(SDL_Scancode key);
 bool isKeyClicked(SDL_Scancode key);

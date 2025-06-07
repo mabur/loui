@@ -37,15 +37,15 @@ const char* themeDescription[] = {
     [FLAT_SOLARIZED_THEME_INDEX] = "Flat Solarized",
 };
 
-LouiInput createLouiInput(char input_character, int mouse_wheel_y) {
+LouiInput createLouiInput() {
     auto mouse_position = getAbsoluteMousePosition();
 
     LouiInput loui_input = {};
     loui_input.mouse_x = mouse_position.x;
     loui_input.mouse_y = mouse_position.y;
-    loui_input.mouse_wheel_y = mouse_wheel_y;
+    loui_input.mouse_wheel_y = getMouseWheelY();
     loui_input.is_left_mouse_button_down = isLeftMouseButtonDown();
-    loui_input.input_character = input_character;
+    loui_input.input_character = getInputCharacter();
 
     loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_LEFT] = isKeyDown(SDL_SCANCODE_LEFT);
     loui_input.is_keyboard_key_down[LOUI_KEY_ARROW_RIGHT] = isKeyDown(SDL_SCANCODE_RIGHT);
@@ -74,23 +74,15 @@ int main() {
     for (;;) {
         registerFrameInput(window.renderer);
         auto event = SDL_Event();
-        char input_character = '\0';
-        auto mouse_wheel_y = 0;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 break;
-            }
-            if (event.type == SDL_TEXTINPUT) {
-                input_character = event.text.text[0];
-            }
-            if (event.type == SDL_MOUSEWHEEL) {
-                mouse_wheel_y = event.wheel.y;
             }
         }
         if (isKeyClicked(SDL_SCANCODE_ESCAPE)) {
             break;
         }
-        auto loui_input = createLouiInput(input_character, mouse_wheel_y);
+        auto loui_input = createLouiInput();
         auto screen = updateGui(loui_input, WIDTH, HEIGHT);
         drawPixels(window, screen);
         presentWindow(window);

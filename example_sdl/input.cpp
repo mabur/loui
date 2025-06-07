@@ -8,6 +8,8 @@ enum ButtonState {BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED};
 
 static ButtonState s_keyboard[SDL_NUM_SCANCODES];
 
+static char s_input_character = '\0';
+
 static ButtonState s_left_mouse_button = BUTTON_UP;
 static ButtonState s_right_mouse_button = BUTTON_UP;
 static ButtonState s_middle_mouse_button = BUTTON_UP;
@@ -16,6 +18,7 @@ static int s_mouse_x = 0;
 static int s_mouse_y = 0;
 static int s_mouse_dx = 0;
 static int s_mouse_dy = 0;
+static int s_mouse_wheel_dy;
 
 static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     switch (old_state) {
@@ -26,6 +29,24 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
     }
     assert(false);
     return {};
+}
+
+static void registerEvents() {
+    constexpr int MAX_EVENTS = 64;
+    SDL_Event events[MAX_EVENTS];
+    SDL_PumpEvents();
+    int event_count = SDL_PeepEvents(events, MAX_EVENTS, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
+    s_input_character = '\0';
+    s_mouse_wheel_dy = 0;
+    for (auto i = 0; i < event_count; ++i) {
+        auto event = events[i];
+        if (event.type == SDL_TEXTINPUT) {
+            s_input_character = event.text.text[0];
+        }
+        if (event.type == SDL_MOUSEWHEEL) {
+            s_mouse_wheel_dy = event.wheel.y;
+        }
+    }
 }
 
 static void registerFrameKeyboardInput() {
@@ -64,6 +85,7 @@ static void registerFrameMouseInput(SDL_Renderer* renderer) {
 }
 
 void registerFrameInput(SDL_Renderer* renderer) {
+    registerEvents();
     registerFrameKeyboardInput();
     registerFrameMouseInput(renderer);
 }
@@ -80,6 +102,9 @@ bool hasReceivedQuitEvent() {
 
 SDL_Point getAbsoluteMousePosition() {return {s_mouse_x, s_mouse_y};}
 SDL_Point getRelativeMousePosition() {return {s_mouse_dx, s_mouse_dy};}
+int getMouseWheelY() {return s_mouse_wheel_dy;}
+
+char getInputCharacter() {return s_input_character;}
 
 bool isKeyUp(SDL_Scancode key) {return s_keyboard[key] == BUTTON_UP;}
 bool isKeyClicked(SDL_Scancode key) {return s_keyboard[key] == BUTTON_CLICKED;}
