@@ -8,7 +8,12 @@ enum ButtonState {BUTTON_UP, BUTTON_CLICKED, BUTTON_DOWN, BUTTON_RELEASED};
 
 static ButtonState s_keyboard[SDL_NUM_SCANCODES];
 
+#define MAX_EVENTS 64
+SDL_Event s_events[MAX_EVENTS];
+int s_event_count = 0;
+
 static char s_input_character = '\0';
+static bool s_has_received_quit_event = false;
 
 static ButtonState s_left_mouse_button = BUTTON_UP;
 static ButtonState s_right_mouse_button = BUTTON_UP;
@@ -32,20 +37,25 @@ static ButtonState updateButtonState(ButtonState old_state, bool is_down) {
 }
 
 static void registerEvents() {
-    constexpr int MAX_EVENTS = 64;
-    SDL_Event events[MAX_EVENTS];
     SDL_PumpEvents();
-    int event_count = SDL_PeepEvents(events, MAX_EVENTS, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
+    s_event_count = SDL_PeepEvents(s_events, MAX_EVENTS, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
     s_input_character = '\0';
     s_mouse_wheel_dy = 0;
-    for (auto i = 0; i < event_count; ++i) {
-        auto event = events[i];
+    for (auto i = 0; i < s_event_count; ++i) {
+        auto event = s_events[i];
         if (event.type == SDL_TEXTINPUT) {
             s_input_character = event.text.text[0];
         }
         if (event.type == SDL_MOUSEWHEEL) {
             s_mouse_wheel_dy = event.wheel.y;
         }
+        if (event.type == SDL_QUIT) {
+            printf("Quit event");
+            s_has_received_quit_event = true;
+        }
+    }
+    auto event = SDL_Event();
+    while (SDL_PollEvent(&event)) {
     }
 }
 
@@ -91,13 +101,7 @@ void registerFrameInput(SDL_Renderer* renderer) {
 }
 
 bool hasReceivedQuitEvent() {
-    SDL_Event e;
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            return true;
-        }
-    }
-    return false;
+    return s_has_received_quit_event;
 }
 
 SDL_Point getAbsoluteMousePosition() {return {s_mouse_x, s_mouse_y};}

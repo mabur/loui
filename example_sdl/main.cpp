@@ -67,19 +67,13 @@ int main() {
     auto WINDOW_TITLE = "Loui";
     auto WIDTH = 320;
     auto HEIGHT = 200;
-
-    auto window = makeFullScreenWindow(WIDTH, HEIGHT, WINDOW_TITLE);
+    
+    auto window = makeDesktopWindow(WIDTH, HEIGHT, 5, WINDOW_TITLE);
     loui_init(WIDTH, HEIGHT);
 
     for (;;) {
         registerFrameInput(window.renderer);
-        auto event = SDL_Event();
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                break;
-            }
-        }
-        if (isKeyClicked(SDL_SCANCODE_ESCAPE)) {
+        if (isKeyClicked(SDL_SCANCODE_ESCAPE) || hasReceivedQuitEvent()) {
             break;
         }
         auto loui_input = createLouiInput();
