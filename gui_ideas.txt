@@ -26,6 +26,7 @@ MISSING WIDGETS
 - Drop down menu
   - Paint90?
   - Grid90?
+  - Rogue?
 
 NAMING
 * GUI90_Widget is hard to type
