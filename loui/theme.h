@@ -55,6 +55,7 @@ typedef struct LouiHeaderLabelTheme {
 extern const LouiTheme LOUI_THEME_YELLOW;
 extern const LouiTheme LOUI_THEME_GRAY;
 extern const LouiTheme LOUI_THEME_WARM_GRAY;
+extern const LouiTheme LOUI_THEME_DARK_GRAY;
 extern const LouiTheme LOUI_THEME_LEATHER;
 extern const LouiTheme LOUI_THEME_SOLARIZED_LIGHT;
 extern const LouiTheme LOUI_THEME_FLAT_WHITE;
