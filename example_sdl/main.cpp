@@ -49,6 +49,7 @@ int main() {
     auto HEIGHT = 200;
 
     auto window = makeDesktopWindow(WIDTH, HEIGHT, 5, WINDOW_TITLE);
+    //auto window = makeFullScreenWindow(WIDTH, HEIGHT, WINDOW_TITLE);
     loui_init(WIDTH, HEIGHT);
 
     for (;;) {
