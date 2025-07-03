@@ -398,8 +398,8 @@ LouiKnob loui_update_knob(LouiKnob widget) {
     auto rectangle = (Rectangle){widget.x, widget.y, widget.width, widget.height};
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     if (isLeftMouseButtonDownInside(rectangle)) {
-        auto dx = s_loui.mouse_x - (widget.x + widget.width / 2);
-        auto dy = s_loui.mouse_y - (widget.y + widget.height / 2);
+        auto dx = s_loui.mouse_x - (widget.x + 7.5);
+        auto dy = s_loui.mouse_y - (widget.y + 7.5);
         widget.angle = atan2(dy, dx);
     }
     for (int yi = 0; yi < 16; ++yi) {
@@ -431,7 +431,7 @@ LouiKnob loui_update_knob(LouiKnob widget) {
             if (r2 < 1.0 * 1.0) {
                 color = s_loui.theme.background;
             }
-            drawPoint(s_loui.screen, widget.x + xi - 2, widget.y + yi, color);
+            drawPoint(s_loui.screen, widget.x + xi, widget.y + yi, color);
         }
     }
     return widget;
