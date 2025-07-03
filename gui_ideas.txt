@@ -12,6 +12,9 @@ INPSIRATION
 
 MISSING WIDGETS
 - Theming for header label
+- Color pickers H,S,V
+  - Circular knob
+    - https://github.com/altschuler/imgui-knobs
 - Better scrollbars for multi-line text field.
   - Programming game
 - Slider
