@@ -19,6 +19,8 @@ MISSING WIDGETS
   - Programming game
 - Slider
   - Paint90
+- Circular Slider
+  - Paint90
 - Buttons with images/icons
   - Kretzlop
   - Paint90
