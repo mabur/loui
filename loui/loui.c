@@ -419,7 +419,7 @@ LouiKnob loui_update_knob(LouiKnob widget) {
             if (r2 < 5.0 * 5.0) {
                 color = s_loui.theme.recess_background;
             }
-            if (r2 < 5.0 * 5.0 && da < 3.14 * 0.1) {
+            if (r2 < 5.0 * 5.0 && da < 3.14 * 0.07) {
                 color = s_loui.theme.recess_text_selected;
             }
             if (r2 < 2.0 * 2.0 && dx + dy < 0.0) {
