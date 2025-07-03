@@ -1,5 +1,6 @@
 #include "loui.h"
 
+#include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -389,6 +390,51 @@ LouiButton loui_update_button(LouiButton widget) {
         case BUTTON_TYPE_CLOUD: return loui_update_button_cloud(widget);
         default: return loui_update_button_bevel(widget);
     }
+}
+
+LouiKnob loui_update_knob(LouiKnob widget) {
+    widget.width = 16;
+    widget.height = 16;
+    auto rectangle = (Rectangle){widget.x, widget.y, widget.width, widget.height};
+    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        auto dx = s_loui.mouse_x - (widget.x + widget.width / 2);
+        auto dy = s_loui.mouse_y - (widget.y + widget.height / 2);
+        widget.angle = atan2(dy, dx);
+    }
+    for (int yi = 0; yi < 16; ++yi) {
+        for (int xi = 0; xi < 16; ++xi) {
+            double dx = xi - 7.5;
+            double dy = yi - 7.5;
+            double angle = atan2(dy, dx);
+            double da = fabs(angle - widget.angle);
+            double r2 = dx * dx + dy * dy;
+            auto color = s_loui.theme.background;
+            if (r2 < 6.0 * 6.0 && dx + dy < 0.0) {
+                color = s_loui.theme.recess_bevel_dark;
+            }
+            if (r2 < 6.0 * 6.0 && dx + dy > 0.0) {
+                color = s_loui.theme.recess_bevel_light;
+            }
+            if (r2 < 5.0 * 5.0) {
+                color = s_loui.theme.recess_background;
+            }
+            if (r2 < 5.0 * 5.0 && da < 3.14 * 0.1) {
+                color = s_loui.theme.recess_text_selected;
+            }
+            if (r2 < 2.0 * 2.0 && dx + dy < 0.0) {
+                color = s_loui.theme.recess_bevel_light;
+            }
+            if (r2 < 2.0 * 2.0 && dx + dy > 0.0) {
+                color = s_loui.theme.recess_bevel_dark;
+            }
+            if (r2 < 1.0 * 1.0) {
+                color = s_loui.theme.background;
+            }
+            drawPoint(s_loui.screen, widget.x + xi - 2, widget.y + yi, color);
+        }
+    }
+    return widget;
 }
 
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {

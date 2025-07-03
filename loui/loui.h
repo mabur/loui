@@ -102,6 +102,15 @@ typedef struct LouiCheckBox {
     bool is_clicked;
 } LouiCheckBox;
 
+typedef struct LouiKnob {
+    int x;
+    int y;
+    int width;
+    int height;
+    double angle;
+    bool is_clicked;
+} LouiKnob;
+
 typedef struct LouiTextInput {
     int x;
     int y;
@@ -171,6 +180,7 @@ void loui_widget_background();
 LouiLabel loui_update_label(LouiLabel widget);
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
 LouiButton loui_update_button(LouiButton widget);
+LouiKnob loui_update_knob(LouiKnob widget);
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
@@ -191,6 +201,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 inline void loui_update(LouiLabel& widget) { widget = loui_update_label(widget);}
 inline void loui_update(LouiHeaderLabel& widget) { widget = loui_update_header_label(widget);}
 inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget);}
+inline void loui_update(LouiKnob & widget) { widget = loui_update_knob(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
 inline void loui_update(LouiCheckBox& widget) { widget = loui_update_check_box(widget);}
 inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}

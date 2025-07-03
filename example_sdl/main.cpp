@@ -222,6 +222,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     y += check_box0.height;
     static auto check_box1 = (LouiCheckBox){.x=x, .y=y, .text="Check Box 1"};
     loui_update(check_box1);
+    y += check_box1.height;
+
+    static auto knob = (LouiKnob){.x=x, .y=y};
+    loui_update(knob);
 
     x = 8 * 9;
     y = 8;
