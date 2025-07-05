@@ -5,6 +5,7 @@ INPSIRATION
 * https://hedy.org/
 * https://www.lexaloffle.com/pico-8.php
 * https://m3.material.io/
+* https://github.com/altschuler/imgui-knobs
 * Example applications:
   - Games: Rogue, Golf, Kretzlop, Code
   - Paint 90, grid3d
@@ -12,13 +13,9 @@ INPSIRATION
 
 MISSING WIDGETS
 - Theming for header label
-- Color pickers H,S,V
-  - Circular knob
-    - https://github.com/altschuler/imgui-knobs
+- Color pickers H,S,V    
 - Better scrollbars for multi-line text field.
   - Programming game
-- Slider
-  - Paint90
 - Circular Slider
   - Paint90
 - Buttons with images/icons
