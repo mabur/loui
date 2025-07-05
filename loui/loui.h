@@ -145,6 +145,15 @@ typedef struct LouiStepper {
     bool is_decreased;
 } LouiStepper;
 
+typedef struct LouiSlider {
+    int x;
+    int y;
+    int width;
+    int height;
+    float value;
+    bool is_down;
+} LouiSlider;
+
 typedef struct LouiSelectionBoxInit {
     int x;
     int y;
@@ -184,6 +193,7 @@ LouiKnob loui_update_knob(LouiKnob widget);
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
+LouiSlider loui_update_slider(LouiSlider widget);
 LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget);
 LouiWindow loui_update_window(LouiWindow widget);
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
@@ -205,6 +215,7 @@ inline void loui_update(LouiKnob & widget) { widget = loui_update_knob(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
 inline void loui_update(LouiCheckBox& widget) { widget = loui_update_check_box(widget);}
 inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}
+inline void loui_update(LouiSlider& widget) { widget = loui_update_slider(widget);}
 inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_selection_box_init(widget);}
 inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_selection_box_item(widget);}
 inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
@@ -219,6 +230,7 @@ inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget
         LouiRadioButton: loui_update_radio_button, \
         LouiCheckBox: loui_update_check_box, \
         LouiStepper: loui_update_stepper, \
+        LouiSlider: loui_update_slider, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
         LouiSelectionBoxItem: loui_update_selection_box_item, \
         LouiTextInput: loui_update_text_input, \

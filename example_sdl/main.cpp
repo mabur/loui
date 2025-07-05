@@ -226,6 +226,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
 
     static auto knob = (LouiKnob){.x=x, .y=y};
     loui_update(knob);
+    x += knob.width + LOUI_BLOCK;
+
+    static auto slider = (LouiSlider){.x=x, .y=y, .width=63};
+    loui_update(slider);
 
     x = 8 * 9;
     y = 8;

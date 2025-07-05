@@ -546,6 +546,51 @@ LouiStepper loui_update_stepper(LouiStepper widget) {
     return widget;
 }
 
+LouiSlider loui_update_slider(LouiSlider widget) {
+    widget.height = LOUI_BLOCK * 2;
+    auto x = widget.x;
+    auto y = widget.y;
+    auto width = widget.width;
+    auto height = widget.height;
+    LouiSunkenFrame sunken_frame = {.x=x, .y=y+7, .width=width, .height=3};
+    loui_update_sunken_frame(sunken_frame);
+
+    auto rectangle = (Rectangle){.x=x, .y=y, .width=width, .height=height};
+
+    auto button = (Rectangle){};
+    button.x = widget.x + widget.value * widget.width;
+    button.y = widget.y + 1;
+    button.width = 8;
+    button.height = 8 + 6;
+    //drawButton(button, "");
+
+    // Begin draw button
+    // Inside the bevels:
+    auto inner_rectangle = shrinkRectangle(button);
+    auto innermost_rectangle = shrinkRectangle(inner_rectangle);
+    auto screen = s_loui.screen;
+
+    auto background_color = s_loui.theme.button_background;
+    auto border_color = s_loui.theme.button_border;
+    auto light_bevel_color = s_loui.theme.button_bevel_light;
+    auto dark_bevel_color = s_loui.theme.button_bevel_dark;
+
+    if (isLeftMouseButtonDownInside(rectangle)) {
+        light_bevel_color = background_color;
+        dark_bevel_color = background_color;
+        widget.value = (float)(s_loui.mouse_x - x) / width;
+    }
+    drawRectangle(screen, button, border_color);
+    drawRectangle(screen, innermost_rectangle, background_color);
+    drawRoundedRectangleOutline(
+        screen, inner_rectangle, light_bevel_color, dark_bevel_color
+    );
+    // End draw button.
+
+    widget.is_down = isLeftMouseButtonDownInside(rectangle);
+    return widget;
+}
+
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget) {
     s_loui.current_x = widget.x + TEXT_SIZE;
     s_loui.current_y = widget.y + TEXT_SIZE;
