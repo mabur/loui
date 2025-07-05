@@ -16,8 +16,10 @@ MISSING WIDGETS
 - Color pickers H,S,V    
 - Better scrollbars for multi-line text field.
   - Programming game
-- Circular Slider
+- Circular Slider / infinite slide / relative slider
+  - Could be a normal slider that starts in the center, and resets to center when the user releases.
   - Paint90
+  - What to show in the background? The value, like a numerical slider?
 - Buttons with images/icons
   - Kretzlop
   - Paint90
