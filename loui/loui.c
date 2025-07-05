@@ -552,20 +552,18 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     auto y = widget.y;
     auto width = widget.width;
     auto height = widget.height;
+    auto rectangle = (Rectangle){.x=x, .y=y, .width=width, .height=height};
+
     LouiSunkenFrame sunken_frame = {.x=x, .y=y+7, .width=width, .height=3};
     loui_update_sunken_frame(sunken_frame);
 
-    auto rectangle = (Rectangle){.x=x, .y=y, .width=width, .height=height};
-
     auto button = (Rectangle){};
     button.x = widget.x + widget.value * widget.width;
-    button.y = widget.y + 1;
-    button.width = 8;
-    button.height = 8 + 6;
-    //drawButton(button, "");
+    button.y = widget.y + 2;
+    button.width = 6;
+    button.height = 13;
 
     // Begin draw button
-    // Inside the bevels:
     auto inner_rectangle = shrinkRectangle(button);
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
     auto screen = s_loui.screen;
@@ -578,14 +576,16 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     if (isLeftMouseButtonDownInside(rectangle)) {
         light_bevel_color = background_color;
         dark_bevel_color = background_color;
-        widget.value = (float)(s_loui.mouse_x - x) / width;
+        widget.value = (double)(s_loui.mouse_x - x) / width;
     }
-    drawRectangle(screen, button, border_color);
+
+    drawRoundedRectangleOutline(screen, button, border_color, border_color);
     drawRectangle(screen, innermost_rectangle, background_color);
-    drawRoundedRectangleOutline(
-        screen, inner_rectangle, light_bevel_color, dark_bevel_color
-    );
-    // End draw button.
+    drawLineHorizontal(screen, inner_rectangle.x, inner_rectangle.y, inner_rectangle.width, light_bevel_color);
+    drawLineVertical(screen, inner_rectangle.x, inner_rectangle.y, inner_rectangle.height, light_bevel_color);
+    drawLineHorizontal(screen, inner_rectangle.x, inner_rectangle.y + inner_rectangle.height - 1, inner_rectangle.width, dark_bevel_color);
+    drawLineVertical(screen, inner_rectangle.x + inner_rectangle.width - 1, inner_rectangle.y, inner_rectangle.height, dark_bevel_color);
+    // End draw button
 
     widget.is_down = isLeftMouseButtonDownInside(rectangle);
     return widget;

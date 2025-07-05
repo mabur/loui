@@ -150,7 +150,7 @@ typedef struct LouiSlider {
     int y;
     int width;
     int height;
-    float value;
+    double value;
     bool is_down;
 } LouiSlider;
 
