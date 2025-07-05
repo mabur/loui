@@ -557,17 +557,6 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     LouiSunkenFrame sunken_frame = {.x=x, .y=y+7, .width=width, .height=3};
     loui_update_sunken_frame(sunken_frame);
 
-    auto button = (Rectangle){};
-    button.x = widget.x + widget.value * widget.width;
-    button.y = widget.y + 2;
-    button.width = 6;
-    button.height = 13;
-
-    // Begin draw button
-    auto inner_rectangle = shrinkRectangle(button);
-    auto innermost_rectangle = shrinkRectangle(inner_rectangle);
-    auto screen = s_loui.screen;
-
     auto background_color = s_loui.theme.button_background;
     auto border_color = s_loui.theme.button_border;
     auto light_bevel_color = s_loui.theme.button_bevel_light;
@@ -576,8 +565,20 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     if (isLeftMouseButtonDownInside(rectangle)) {
         light_bevel_color = background_color;
         dark_bevel_color = background_color;
-        widget.value = (double)(s_loui.mouse_x - x) / width;
+        widget.value = (double)(s_loui.mouse_x - x) / (width - 1);
+        printf("value:%f\n", widget.value);
     }
+
+    auto button = (Rectangle){};
+    button.width = 6;
+    button.height = 13;
+    button.x = widget.x + widget.value * (widget.width - button.width);
+    button.y = widget.y + 2;
+
+    // Begin draw button
+    auto inner_rectangle = shrinkRectangle(button);
+    auto innermost_rectangle = shrinkRectangle(inner_rectangle);
+    auto screen = s_loui.screen;
 
     drawRoundedRectangleOutline(screen, button, border_color, border_color);
     drawRectangle(screen, innermost_rectangle, background_color);
