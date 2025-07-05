@@ -547,6 +547,7 @@ LouiStepper loui_update_stepper(LouiStepper widget) {
 }
 
 LouiSlider loui_update_slider(LouiSlider widget) {
+    auto horizontal_padding = LOUI_BLOCK;
     widget.height = LOUI_BLOCK * 2;
     auto x = widget.x;
     auto y = widget.y;
@@ -554,7 +555,7 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     auto height = widget.height;
     auto rectangle = (Rectangle){.x=x, .y=y, .width=width, .height=height};
 
-    LouiSunkenFrame sunken_frame = {.x=x, .y=y+7, .width=width, .height=3};
+    LouiSunkenFrame sunken_frame = {.x=x+horizontal_padding, .y=y+7, .width=width - 2*horizontal_padding, .height=3};
     loui_update_sunken_frame(sunken_frame);
 
     auto background_color = s_loui.theme.button_background;
@@ -565,14 +566,16 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     if (isLeftMouseButtonDownInside(rectangle)) {
         light_bevel_color = background_color;
         dark_bevel_color = background_color;
-        widget.value = (double)(s_loui.mouse_x - x) / (width - 1);
+        widget.value = (double)(s_loui.mouse_x - x - horizontal_padding) / (width - 1 - 2 * horizontal_padding);
+        widget.value = widget.value < 0.0 ? 0.0 : widget.value;
+        widget.value = widget.value > 1.0 ? 1.0 : widget.value;
         printf("value:%f\n", widget.value);
     }
 
     auto button = (Rectangle){};
     button.width = 6;
     button.height = 13;
-    button.x = widget.x + widget.value * (widget.width - button.width);
+    button.x = sunken_frame.x + widget.value * (sunken_frame.width - button.width);
     button.y = widget.y + 2;
 
     // Begin draw button
