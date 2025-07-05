@@ -569,7 +569,6 @@ LouiSlider loui_update_slider(LouiSlider widget) {
         widget.value = (double)(s_loui.mouse_x - x - horizontal_padding) / (width - 1 - 2 * horizontal_padding);
         widget.value = widget.value < 0.0 ? 0.0 : widget.value;
         widget.value = widget.value > 1.0 ? 1.0 : widget.value;
-        printf("value:%f\n", widget.value);
     }
 
     auto button = (Rectangle){};
