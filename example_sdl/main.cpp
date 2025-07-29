@@ -98,7 +98,7 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
         loui_disable_input();
     }
 
-    static auto theme_index = YELLOW_THEME_INDEX;
+    static auto theme_index = ASEPRITE_THEME_INDEX;
     static auto button_type = BUTTON_TYPE_BEVEL;
     auto theme = themeSettings[theme_index];
     theme.button_type = button_type;
