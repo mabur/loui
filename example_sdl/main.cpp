@@ -113,13 +113,6 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     }
     y += open_button.height;
 
-    auto close_button = (LouiButton){.x=x, .y=y, .text="Close"};
-    loui_update(close_button);
-    if (close_button.is_clicked) {
-        show_window = false;
-    }
-    y += close_button.height;
-
     static int setting = 0;
     char setting_text[64];
     sprintf(setting_text, "Setting: %d ", setting);
