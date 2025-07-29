@@ -10,6 +10,7 @@ INPSIRATION
   - Games: Rogue, Golf, Kretzlop, Code
   - Paint 90, grid3d
 * Make it easy to have buttons with different nice colors.
+* https://www.rfleury.com/p/ui-series-table-of-contents
 
 MISSING WIDGETS
 - Theming for header label
