@@ -32,6 +32,38 @@ const LouiTheme LOUI_THEME_GRAY = (LouiTheme){
     .button_type = BUTTON_TYPE_BEVEL,
 };
 
+const LouiTheme LOUI_THEME_ASEPRITE = (LouiTheme){
+    .background = LOUI_RGB(210, 202, 189),
+    .text = LOUI_RGB(0, 0, 0),
+    .button_background = LOUI_RGB(198, 198, 198),
+    .button_text = LOUI_RGB(0, 0, 0),
+    .button_border = LOUI_RGB(0, 0, 0),
+    .button_bevel_dark = LOUI_RGB(128, 128, 128),
+    .button_bevel_light = LOUI_RGB(255, 255, 255),
+    .recess_background = LOUI_RGB(0, 0, 0),
+    .recess_text = LOUI_RGB(128, 128, 128),
+    .recess_text_selected = LOUI_RGB(255, 255, 255),
+    .recess_bevel_dark = LOUI_RGB(148, 131, 115),
+    .recess_bevel_light = LOUI_RGB(255, 255, 255),
+    .button_type = BUTTON_TYPE_BEVEL,
+};
+
+const LouiTheme LOUI_THEME_FLAT_ASEPRITE = (LouiTheme){
+    .background = LOUI_RGB(210, 202, 189),
+    .text = LOUI_RGB(0, 0, 0),
+    .button_background = LOUI_RGB(124, 145, 157), // LOUI_RGB(198, 198, 198), // LOUI_RGB(255, 255, 255),
+    .button_text = LOUI_RGB(255, 255, 255),
+    .button_border = LOUI_RGB(0, 0, 0),
+    .button_bevel_dark = LOUI_RGB(77, 92, 101), //LOUI_RGB(128, 128, 128), // LOUI_RGB(230, 210, 180), //
+    .button_bevel_light = LOUI_RGB(144, 168, 185), // LOUI_RGB(255, 255, 255),
+    .recess_background = LOUI_RGB(255, 255, 255),
+    .recess_text = LOUI_RGB(96, 96, 96),
+    .recess_text_selected = LOUI_RGB(0, 0, 0),
+    .recess_bevel_dark = LOUI_RGB(0, 0, 0),
+    .recess_bevel_light = LOUI_RGB(0, 0, 0),
+    .button_type = BUTTON_TYPE_BEVEL,
+};
+
 const LouiTheme LOUI_THEME_WARM_GRAY = (LouiTheme){
     .background = LOUI_RGB(180, 168, 156),
     .text = LOUI_RGB(0, 0, 0),
