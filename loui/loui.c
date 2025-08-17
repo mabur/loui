@@ -22,6 +22,7 @@ typedef struct LouiState {
     LouiTheme theme;
     ButtonState left_mouse_button;
     RepeatingButtonState keyboard_keys[LOUI_KEY_COUNT];
+    ButtonState modifier_keys[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
     int active_text_input_widget_index;
     int text_input_widget_index_count;
@@ -206,6 +207,12 @@ void loui_set_input(LouiInput input) {
     for (auto i = 0; i < LOUI_KEY_COUNT; ++i) {
         s_loui.keyboard_keys[i] = updateRepeatingButtonState(
             s_loui.keyboard_keys[i], input.is_keyboard_key_down[i]
+        );
+    }
+    // Modifier keys:
+    for (auto i = 0; i < LOUI_MODIFIER_KEY_COUNT; ++i) {
+        s_loui.modifier_keys[i] = updateButtonState(
+            s_loui.modifier_keys[i], input.is_modifier_key_down[i]
         );
     }
     s_loui.input_character = input.input_character;
@@ -826,7 +833,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             s_loui.screen,
             text_x,
             text_y,
-            s_loui.theme.text,
+            s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN ? s_loui.theme.background : s_loui.theme.text,
             widget.caret,
             widget.draw_caret
         );

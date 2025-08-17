@@ -14,7 +14,7 @@ extern "C" {
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 #define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
 
-typedef enum LouiKeyboard {
+typedef enum LouiKey {
     LOUI_KEY_ARROW_DOWN,
     LOUI_KEY_ARROW_LEFT,
     LOUI_KEY_ARROW_RIGHT,
@@ -27,7 +27,12 @@ typedef enum LouiKeyboard {
     LOUI_KEY_PAGE_DOWN,
     LOUI_KEY_PAGE_UP,
     LOUI_KEY_COUNT,
-} LouiKeyboard;
+} LouiKey;
+
+typedef enum LouiModifierKey {
+    LOUI_MODIFIER_KEY_SHIFT,
+    LOUI_MODIFIER_KEY_COUNT,
+} LouiModifierKey;
 
 typedef struct LouiInput {
     int mouse_x;
@@ -35,6 +40,7 @@ typedef struct LouiInput {
     int mouse_wheel_y;
     bool is_left_mouse_button_down;
     bool is_keyboard_key_down[LOUI_KEY_COUNT];
+    bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
 
