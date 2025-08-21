@@ -659,6 +659,10 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
         }
+
+        if (s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_CLICKED) {
+            widget.selection_begin = widget.caret;
+        }
     }
 
     auto x = widget.x;
@@ -695,6 +699,16 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             cursor_y,
             s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN ? s_loui.theme.background : s_loui.theme.text
         );
+        if (s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN) {
+            auto cursor_x = text_x + widget.selection_begin.column * TEXT_SIZE;
+            auto cursor_y = text_y;
+            drawCaret(
+                s_loui.screen,
+                cursor_x,
+                cursor_y,
+                s_loui.theme.background
+            );
+        }
     }
     loui_set_theme(global_theme);
 
