@@ -689,7 +689,12 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
-        drawCaret(s_loui.screen, cursor_x, cursor_y, s_loui.theme.text);
+        drawCaret(
+            s_loui.screen,
+            cursor_x,
+            cursor_y,
+            s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN ? s_loui.theme.background : s_loui.theme.text
+        );
     }
     loui_set_theme(global_theme);
 
