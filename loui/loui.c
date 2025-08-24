@@ -8,6 +8,7 @@
 
 #include "button.h"
 #include "draw.h"
+#include "math.h"
 #include "rectangle.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
@@ -641,27 +642,33 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 s_loui.input_character
             );
         }
+
+        auto is_shift_up = s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_UP;
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
+            if (is_shift_up)
+                widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
+            if (is_shift_up)
+                widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
             widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
+            if (is_shift_up)
+                widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
             widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
+            if (is_shift_up)
+                widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
-        }
-
-        if (s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_CLICKED) {
-            widget.selection_begin = widget.caret;
         }
     }
 
@@ -689,6 +696,17 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto local_theme = s_loui.theme;
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
+
+    auto selection_begin = mini(widget.caret.column, widget.selection_begin.column);
+    auto selection_end = maxi(widget.caret.column, widget.selection_begin.column);
+    auto selection = (Rectangle){
+        .x = text_x + selection_begin * TEXT_SIZE,
+        .y = text_y,
+        .width = (selection_end - selection_begin) * TEXT_SIZE,
+        .height = TEXT_SIZE,
+    };
+    drawRectangle(s_loui.screen, selection, s_loui.theme.background);
+
     drawString(s_loui.screen, widget.text, text_x, text_y, s_loui.theme.text);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
@@ -697,18 +715,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             s_loui.screen,
             cursor_x,
             cursor_y,
-            s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN ? s_loui.theme.background : s_loui.theme.text
+            s_loui.theme.text
         );
-        if (s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN) {
-            auto cursor_x = text_x + widget.selection_begin.column * TEXT_SIZE;
-            auto cursor_y = text_y;
-            drawCaret(
-                s_loui.screen,
-                cursor_x,
-                cursor_y,
-                s_loui.theme.background
-            );
-        }
     }
     loui_set_theme(global_theme);
 
