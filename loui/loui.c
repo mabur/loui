@@ -629,6 +629,10 @@ LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget)
     return widget;
 }
 
+static bool isShiftUp() {
+    return s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_UP;
+}
+
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
@@ -642,26 +646,24 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 s_loui.input_character
             );
         }
-
-        auto is_shift_up = s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_UP;
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
-            if (is_shift_up)
+            if (isShiftUp())
                 widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
-            if (is_shift_up)
+            if (isShiftUp())
                 widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
             widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
-            if (is_shift_up)
+            if (isShiftUp())
                 widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
             widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
-            if (is_shift_up)
+            if (isShiftUp())
                 widget.selection_begin = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
@@ -688,8 +690,9 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
         auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text,
-            column);
+        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text, column);
+        if (isShiftUp())
+            widget.selection_begin = widget.caret;
     }
 
     auto global_theme = s_loui.theme;
