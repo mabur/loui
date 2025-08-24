@@ -649,22 +649,22 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
             if (isShiftUp())
-                widget.selection_begin = widget.caret;
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
             widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
             if (isShiftUp())
-                widget.selection_begin = widget.caret;
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
             widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
             if (isShiftUp())
-                widget.selection_begin = widget.caret;
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
             widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
             if (isShiftUp())
-                widget.selection_begin = widget.caret;
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
@@ -692,7 +692,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
         widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text, column);
         if (isShiftUp())
-            widget.selection_begin = widget.caret;
+            widget.selection_anchor = widget.caret;
     }
 
     auto global_theme = s_loui.theme;
@@ -700,8 +700,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
 
-    auto selection_begin = mini(widget.caret.column, widget.selection_begin.column);
-    auto selection_end = maxi(widget.caret.column, widget.selection_begin.column);
+    auto selection_begin = mini(widget.caret.column, widget.selection_anchor.column);
+    auto selection_end = maxi(widget.caret.column, widget.selection_anchor.column);
     auto selection = (Rectangle){
         .x = text_x + selection_begin * TEXT_SIZE,
         .y = text_y,
