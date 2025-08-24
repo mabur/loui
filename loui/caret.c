@@ -253,3 +253,11 @@ MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* t
     deleteCharacter(text, index - 1);
     return caret;
 }
+
+SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b) {
+    return a.column < b.column ? a : b;
+}
+
+SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b) {
+    return a.column > b.column ? a : b;
+}

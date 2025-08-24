@@ -39,3 +39,6 @@ MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* t
 
 int countLines(const char* text);
 int countMaxColumns(const char* text);
+
+SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
+SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b);

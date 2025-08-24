@@ -8,7 +8,6 @@
 
 #include "button.h"
 #include "draw.h"
-#include "math.h"
 #include "rectangle.h"
 
 #define DRAW_DEBUG_RECTANGLES 0
@@ -705,12 +704,12 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
 
-    auto selection_begin = mini(widget.caret.column, widget.selection_anchor.column);
-    auto selection_end = maxi(widget.caret.column, widget.selection_anchor.column);
+    auto selection_begin = minSingleLineCaret(widget.caret, widget.selection_anchor);
+    auto selection_end = maxSingleLineCaret(widget.caret, widget.selection_anchor);
     auto selection = (Rectangle){
-        .x = text_x + selection_begin * TEXT_SIZE,
+        .x = text_x + selection_begin.column * TEXT_SIZE,
         .y = text_y,
-        .width = (selection_end - selection_begin) * TEXT_SIZE,
+        .width = (selection_end.column - selection_begin.column) * TEXT_SIZE,
         .height = TEXT_SIZE,
     };
     drawRectangle(s_loui.screen, selection, s_loui.theme.background);
