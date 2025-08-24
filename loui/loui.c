@@ -86,6 +86,8 @@ static void drawMultiLineString(
     LouiColor color,
     int max_lines,
     int max_columns,
+    MultiLineCaret caret,
+    MultiLineCaret selection_anchor,
     MultiLineCaret draw_caret
 ) {
     auto line = 0;
@@ -98,6 +100,7 @@ static void drawMultiLineString(
         if (0 <= draw_line && draw_line < max_lines &&
             0 <= draw_column && draw_column < max_columns
         ) {
+            if (line)
             drawCharacter(screen, *s, draw_x, draw_y, color);
         }
         if (*s == '\n') {
@@ -746,36 +749,55 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
                 widget.caret, widget.text, LOUI_MAX_MULTI_LINE_TEXT_INPUT
             );
         }
+        // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
             widget.caret = moveMultiLineCaretHome(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
             widget.caret = moveMultiLineCaretEnd(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_PAGE_UP])) {
             widget.caret = moveMultiLineCaretPageUp(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_PAGE_DOWN])) {
             widget.caret = moveMultiLineCaretPageDown(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
             widget.caret = moveMultiLineCaretLeft(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
             widget.caret = moveMultiLineCaretRight(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_UP])) {
             widget.caret = moveMultiLineCaretUp(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_DOWN])) {
             widget.caret = moveMultiLineCaretDown(widget.caret, widget.text);
+            if (isShiftUp())
+                widget.selection_anchor = widget.caret;
         }
+        // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             widget.caret = deleteCharacterAfterMultiLineCaret(widget.caret, widget.text);
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             widget.caret = deleteCharacterBeforeMultiLineCaret(widget.caret, widget.text);
         }
+        // Scrolling:
         if (s_loui.mouse_wheel_y > 0) {
             for (auto i = 0; i < s_loui.mouse_wheel_y; ++i) {
                 widget.caret = moveMultiLineCaretUp(widget.caret, widget.text);
@@ -858,6 +880,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         s_loui.theme.text,
         lines,
         columns,
+        widget.caret,
+        widget.selection_anchor,
         widget.draw_caret
     );
     if (is_selected) {

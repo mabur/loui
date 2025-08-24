@@ -138,6 +138,7 @@ typedef struct LouiMultiTextInput {
     int columns;
     MultiLineCaret caret;
     MultiLineCaret draw_caret;
+    MultiLineCaret selection_anchor;
     bool is_clicked;
 } LouiMultiTextInput;
 
