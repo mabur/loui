@@ -42,3 +42,8 @@ int countMaxColumns(const char* text);
 
 SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
 SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
+
+MultiLineCaret minMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
+MultiLineCaret maxMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
+
+bool isBetween(MultiLineCaret a, MultiLineCaret b, MultiLineCaret c);

@@ -89,25 +89,30 @@ static void drawMultiLineString(
     MultiLineCaret selection_anchor,
     MultiLineCaret draw_caret
 ) {
-    auto line = 0;
-    auto column = 0;
+    auto selection_begin = minMultiLineCaret(caret, selection_anchor);
+    auto selection_end = maxMultiLineCaret(caret, selection_anchor);
+
+    auto current = (MultiLineCaret){};
     for (; *s; ++s) {
-        auto draw_line = line - draw_caret.line;
-        auto draw_column = column - draw_caret.column;
+        auto draw_line = current.line - draw_caret.line;
+        auto draw_column = current.column - draw_caret.column;
         auto draw_x = x + draw_column * TEXT_SIZE;
         auto draw_y = y + draw_line * TEXT_SIZE;
         if (0 <= draw_line && draw_line < max_lines &&
             0 <= draw_column && draw_column < max_columns
         ) {
-            if (line)
+            if (isBetween(selection_begin, current, selection_end)) {
+                auto rectangle = (Rectangle){.x=draw_x, .y=draw_y, .width=TEXT_SIZE, .height=TEXT_SIZE};
+                drawRectangle(screen, rectangle, s_loui.theme.background);
+            }
             drawCharacter(screen, *s, draw_x, draw_y, color);
         }
         if (*s == '\n') {
-            column = 0;
-            line++;
+            current.column = 0;
+            current.line++;
         }
         else {
-            column++;
+            current.column++;
         }
     }
 }
@@ -831,6 +836,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         auto column = draw_column + widget.draw_caret.column;
         auto line = draw_line + widget.draw_caret.line;
         widget.caret = moveMultiLineCaretLineColumn(widget.caret, widget.text, line, column);
+        if (isShiftUp())
+            widget.selection_anchor = widget.caret;
     }
 
     // Handle caret moving too far above the draw caret:
@@ -888,7 +895,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             s_loui.screen,
             text_x,
             text_y,
-            s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_DOWN ? s_loui.theme.background : s_loui.theme.text,
+            s_loui.theme.text,
             widget.caret,
             widget.draw_caret
         );

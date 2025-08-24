@@ -261,3 +261,22 @@ SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b) {
 SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b) {
     return a.column > b.column ? a : b;
 }
+
+static bool lessThanMultiLineCaret(MultiLineCaret a, MultiLineCaret b) {
+    return a.line < b.line || (a.line == b.line && a.column < b.column);
+}
+
+MultiLineCaret minMultiLineCaret(MultiLineCaret a, MultiLineCaret b) {
+    return lessThanMultiLineCaret(a, b) ? a : b;
+}
+
+MultiLineCaret maxMultiLineCaret(MultiLineCaret a, MultiLineCaret b) {
+    return lessThanMultiLineCaret(a, b) ? b : a;
+}
+
+bool isBetween(MultiLineCaret a, MultiLineCaret b, MultiLineCaret c) {
+    // return a <= b && b < c;
+    // return !(a > b) && b < c;
+    // return !(b < a) && b < c;
+    return !lessThanMultiLineCaret(b, a) && lessThanMultiLineCaret(b, c);
+}
