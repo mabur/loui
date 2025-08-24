@@ -646,6 +646,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 s_loui.input_character
             );
         }
+        // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
             widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
             if (isShiftUp())
@@ -666,6 +667,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
+        // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
         }
