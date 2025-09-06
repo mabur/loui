@@ -44,3 +44,6 @@ typedef struct LouiState {
 extern LouiState s_loui;
 
 LouiTheme getTheme();
+
+bool isLeftMouseButtonDownInside(Rectangle r);
+bool isLeftMouseButtonReleasedInside(Rectangle r);
