@@ -7,6 +7,8 @@
 #include "state.h"
 #include "theme.h"
 
+#include "loui_label.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -24,15 +26,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiLabel {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_clicked;
-} LouiLabel;
 
 typedef struct LouiHeaderLabel {
     int x;
@@ -175,7 +168,6 @@ void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
-LouiLabel loui_update_label(LouiLabel widget);
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
 LouiButton loui_update_button(LouiButton widget);
 LouiKnob loui_update_knob(LouiKnob widget);

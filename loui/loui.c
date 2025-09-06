@@ -204,15 +204,6 @@ LouiWindow loui_update_window(LouiWindow widget) {
     return widget;
 }
 
-LouiLabel loui_update_label(LouiLabel widget) {
-    drawString(s_loui.screen, widget.text, widget.x, widget.y, getTheme().text);
-    auto rectangle = textRectangle(widget.x, widget.y, widget.text);
-    widget.width = rectangle.width;
-    widget.height = rectangle.height;
-    widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
-    return widget;
-}
-
 LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget) {
     drawSpecialString(s_loui.screen, widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
