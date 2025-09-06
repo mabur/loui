@@ -7,6 +7,7 @@
 #include "state.h"
 #include "theme.h"
 
+#include "loui_header_label.h"
 #include "loui_label.h"
 
 #ifdef __cplusplus
@@ -27,15 +28,7 @@ typedef struct LouiInput {
     char input_character;
 } LouiInput;
 
-typedef struct LouiHeaderLabel {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_clicked;
-    LouiHeaderLabelTheme theme;
-} LouiHeaderLabel;
+
 
 typedef struct LouiSunkenFrame {
     int x;
@@ -168,7 +161,6 @@ void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
-LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
 LouiButton loui_update_button(LouiButton widget);
 LouiKnob loui_update_knob(LouiKnob widget);
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
