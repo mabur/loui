@@ -4,6 +4,7 @@
 
 #include "caret.h"
 #include "color.h"
+#include "state.h"
 #include "theme.h"
 
 #ifdef __cplusplus
@@ -13,26 +14,6 @@ extern "C" {
 #define LOUI_BLOCK 8
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 #define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
-
-typedef enum LouiKey {
-    LOUI_KEY_ARROW_DOWN,
-    LOUI_KEY_ARROW_LEFT,
-    LOUI_KEY_ARROW_RIGHT,
-    LOUI_KEY_ARROW_UP,
-    LOUI_KEY_BACKSPACE,
-    LOUI_KEY_DELETE,
-    LOUI_KEY_END,
-    LOUI_KEY_ENTER,
-    LOUI_KEY_HOME,
-    LOUI_KEY_PAGE_DOWN,
-    LOUI_KEY_PAGE_UP,
-    LOUI_KEY_COUNT,
-} LouiKey;
-
-typedef enum LouiModifierKey {
-    LOUI_MODIFIER_KEY_SHIFT,
-    LOUI_MODIFIER_KEY_COUNT,
-} LouiModifierKey;
 
 typedef struct LouiInput {
     int mouse_x;

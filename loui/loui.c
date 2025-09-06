@@ -12,35 +12,11 @@
 
 #define DRAW_DEBUG_RECTANGLES 0
 
-typedef struct LouiState {
-    LouiScreen screen;
-    int mouse_x;
-    int mouse_y;
-    int mouse_wheel_y;
-    int current_x;
-    int current_y;
-    LouiTheme theme;
-    ButtonState left_mouse_button;
-    RepeatingButtonState keyboard_keys[LOUI_KEY_COUNT];
-    ButtonState modifier_keys[LOUI_MODIFIER_KEY_COUNT];
-    char input_character;
-    int active_text_input_widget_index;
-    int text_input_widget_index_count;
-    bool is_input_enabled;
-} LouiState;
-
 // -----------------------------------------------------------------------------
 // PRIVATE STUFF
 
 static const int TEXT_SIZE = 8;
 static const int BUTTON_TEXT_PADDING = 4;
-
-static LouiState s_loui;
-
-static
-LouiTheme getTheme() {
-    return s_loui.theme;
-}
 
 // -----------------------------------------------------------------------------
 // PRIVATE MOUSE & KEYBOARD FUNCTIONS
