@@ -4,12 +4,12 @@
 
 LouiState s_loui;
 
+const int TEXT_SIZE = 8;
+const int BUTTON_TEXT_PADDING = 4;
+
 LouiTheme getTheme() {
     return s_loui.theme;
 }
-
-// -----------------------------------------------------------------------------
-// PRIVATE MOUSE & KEYBOARD FUNCTIONS
 
 bool isLeftMouseButtonDownInside(Rectangle r) {
     return s_loui.is_input_enabled && s_loui.left_mouse_button == BUTTON_DOWN &&

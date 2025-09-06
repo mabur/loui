@@ -4,6 +4,10 @@
 #include "draw.h"
 #include "theme.h"
 
+#define LOUI_BLOCK 8
+#define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
+#define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
+
 typedef enum LouiKey {
     LOUI_KEY_ARROW_DOWN,
     LOUI_KEY_ARROW_LEFT,
@@ -42,6 +46,9 @@ typedef struct LouiState {
 } LouiState;
 
 extern LouiState s_loui;
+
+extern const int TEXT_SIZE;
+extern const int BUTTON_TEXT_PADDING;
 
 LouiTheme getTheme();
 

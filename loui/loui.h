@@ -7,16 +7,13 @@
 #include "state.h"
 #include "theme.h"
 
+#include "loui_button.h"
 #include "loui_header_label.h"
 #include "loui_label.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#define LOUI_BLOCK 8
-#define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
-#define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
 
 typedef struct LouiInput {
     int mouse_x;
@@ -45,15 +42,6 @@ typedef struct LouiWindow {
     int height;
     bool is_clicked;
 } LouiWindow;
-
-typedef struct LouiButton {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_clicked;
-} LouiButton;
 
 typedef struct LouiRadioButton {
     int x;
