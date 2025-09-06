@@ -55,68 +55,6 @@ static bool isLeftMouseButtonReleasedInside(Rectangle r) {
 // -----------------------------------------------------------------------------
 // PRIVATE DRAW FUNCTIONS
 
-static void drawCaret(
-    LouiScreen screen, size_t x_start, size_t y_start, LouiColor color) {
-    for (size_t y = 0; y < 8; ++y) {
-        screen.data[(y_start + y) * screen.width + x_start] = color;
-    }
-}
-
-static void drawMultiLineCaret(
-    LouiScreen screen,
-    size_t x_start,
-    size_t y_start,
-    LouiColor color,
-    MultiLineCaret caret,
-    MultiLineCaret draw_caret
-) {
-    auto draw_caret_line = caret.line - draw_caret.line;
-    auto draw_caret_column = caret.column - draw_caret.column;
-    auto caret_x = x_start + draw_caret_column * TEXT_SIZE;
-    auto caret_y = y_start + draw_caret_line * TEXT_SIZE;
-    drawCaret(screen, caret_x, caret_y, color);
-}
-
-static void drawMultiLineString(
-    LouiScreen screen,
-    const char* s,
-    size_t x,
-    size_t y,
-    LouiColor color,
-    int max_lines,
-    int max_columns,
-    MultiLineCaret caret,
-    MultiLineCaret selection_anchor,
-    MultiLineCaret draw_caret
-) {
-    auto selection_begin = minMultiLineCaret(caret, selection_anchor);
-    auto selection_end = maxMultiLineCaret(caret, selection_anchor);
-
-    auto current = (MultiLineCaret){};
-    for (; *s; ++s) {
-        auto draw_line = current.line - draw_caret.line;
-        auto draw_column = current.column - draw_caret.column;
-        auto draw_x = x + draw_column * TEXT_SIZE;
-        auto draw_y = y + draw_line * TEXT_SIZE;
-        if (0 <= draw_line && draw_line < max_lines &&
-            0 <= draw_column && draw_column < max_columns
-        ) {
-            if (isBetween(selection_begin, current, selection_end)) {
-                auto rectangle = (Rectangle){.x=draw_x, .y=draw_y, .width=TEXT_SIZE, .height=TEXT_SIZE};
-                drawRectangle(screen, rectangle, s_loui.theme.background);
-            }
-            drawCharacter(screen, *s, draw_x, draw_y, color);
-        }
-        if (*s == '\n') {
-            current.column = 0;
-            current.line++;
-        }
-        else {
-            current.column++;
-        }
-    }
-}
-
 static void drawSpecialString(
     LouiScreen screen, const char* s, int x, int y, LouiHeaderLabelTheme theme
 ) {
@@ -884,6 +822,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         text_x,
         text_y,
         s_loui.theme.text,
+        s_loui.theme.background,
         lines,
         columns,
         widget.caret,

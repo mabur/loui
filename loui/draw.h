@@ -2,6 +2,7 @@
 
 #include "color.h"
 
+typedef struct MultiLineCaret MultiLineCaret;
 typedef struct Rectangle Rectangle;
 
 typedef struct LouiScreen {
@@ -20,3 +21,26 @@ void drawLineHorizontal(LouiScreen screen, int x, int y, int width, LouiColor co
 void drawLineVertical(LouiScreen screen, int x, int y, int height, LouiColor color);
 void drawCharacter(LouiScreen screen, char character, size_t x_start, size_t y_start, LouiColor color);
 void drawString(LouiScreen screen, const char* s, size_t x, size_t y, LouiColor color);
+
+void drawCaret(LouiScreen screen, size_t x_start, size_t y_start, LouiColor color);
+void drawMultiLineCaret(
+    LouiScreen screen,
+    size_t x_start,
+    size_t y_start,
+    LouiColor color,
+    MultiLineCaret caret,
+    MultiLineCaret draw_caret
+);
+void drawMultiLineString(
+    LouiScreen screen,
+    const char* s,
+    size_t x,
+    size_t y,
+    LouiColor color,
+    LouiColor selection_background_color,
+    int max_lines,
+    int max_columns,
+    MultiLineCaret caret,
+    MultiLineCaret selection_anchor,
+    MultiLineCaret draw_caret
+);
