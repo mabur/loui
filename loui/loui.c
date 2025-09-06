@@ -181,15 +181,6 @@ void loui_widget_background() {
     }
 }
 
-static Rectangle textRectangle(int x, int y, const char* text) {
-    return (Rectangle){
-        .x = x,
-        .y = y,
-        .width = 8 * (int)(strlen(text)),
-        .height = 8,    
-    };
-}
-
 LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto x = widget.x;
     auto y = widget.y;

@@ -1,5 +1,7 @@
 #include "draw.h"
 
+#include <string.h>
+
 #include "caret.h"
 #include "rectangle.h"
 #include "text.h"
@@ -148,4 +150,13 @@ void drawMultiLineString(
             current.column++;
         }
     }
+}
+
+Rectangle textRectangle(int x, int y, const char* text) {
+    return (Rectangle){
+        .x = x,
+        .y = y,
+        .width = 8 * (int)(strlen(text)),
+        .height = 8,
+    };
 }

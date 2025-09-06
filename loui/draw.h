@@ -44,3 +44,5 @@ void drawMultiLineString(
     MultiLineCaret selection_anchor,
     MultiLineCaret draw_caret
 );
+
+Rectangle textRectangle(int x, int y, const char* text);
