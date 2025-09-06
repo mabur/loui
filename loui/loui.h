@@ -8,7 +8,7 @@
 #include "theme.h"
 
 #include "loui_button.h"
-#include "loui_header_label.h"
+#include "loui_heading.h"
 #include "loui_label.h"
 
 #ifdef __cplusplus
@@ -169,7 +169,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 
 #ifdef __cplusplus
 inline void loui_update(LouiLabel& widget) { widget = loui_update_label(widget);}
-inline void loui_update(LouiHeaderLabel& widget) { widget = loui_update_header_label(widget);}
+inline void loui_update(LouiHeading& widget) { widget = loui_update_heading(
+        widget);}
 inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget);}
 inline void loui_update(LouiKnob & widget) { widget = loui_update_knob(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
@@ -185,7 +186,7 @@ inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget
 #define loui_update(widget) \
     do { widget = _Generic((widget), \
         LouiLabel: loui_update_label, \
-        LouiHeaderLabel: loui_update_header_label, \
+        LouiHeading: loui_update_header_label, \
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
         LouiCheckBox: loui_update_check_box, \

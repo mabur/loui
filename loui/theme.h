@@ -31,7 +31,7 @@ typedef struct LouiTheme {
     LouiButtonType button_type;
 } LouiTheme;
 
-typedef struct LouiHeaderLabelTheme {
+typedef struct LouiHeadingTheme {
     LouiColor color_up_left;
     LouiColor color_up;
     LouiColor color_up_right;
@@ -50,7 +50,7 @@ typedef struct LouiHeaderLabelTheme {
     bool draw_down_left;
     bool draw_down;
     bool draw_down_right;
-} LouiHeaderLabelTheme;
+} LouiHeadingTheme;
 
 extern const LouiTheme LOUI_THEME_YELLOW;
 extern const LouiTheme LOUI_THEME_GRAY;

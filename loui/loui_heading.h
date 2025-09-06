@@ -6,17 +6,17 @@
 extern "C" {
 #endif
 
-typedef struct LouiHeaderLabel {
+typedef struct LouiHeading {
     int x;
     int y;
     int width;
     int height;
     const char* text;
     bool is_clicked;
-    LouiHeaderLabelTheme theme;
-} LouiHeaderLabel;
+    LouiHeadingTheme theme;
+} LouiHeading;
 
-LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget);
+LouiHeading loui_update_heading(LouiHeading widget);
 
 #ifdef __cplusplus
 }

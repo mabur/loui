@@ -174,7 +174,7 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     auto WHITE = LOUI_RGB(255, 255, 255);
     auto BLACK = LOUI_RGB(0, 0, 0);
     auto MID = loui_interpolate_colors(BLACK, theme.background, 128);
-    auto header_theme = LouiHeaderLabelTheme{
+    auto heading_theme = LouiHeadingTheme{
         .color_up_left = MID,
         .color_up = BLACK,
         .color_up_right = MID,
@@ -194,10 +194,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
         .draw_down = true,
         .draw_down_right = true,
     };
-    auto header = (LouiHeaderLabel){.x=x, .y=y, .text="Header LABEL", .theme=header_theme};
-    loui_update(header);
+    auto heading = (LouiHeading){.x=x, .y=y, .text="Heading", .theme=heading_theme};
+    loui_update(heading);
 
-    y += header.height + LOUI_BLOCK;
+    y += heading.height + LOUI_BLOCK;
     static auto input0 = (LouiTextInput){.x=x, .y=y, .text="Input 0"};
     loui_update(input0);
     y += input0.height;

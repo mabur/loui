@@ -1,11 +1,11 @@
-#include "loui_header_label.h"
+#include "loui_heading.h"
 
 #include "draw.h"
 #include "rectangle.h"
 #include "state.h"
 
 static void drawSpecialString(
-    LouiScreen screen, const char* s, int x, int y, LouiHeaderLabelTheme theme
+    LouiScreen screen, const char* s, int x, int y, LouiHeadingTheme theme
 ) {
     for (; *s; ++s, x += 8) {
         if (theme.draw_up_left) {
@@ -40,7 +40,7 @@ static void drawSpecialString(
     }
 }
 
-LouiHeaderLabel loui_update_header_label(LouiHeaderLabel widget) {
+LouiHeading loui_update_heading(LouiHeading widget) {
     drawSpecialString(s_loui.screen, widget.text, widget.x, widget.y, widget.theme);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
