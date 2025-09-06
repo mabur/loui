@@ -37,6 +37,11 @@ static const int BUTTON_TEXT_PADDING = 4;
 
 static LouiState s_loui;
 
+static
+LouiTheme getTheme() {
+    return s_loui.theme;
+}
+
 // -----------------------------------------------------------------------------
 // PRIVATE MOUSE & KEYBOARD FUNCTIONS
 
@@ -97,13 +102,13 @@ static void drawButton(Rectangle rectangle, const char* text) {
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
     auto text_x = rectangle.x - 1 + BUTTON_TEXT_PADDING;
     auto text_y = rectangle.y - 1 + BUTTON_TEXT_PADDING;
-    auto theme = s_loui.theme;
+    auto theme = getTheme();
     auto screen = s_loui.screen;
 
-    auto background_color = s_loui.theme.button_background;
-    auto border_color = s_loui.theme.button_border;
-    auto light_bevel_color = s_loui.theme.button_bevel_light;
-    auto dark_bevel_color = s_loui.theme.button_bevel_dark;
+    auto background_color = theme.button_background;
+    auto border_color = theme.button_border;
+    auto light_bevel_color = theme.button_bevel_light;
+    auto dark_bevel_color = theme.button_bevel_dark;
 
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
@@ -185,7 +190,7 @@ LouiColor* loui_get_pixel_data() {
 void loui_widget_background() {
     auto pixel_count = s_loui.screen.width * s_loui.screen.height;
     for (int i = 0; i < pixel_count; ++i) {
-        s_loui.screen.data[i] = s_loui.theme.background;
+        s_loui.screen.data[i] = getTheme().background;
     }
 
     if (DRAW_DEBUG_RECTANGLES) {
@@ -216,9 +221,9 @@ LouiSunkenFrame loui_update_sunken_frame(LouiSunkenFrame widget) {
     auto height = widget.height;
     auto rectangle = (Rectangle){x, y, width, height};
     auto inner_rectangle = shrinkRectangle(rectangle);
-    drawRectangle(s_loui.screen, inner_rectangle, s_loui.theme.recess_background);
+    drawRectangle(s_loui.screen, inner_rectangle, getTheme().recess_background);
     drawRoundedRectangleOutline(
-        s_loui.screen, rectangle, s_loui.theme.recess_bevel_dark, s_loui.theme.recess_bevel_light
+        s_loui.screen, rectangle, getTheme().recess_bevel_dark, getTheme().recess_bevel_light
     );
     widget.is_clicked = isLeftMouseButtonReleasedInside(inner_rectangle);
     return widget;
@@ -233,10 +238,10 @@ LouiWindow loui_update_window(LouiWindow widget) {
     auto inner_rectangle = shrinkRectangle(rectangle);
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
 
-    auto border_color = s_loui.theme.button_border;
-    auto background_color = s_loui.theme.background;
-    auto light_bevel_color = s_loui.theme.recess_bevel_light;
-    auto dark_bevel_color = s_loui.theme.recess_bevel_dark;
+    auto border_color = getTheme().button_border;
+    auto background_color = getTheme().background;
+    auto light_bevel_color = getTheme().recess_bevel_light;
+    auto dark_bevel_color = getTheme().recess_bevel_dark;
 
     drawRoundedRectangleOutline(s_loui.screen, rectangle, border_color, border_color);
     drawRoundedRectangleOutline(s_loui.screen, inner_rectangle, light_bevel_color, dark_bevel_color);
@@ -248,7 +253,7 @@ LouiWindow loui_update_window(LouiWindow widget) {
 }
 
 LouiLabel loui_update_label(LouiLabel widget) {
-    drawString(s_loui.screen, widget.text, widget.x, widget.y, s_loui.theme.text);
+    drawString(s_loui.screen, widget.text, widget.x, widget.y, getTheme().text);
     auto rectangle = textRectangle(widget.x, widget.y, widget.text);
     widget.width = rectangle.width;
     widget.height = rectangle.height;
@@ -298,7 +303,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     auto inner_rectangle = shrinkRectangle(rectangle);
     auto text_x = x + BUTTON_TEXT_PADDING - 1;
     auto text_y = y + BUTTON_TEXT_PADDING - 2;
-    auto theme = s_loui.theme;
+    auto theme = getTheme();
     if (isLeftMouseButtonDownInside(rectangle)) {
         ++text_y;
     }
@@ -308,7 +313,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     drawPoint(s_loui.screen, x + rectangle.width - 1, y + rectangle.height - 1, theme.button_border);
     drawLineHorizontal(s_loui.screen, x + 1, y + rectangle.height, rectangle.width - 2, theme.button_border);
     
-    //drawRectangle(rectangle, s_loui.theme.button_border);
+    //drawRectangle(rectangle, getTheme().button_border);
     drawRectangle(s_loui.screen, inner_rectangle, theme.button_background);
     
     // Rounded corners:
@@ -338,7 +343,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
 }
 
 LouiButton loui_update_button(LouiButton widget) {
-    switch (s_loui.theme.button_type) {
+    switch (getTheme().button_type) {
         case BUTTON_TYPE_BEVEL: return loui_update_button_bevel(widget);
         case BUTTON_TYPE_CLOUD: return loui_update_button_cloud(widget);
         default: return loui_update_button_bevel(widget);
@@ -362,27 +367,27 @@ LouiKnob loui_update_knob(LouiKnob widget) {
             double angle = atan2(dy, dx);
             double da = fabs(angle - widget.angle);
             double r2 = dx * dx + dy * dy;
-            auto color = s_loui.theme.background;
+            auto color = getTheme().background;
             if (r2 < 6.0 * 6.0 && dx + dy < 0.0) {
-                color = s_loui.theme.recess_bevel_dark;
+                color = getTheme().recess_bevel_dark;
             }
             if (r2 < 6.0 * 6.0 && dx + dy > 0.0) {
-                color = s_loui.theme.recess_bevel_light;
+                color = getTheme().recess_bevel_light;
             }
             if (r2 < 5.0 * 5.0) {
-                color = s_loui.theme.recess_background;
+                color = getTheme().recess_background;
             }
             if (r2 < 5.0 * 5.0 && da < 3.14 * 0.07) {
-                color = s_loui.theme.recess_text_selected;
+                color = getTheme().recess_text_selected;
             }
             if (r2 < 2.0 * 2.0 && dx + dy < 0.0) {
-                color = s_loui.theme.recess_bevel_light;
+                color = getTheme().recess_bevel_light;
             }
             if (r2 < 2.0 * 2.0 && dx + dy > 0.0) {
-                color = s_loui.theme.recess_bevel_dark;
+                color = getTheme().recess_bevel_dark;
             }
             if (r2 < 1.0 * 1.0) {
-                color = s_loui.theme.background;
+                color = getTheme().background;
             }
             drawPoint(s_loui.screen, widget.x + xi, widget.y + yi, color);
         }
@@ -396,18 +401,18 @@ LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {
             double dx = xi - 7.5;
             double dy = yi - 7.5;
             double r2 = dx * dx + dy * dy;
-            auto color = s_loui.theme.background;
+            auto color = getTheme().background;
             if (r2 < 6.0 * 6.0 && dx + dy < 0.0) {
-                color = s_loui.theme.recess_bevel_dark;
+                color = getTheme().recess_bevel_dark;
             }
             if (r2 < 6.0 * 6.0 && dx + dy > 0.0) {
-                color = s_loui.theme.recess_bevel_light;
+                color = getTheme().recess_bevel_light;
             }
             if (r2 < 5.0 * 5.0) {
-                color = s_loui.theme.recess_background;
+                color = getTheme().recess_background;
             }
             if (r2 < 2.0 * 2.0 && widget.is_selected) {
-                color = s_loui.theme.recess_text_selected;
+                color = getTheme().recess_text_selected;
             }
             drawPoint(s_loui.screen, widget.x + xi - 2, widget.y + yi, color);
         }
@@ -451,7 +456,7 @@ LouiCheckBox loui_update_check_box(LouiCheckBox widget) {
         for (auto dy = 0; dy < 8; ++dy) {
             for (auto dx = 0; dx < 8; ++dx) {
                 if (check[dy * 8 + dx]) {
-                    drawPoint(s_loui.screen, x + 1 + dx, y + 4 + dy, s_loui.theme.recess_text_selected);
+                    drawPoint(s_loui.screen, x + 1 + dx, y + 4 + dy, getTheme().recess_text_selected);
                 }
             }
         }
@@ -511,10 +516,10 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     LouiSunkenFrame sunken_frame = {.x=x+horizontal_padding, .y=y+7, .width=width - 2*horizontal_padding, .height=3};
     loui_update_sunken_frame(sunken_frame);
 
-    auto background_color = s_loui.theme.button_background;
-    auto border_color = s_loui.theme.button_border;
-    auto light_bevel_color = s_loui.theme.button_bevel_light;
-    auto dark_bevel_color = s_loui.theme.button_bevel_dark;
+    auto background_color = getTheme().button_background;
+    auto border_color = getTheme().button_border;
+    auto light_bevel_color = getTheme().button_bevel_light;
+    auto dark_bevel_color = getTheme().button_bevel_dark;
 
     if (isLeftMouseButtonDownInside(rectangle)) {
         light_bevel_color = background_color;
@@ -556,8 +561,8 @@ LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget)
 }
 
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget) {
-    auto global_theme = s_loui.theme;
-    auto local_theme = s_loui.theme;
+    auto global_theme = getTheme();
+    auto local_theme = getTheme();
     local_theme.text = widget.is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
     auto label = (LouiLabel){
@@ -642,8 +647,8 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             widget.selection_anchor = widget.caret;
     }
 
-    auto global_theme = s_loui.theme;
-    auto local_theme = s_loui.theme;
+    auto global_theme = getTheme();
+    auto local_theme = getTheme();
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
 
@@ -655,9 +660,9 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         .width = (selection_end.column - selection_begin.column) * TEXT_SIZE,
         .height = TEXT_SIZE,
     };
-    drawRectangle(s_loui.screen, selection, s_loui.theme.background);
+    drawRectangle(s_loui.screen, selection, getTheme().background);
 
-    drawString(s_loui.screen, widget.text, text_x, text_y, s_loui.theme.text);
+    drawString(s_loui.screen, widget.text, text_x, text_y, getTheme().text);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
@@ -665,7 +670,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             s_loui.screen,
             cursor_x,
             cursor_y,
-            s_loui.theme.text
+            getTheme().text
         );
     }
     loui_set_theme(global_theme);
@@ -812,8 +817,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.draw_caret.column = 0;
     }
 
-    auto global_theme = s_loui.theme;
-    auto local_theme = s_loui.theme;
+    auto global_theme = getTheme();
+    auto local_theme = getTheme();
     local_theme.text = is_selected ? local_theme.recess_text_selected : local_theme.recess_text;
     loui_set_theme(local_theme);
     drawMultiLineString(
@@ -821,8 +826,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         widget.text,
         text_x,
         text_y,
-        s_loui.theme.text,
-        s_loui.theme.background,
+        getTheme().text,
+        getTheme().background,
         lines,
         columns,
         widget.caret,
@@ -834,7 +839,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             s_loui.screen,
             text_x,
             text_y,
-            s_loui.theme.text,
+            getTheme().text,
             widget.caret,
             widget.draw_caret
         );
@@ -856,8 +861,8 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         .width=widget.width - 4 - scroll_bar_thickness,
         .height=scroll_bar_thickness - 2,
     };
-    auto light = s_loui.theme.recess_text;
-    auto dark = s_loui.theme.recess_background;
+    auto light = getTheme().recess_text;
+    auto dark = getTheme().recess_background;
     drawCheckers(s_loui.screen, rectangle_scroll_bar_vertical, light, dark);
     drawCheckers(s_loui.screen, rectangle_scroll_bar_horizontal, light, dark);
 
