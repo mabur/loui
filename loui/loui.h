@@ -149,7 +149,6 @@ void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
-LouiButton loui_update_button(LouiButton widget);
 LouiKnob loui_update_knob(LouiKnob widget);
 LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
