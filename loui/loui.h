@@ -9,6 +9,7 @@
 
 #include "loui_button.h"
 #include "loui_heading.h"
+#include "loui_knob.h"
 #include "loui_label.h"
 
 #ifdef __cplusplus
@@ -62,15 +63,6 @@ typedef struct LouiCheckBox {
     bool is_selected;
     bool is_clicked;
 } LouiCheckBox;
-
-typedef struct LouiKnob {
-    int x;
-    int y;
-    int width;
-    int height;
-    double angle;
-    bool is_clicked;
-} LouiKnob;
 
 typedef struct LouiTextInput {
     int x;
