@@ -11,6 +11,7 @@
 #include "loui_heading.h"
 #include "loui_knob.h"
 #include "loui_label.h"
+#include "loui_radio_button.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,16 +44,6 @@ typedef struct LouiWindow {
     int height;
     bool is_clicked;
 } LouiWindow;
-
-typedef struct LouiRadioButton {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_selected;
-    bool is_clicked;
-} LouiRadioButton;
 
 typedef struct LouiCheckBox {
     int x;
@@ -141,7 +132,6 @@ void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
-LouiRadioButton loui_update_radio_button(LouiRadioButton widget);
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
 LouiSlider loui_update_slider(LouiSlider widget);
