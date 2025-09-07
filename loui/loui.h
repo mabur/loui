@@ -12,6 +12,7 @@
 #include "loui_heading.h"
 #include "loui_knob.h"
 #include "loui_label.h"
+#include "loui_multi_text_input.h"
 #include "loui_radio_button.h"
 #include "loui_sunken_frame.h"
 #include "loui_text_input.h"
@@ -30,20 +31,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiMultiTextInput {
-    int x;
-    int y;
-    int width;
-    int height;
-    char text[LOUI_MAX_MULTI_LINE_TEXT_INPUT];
-    int lines;
-    int columns;
-    MultiLineCaret caret;
-    MultiLineCaret draw_caret;
-    MultiLineCaret selection_anchor;
-    bool is_clicked;
-} LouiMultiTextInput;
 
 typedef struct LouiStepper {
     int x;
@@ -102,7 +89,6 @@ LouiSlider loui_update_slider(LouiSlider widget);
 
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
-LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 
 #ifdef __cplusplus
 }
