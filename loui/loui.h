@@ -14,6 +14,7 @@
 #include "loui_label.h"
 #include "loui_multi_text_input.h"
 #include "loui_radio_button.h"
+#include "loui_slider.h"
 #include "loui_stepper.h"
 #include "loui_sunken_frame.h"
 #include "loui_text_input.h"
@@ -32,15 +33,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiSlider {
-    int x;
-    int y;
-    int width;
-    int height;
-    double value;
-    bool is_down;
-} LouiSlider;
 
 typedef struct LouiSelectionBoxInit {
     int x;
@@ -73,8 +65,6 @@ void loui_disable_input();
 
 // Implementation details:
 void loui_widget_background();
-
-LouiSlider loui_update_slider(LouiSlider widget);
 
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
