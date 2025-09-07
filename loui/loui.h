@@ -14,6 +14,7 @@
 #include "loui_label.h"
 #include "loui_radio_button.h"
 #include "loui_sunken_frame.h"
+#include "loui_text_input.h"
 #include "loui_window.h"
 
 #ifdef __cplusplus
@@ -29,17 +30,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiTextInput {
-    int x;
-    int y;
-    int width;
-    int height;
-    char text[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
-    SingleLineCaret caret;
-    SingleLineCaret selection_anchor;
-    bool is_clicked;
-} LouiTextInput;
 
 typedef struct LouiMultiTextInput {
     int x;
@@ -103,7 +93,6 @@ LouiColor* loui_get_pixel_data();
 // Optionally call when needed:
 void loui_enable_input();
 void loui_disable_input();
-void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
@@ -113,7 +102,6 @@ LouiSlider loui_update_slider(LouiSlider widget);
 
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
-LouiTextInput loui_update_text_input(LouiTextInput widget);
 LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget);
 
 #ifdef __cplusplus

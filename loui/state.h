@@ -8,6 +8,10 @@
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 #define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum LouiKey {
     LOUI_KEY_ARROW_DOWN,
     LOUI_KEY_ARROW_LEFT,
@@ -51,6 +55,13 @@ extern const int TEXT_SIZE;
 extern const int BUTTON_TEXT_PADDING;
 
 LouiTheme getTheme();
+void loui_set_theme(LouiTheme theme);
 
 bool isLeftMouseButtonDownInside(Rectangle r);
 bool isLeftMouseButtonReleasedInside(Rectangle r);
+
+bool isShiftUp();
+
+#ifdef __cplusplus
+}
+#endif
