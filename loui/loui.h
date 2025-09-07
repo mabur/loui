@@ -8,6 +8,7 @@
 #include "theme.h"
 
 #include "loui_button.h"
+#include "loui_check_box.h"
 #include "loui_heading.h"
 #include "loui_knob.h"
 #include "loui_label.h"
@@ -28,16 +29,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiCheckBox {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_selected;
-    bool is_clicked;
-} LouiCheckBox;
 
 typedef struct LouiTextInput {
     int x;
@@ -116,7 +107,7 @@ void loui_set_theme(LouiTheme theme);
 
 // Implementation details:
 void loui_widget_background();
-LouiCheckBox loui_update_check_box(LouiCheckBox widget);
+
 LouiStepper loui_update_stepper(LouiStepper widget);
 LouiSlider loui_update_slider(LouiSlider widget);
 
