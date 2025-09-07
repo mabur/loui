@@ -7,6 +7,8 @@
 #define LOUI_BLOCK 8
 #define LOUI_MAX_SINGLE_LINE_TEXT_INPUT 16
 #define LOUI_MAX_MULTI_LINE_TEXT_INPUT 1024
+#define TEXT_SIZE 8
+#define BUTTON_TEXT_PADDING 4
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,9 +52,6 @@ typedef struct LouiState {
 } LouiState;
 
 extern LouiState s_loui;
-
-extern const int TEXT_SIZE;
-extern const int BUTTON_TEXT_PADDING;
 
 LouiTheme getTheme();
 void loui_set_theme(LouiTheme theme);

@@ -4,9 +4,6 @@
 
 LouiState s_loui;
 
-const int TEXT_SIZE = 8;
-const int BUTTON_TEXT_PADDING = 4;
-
 LouiTheme getTheme() {
     return s_loui.theme;
 }
