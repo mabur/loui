@@ -90,14 +90,6 @@ void loui_widget_background() {
     }
 }
 
-LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget) {
-    s_loui.current_x = widget.x + TEXT_SIZE;
-    s_loui.current_y = widget.y + TEXT_SIZE;
-    auto frame = (LouiSunkenFrame){.x=widget.x, .y=widget.y, .width=widget.width, .height=widget.height};
-    frame = loui_update_sunken_frame(frame);
-    return widget;
-}
-
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget) {
     auto global_theme = getTheme();
     auto local_theme = getTheme();
