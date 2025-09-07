@@ -15,6 +15,7 @@
 #include "loui_multi_text_input.h"
 #include "loui_radio_button.h"
 #include "loui_selection_box_init.h"
+#include "loui_selection_box_item.h"
 #include "loui_slider.h"
 #include "loui_stepper.h"
 #include "loui_sunken_frame.h"
@@ -35,16 +36,6 @@ typedef struct LouiInput {
     char input_character;
 } LouiInput;
 
-typedef struct LouiSelectionBoxItem {
-    int x;
-    int y;
-    int width;
-    int height;
-    const char* text;
-    bool is_selected;
-    bool is_clicked;
-} LouiSelectionBoxItem;
-
 // Call once:
 void loui_init(int width, int height);
 
@@ -58,8 +49,6 @@ void loui_disable_input();
 
 // Implementation details:
 void loui_widget_background();
-
-LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
 
 #ifdef __cplusplus
 }
