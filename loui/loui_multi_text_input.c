@@ -2,7 +2,6 @@
 
 #include "draw.h"
 #include "loui_button.h"
-#include "loui_label.h"
 #include "loui_sunken_frame.h"
 #include "rectangle.h"
 #include "state.h"
