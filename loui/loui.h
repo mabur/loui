@@ -13,6 +13,7 @@
 #include "loui_label.h"
 #include "loui_radio_button.h"
 #include "loui_sunken_frame.h"
+#include "loui_window.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,14 +28,6 @@ typedef struct LouiInput {
     bool is_modifier_key_down[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
 } LouiInput;
-
-typedef struct LouiWindow {
-    int x;
-    int y;
-    int width;
-    int height;
-    bool is_clicked;
-} LouiWindow;
 
 typedef struct LouiCheckBox {
     int x;
@@ -126,7 +119,7 @@ void loui_widget_background();
 LouiCheckBox loui_update_check_box(LouiCheckBox widget);
 LouiStepper loui_update_stepper(LouiStepper widget);
 LouiSlider loui_update_slider(LouiSlider widget);
-LouiWindow loui_update_window(LouiWindow widget);
+
 LouiSelectionBoxInit loui_update_selection_box_init(LouiSelectionBoxInit widget);
 LouiSelectionBoxItem loui_update_selection_box_item(LouiSelectionBoxItem widget);
 LouiTextInput loui_update_text_input(LouiTextInput widget);
