@@ -18,6 +18,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
                 LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
                 s_loui.input_character
             );
+            widget.selection_anchor = widget.caret;
         }
         // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
@@ -43,9 +44,11 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
+            widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
+            widget.selection_anchor = widget.caret;
         }
     }
 
