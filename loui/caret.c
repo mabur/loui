@@ -259,6 +259,16 @@ MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* te
     return caret;
 }
 
+MultiLineCaret deleteSelectedCharactersMultiLineCaret(MultiLineCaret caret, MultiLineCaret selection_anchor, char* text) {
+    auto min = minMultiLineCaret(caret, selection_anchor);
+    auto max = maxMultiLineCaret(caret, selection_anchor);
+    auto min_index = getIndexOfLineColumn(text, min.line, min.column);
+    auto max_index = getIndexOfLineColumn(text, max.line, max.column);
+    auto delete_count = max_index - min_index;
+    deleteCharacters(text, min_index, delete_count);
+    return min;
+}
+
 MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text) {
     auto index = getIndexOfLineColumn(text, caret.line, caret.column);
     if (index < 1) {
@@ -294,4 +304,8 @@ bool isBetween(MultiLineCaret a, MultiLineCaret b, MultiLineCaret c) {
     // return !(a > b) && b < c;
     // return !(b < a) && b < c;
     return !lessThanMultiLineCaret(b, a) && lessThanMultiLineCaret(b, c);
+}
+
+bool equalMultiLineCaret(MultiLineCaret a, MultiLineCaret b) {
+    return a.line == b.line && a.column == b.column;
 }

@@ -37,6 +37,7 @@ MultiLineCaret insertCharacterMultiLineCaret(MultiLineCaret caret, char* text, s
 MultiLineCaret insertLineBreakMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity);
 MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text);
 MultiLineCaret deleteCharacterBeforeMultiLineCaret(MultiLineCaret caret, char* text);
+MultiLineCaret deleteSelectedCharactersMultiLineCaret(MultiLineCaret caret, MultiLineCaret selection_anchor, char* text);
 
 int countLines(const char* text);
 int countMaxColumns(const char* text);
@@ -48,3 +49,5 @@ MultiLineCaret minMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
 MultiLineCaret maxMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
 
 bool isBetween(MultiLineCaret a, MultiLineCaret b, MultiLineCaret c);
+
+bool equalMultiLineCaret(MultiLineCaret a, MultiLineCaret b);

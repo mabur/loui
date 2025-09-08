@@ -68,11 +68,21 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
         }
         // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
-            widget.caret = deleteCharacterAfterMultiLineCaret(widget.caret, widget.text);
+            if (equalMultiLineCaret(widget.caret, widget.selection_anchor)) {
+                widget.caret = deleteCharacterAfterMultiLineCaret(widget.caret, widget.text);
+            }
+            else {
+                widget.caret = deleteSelectedCharactersMultiLineCaret(widget.caret, widget.selection_anchor, widget.text);
+            }
             widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
-            widget.caret = deleteCharacterBeforeMultiLineCaret(widget.caret, widget.text);
+            if (equalMultiLineCaret(widget.caret, widget.selection_anchor)) {
+                widget.caret = deleteCharacterBeforeMultiLineCaret(widget.caret, widget.text);
+            }
+            else {
+                widget.caret = deleteSelectedCharactersMultiLineCaret(widget.caret, widget.selection_anchor, widget.text);
+            }
             widget.selection_anchor = widget.caret;
         }
         // Scrolling:
