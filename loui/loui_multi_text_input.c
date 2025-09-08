@@ -24,6 +24,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
             widget.caret = insertLineBreakMultiLineCaret(
                 widget.caret, widget.text, LOUI_MAX_MULTI_LINE_TEXT_INPUT
             );
+            widget.selection_anchor = widget.caret;
         }
         // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
