@@ -74,6 +74,13 @@ static void deleteCharacter(char* text, int index) {
     }
 }
 
+static void deleteCharacters(char* text, int index, int delete_count) {
+    auto count = (int)strlen(text);
+    for (int i = index; i + delete_count <= count; ++i) {
+        text[i] = text[i + delete_count];
+    }
+}
+
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
     auto count = (int)strlen(text);
     if (column < 0) {
@@ -126,6 +133,14 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char
     deleteCharacter(text, caret.column - 1);
     caret = moveSingleLineCaretLeft(caret, text);
     return caret;
+}
+
+SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, char* text) {
+    auto min = minSingleLineCaret(caret, selection_anchor);
+    auto max = maxSingleLineCaret(caret, selection_anchor);
+    auto selection_count = max.column - min.column;
+    deleteCharacters(text, min.column, selection_count);
+    return min;
 }
 
 MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text) {

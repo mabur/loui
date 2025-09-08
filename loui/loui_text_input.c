@@ -43,11 +43,21 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         }
         // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
-            widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
+            if (widget.caret.column == widget.selection_anchor.column) {
+                widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
+            }
+            else {
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text);
+            }
             widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
-            widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
+            if (widget.caret.column == widget.selection_anchor.column) {
+                widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
+            }
+            else {
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text);
+            }
             widget.selection_anchor = widget.caret;
         }
     }
