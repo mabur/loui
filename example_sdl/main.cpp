@@ -89,7 +89,11 @@ void updateInput() {
     loui_input.is_keyboard_key_down[LOUI_KEY_END] = isKeyDown(SDL_SCANCODE_END);
     loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_UP] = isKeyDown(SDL_SCANCODE_PAGEUP);
     loui_input.is_keyboard_key_down[LOUI_KEY_PAGE_DOWN] = isKeyDown(SDL_SCANCODE_PAGEDOWN);
+    loui_input.is_keyboard_key_down[LOUI_KEY_C] = isKeyDown(SDL_SCANCODE_C);
+    loui_input.is_keyboard_key_down[LOUI_KEY_V] = isKeyDown(SDL_SCANCODE_V);
+
     loui_input.is_modifier_key_down[LOUI_MODIFIER_KEY_SHIFT] = isKeyDown(SDL_SCANCODE_LSHIFT) or isKeyDown(SDL_SCANCODE_RSHIFT);
+    loui_input.is_modifier_key_down[LOUI_MODIFIER_KEY_CONTROL] = isKeyDown(SDL_SCANCODE_LCTRL) or isKeyDown(SDL_SCANCODE_RCTRL);
     loui_set_input(loui_input);
 }
 

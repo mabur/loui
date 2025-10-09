@@ -27,3 +27,7 @@ bool isLeftMouseButtonReleasedInside(Rectangle r) {
 bool isShiftUp() {
     return s_loui.modifier_keys[LOUI_MODIFIER_KEY_SHIFT] == BUTTON_UP;
 }
+
+bool isControlDown() {
+    return s_loui.modifier_keys[LOUI_MODIFIER_KEY_CONTROL] == BUTTON_DOWN;
+}

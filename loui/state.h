@@ -26,10 +26,13 @@ typedef enum LouiKey {
     LOUI_KEY_HOME,
     LOUI_KEY_PAGE_DOWN,
     LOUI_KEY_PAGE_UP,
+    LOUI_KEY_C,
+    LOUI_KEY_V,
     LOUI_KEY_COUNT,
 } LouiKey;
 
 typedef enum LouiModifierKey {
+    LOUI_MODIFIER_KEY_CONTROL,
     LOUI_MODIFIER_KEY_SHIFT,
     LOUI_MODIFIER_KEY_COUNT,
 } LouiModifierKey;
@@ -46,6 +49,7 @@ typedef struct LouiState {
     RepeatingButtonState keyboard_keys[LOUI_KEY_COUNT];
     ButtonState modifier_keys[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
+    char clipboard[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
     int active_text_input_widget_index;
     int text_input_widget_index_count;
     bool is_input_enabled;
@@ -60,6 +64,7 @@ bool isLeftMouseButtonDownInside(Rectangle r);
 bool isLeftMouseButtonReleasedInside(Rectangle r);
 
 bool isShiftUp();
+bool isControlDown();
 
 #ifdef __cplusplus
 }
