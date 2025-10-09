@@ -105,7 +105,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
 
     auto selection_begin = minSingleLineCaret(widget.caret, widget.selection_anchor);
     auto selection_end = maxSingleLineCaret(widget.caret, widget.selection_anchor);
-    auto selection = (Rectangle){
+    auto selection = (LouiRectangle){
         .x = text_x + selection_begin.column * TEXT_SIZE,
         .y = text_y,
         .width = (selection_end.column - selection_begin.column) * TEXT_SIZE,
