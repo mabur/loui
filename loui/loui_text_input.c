@@ -1,17 +1,33 @@
 #include "loui_text_input.h"
 
+#include <stdio.h>
+#include <string.h>
+
 #include "draw.h"
 #include "loui_label.h"
 #include "loui_sunken_frame.h"
 #include "rectangle.h"
 #include "state.h"
 
+void copySelection(const char* source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
+    auto min = minSingleLineCaret(caret, selection_anchor);
+    auto max = maxSingleLineCaret(caret, selection_anchor);
+    auto count = max.column - min.column;
+    memcpy(target, source + min.column, count);
+    target[count] = '\0';
+}
+
 LouiTextInput loui_update_text_input(LouiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     auto keyboard = s_loui.keyboard_keys;
     if (is_selected) {
-        if (s_loui.input_character) {
+        if (isControlDown()) {
+            if (isClicked(keyboard[LOUI_KEY_C])) {
+                copySelection(widget.text, widget.caret, widget.selection_anchor, s_loui.clipboard);
+            }
+        }
+        else if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(
                 widget.caret,
                 widget.text,
