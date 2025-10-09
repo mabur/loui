@@ -8,7 +8,7 @@
 LouiKnob loui_update_knob(LouiKnob widget) {
     widget.width = 16;
     widget.height = 16;
-    auto rectangle = (Rectangle){widget.x, widget.y, widget.width, widget.height};
+    auto rectangle = (LouiRectangle){widget.x, widget.y, widget.width, widget.height};
     widget.is_clicked = isLeftMouseButtonReleasedInside(rectangle);
     if (isLeftMouseButtonDownInside(rectangle)) {
         auto dx = s_loui.mouse_x - (widget.x + 7.5);

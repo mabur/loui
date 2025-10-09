@@ -11,7 +11,7 @@ LouiSlider loui_update_slider(LouiSlider widget) {
     auto y = widget.y;
     auto width = widget.width;
     auto height = widget.height;
-    auto rectangle = (Rectangle){.x=x, .y=y, .width=width, .height=height};
+    auto rectangle = (LouiRectangle){.x=x, .y=y, .width=width, .height=height};
 
     LouiSunkenFrame sunken_frame = {.x=x+horizontal_padding, .y=y+7, .width=width - 2*horizontal_padding, .height=3};
     loui_update_sunken_frame(sunken_frame);
@@ -29,7 +29,7 @@ LouiSlider loui_update_slider(LouiSlider widget) {
         widget.value = widget.value > 1.0 ? 1.0 : widget.value;
     }
 
-    auto button = (Rectangle){};
+    auto button = (LouiRectangle){};
     button.width = 6;
     button.height = 13;
     button.x = sunken_frame.x + widget.value * (sunken_frame.width - button.width);

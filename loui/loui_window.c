@@ -9,7 +9,7 @@ LouiWindow loui_update_window(LouiWindow widget) {
     auto y = widget.y;
     auto width = widget.width;
     auto height = widget.height;
-    auto rectangle = (Rectangle){x, y, width, height};
+    auto rectangle = (LouiRectangle){x, y, width, height};
     auto inner_rectangle = shrinkRectangle(rectangle);
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
 

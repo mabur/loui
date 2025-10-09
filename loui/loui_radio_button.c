@@ -26,7 +26,7 @@ LouiRadioButton loui_update_radio_button(LouiRadioButton widget) {
             drawPoint(s_loui.screen, widget.x + xi - 2, widget.y + yi, color);
         }
     }
-    auto left_rectangle = (Rectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
+    auto left_rectangle = (LouiRectangle){widget.x, widget.y, 16 + BUTTON_TEXT_PADDING, 16};
     auto label = (LouiLabel){
         .x=widget.x + 2 * LOUI_BLOCK,
         .y=widget.y + BUTTON_TEXT_PADDING,

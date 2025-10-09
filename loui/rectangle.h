@@ -1,10 +1,10 @@
 #pragma once
 
-typedef struct Rectangle {
+typedef struct LouiRectangle {
     int x;
     int y;
     int width;
     int height;
-} Rectangle;
+} LouiRectangle;
 
-Rectangle shrinkRectangle(Rectangle rectangle);
+LouiRectangle shrinkRectangle(LouiRectangle rectangle);

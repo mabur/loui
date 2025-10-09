@@ -1,6 +1,6 @@
 #include "rectangle.h"
 
-Rectangle shrinkRectangle(Rectangle rectangle) {
+LouiRectangle shrinkRectangle(LouiRectangle rectangle) {
     rectangle.x += 1;
     rectangle.y += 1;
     rectangle.width -= 2;

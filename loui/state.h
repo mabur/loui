@@ -60,8 +60,8 @@ extern LouiState s_loui;
 LouiTheme getTheme();
 void loui_set_theme(LouiTheme theme);
 
-bool isLeftMouseButtonDownInside(Rectangle r);
-bool isLeftMouseButtonReleasedInside(Rectangle r);
+bool isLeftMouseButtonDownInside(LouiRectangle r);
+bool isLeftMouseButtonReleasedInside(LouiRectangle r);
 
 bool isShiftUp();
 bool isControlDown();

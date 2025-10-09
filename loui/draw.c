@@ -10,7 +10,7 @@ void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
     screen.data[y * screen.width + x] = color;
 }
 
-void drawCheckers(LouiScreen screen, Rectangle rectangle, LouiColor light, LouiColor dark) {
+void drawCheckers(LouiScreen screen, LouiRectangle rectangle, LouiColor light, LouiColor dark) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
             auto x = rectangle.x + dx;
@@ -21,7 +21,7 @@ void drawCheckers(LouiScreen screen, Rectangle rectangle, LouiColor light, LouiC
     }
 }
 
-void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
+void drawRectangle(LouiScreen screen, LouiRectangle rectangle, LouiColor color) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
             drawPoint(screen, rectangle.x + dx, rectangle.y + dy, color);
@@ -29,7 +29,7 @@ void drawRectangle(LouiScreen screen, Rectangle rectangle, LouiColor color) {
     }
 }
 
-void drawRectangleCorners(LouiScreen screen, Rectangle rectangle, LouiColor color) {
+void drawRectangleCorners(LouiScreen screen, LouiRectangle rectangle, LouiColor color) {
     auto x = rectangle.x;
     auto y = rectangle.y;
     auto width = rectangle.width;
@@ -40,7 +40,7 @@ void drawRectangleCorners(LouiScreen screen, Rectangle rectangle, LouiColor colo
     drawPoint(screen, x + width - 1, y + height - 1, color);
 }
 
-void drawRoundedRectangleOutline(LouiScreen screen, Rectangle rectangle, LouiColor color_top_left, LouiColor color_bottom_right) {
+void drawRoundedRectangleOutline(LouiScreen screen, LouiRectangle rectangle, LouiColor color_top_left, LouiColor color_bottom_right) {
     auto x_left = rectangle.x;
     auto y_top = rectangle.y;
     auto width = rectangle.width;
@@ -54,7 +54,7 @@ void drawRoundedRectangleOutline(LouiScreen screen, Rectangle rectangle, LouiCol
 }
 
 void drawLineHorizontal(LouiScreen screen, int x, int y, int width, LouiColor color) {
-    auto r = (Rectangle){};
+    auto r = (LouiRectangle){};
     r.x = x;
     r.y = y;
     r.width = width;
@@ -63,7 +63,7 @@ void drawLineHorizontal(LouiScreen screen, int x, int y, int width, LouiColor co
 }
 
 void drawLineVertical(LouiScreen screen, int x, int y, int height, LouiColor color) {
-    auto r = (Rectangle){};
+    auto r = (LouiRectangle){};
     r.x = x;
     r.y = y;
     r.width = 1;
@@ -137,7 +137,7 @@ void drawMultiLineString(
             0 <= draw_column && draw_column < max_columns
         ) {
             if (isBetween(selection_begin, current, selection_end)) {
-                auto rectangle = (Rectangle){.x=draw_x, .y=draw_y, .width=8, .height=8};
+                auto rectangle = (LouiRectangle){.x=draw_x, .y=draw_y, .width=8, .height=8};
                 drawRectangle(screen, rectangle, selection_background_color);
             }
             drawCharacter(screen, *s, draw_x, draw_y, color);
@@ -152,8 +152,8 @@ void drawMultiLineString(
     }
 }
 
-Rectangle textRectangle(int x, int y, const char* text) {
-    return (Rectangle){
+LouiRectangle textRectangle(int x, int y, const char* text) {
+    return (LouiRectangle){
         .x = x,
         .y = y,
         .width = 8 * (int)(strlen(text)),

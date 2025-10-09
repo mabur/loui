@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-typedef struct Rectangle Rectangle;
+typedef struct LouiRectangle LouiRectangle;
 
 typedef struct LouiButton {
     int x;
@@ -16,7 +16,7 @@ typedef struct LouiButton {
 } LouiButton;
 
 LouiButton loui_update_button(LouiButton widget);
-void drawButton(Rectangle rectangle, const char* text);
+void drawButton(LouiRectangle rectangle, const char* text);
 
 #ifdef __cplusplus
 }

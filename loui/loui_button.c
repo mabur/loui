@@ -5,7 +5,7 @@
 #include "rectangle.h"
 #include "state.h"
 
-void drawButton(Rectangle rectangle, const char* text) {
+void drawButton(LouiRectangle rectangle, const char* text) {
     // Inside the bevels:
     auto inner_rectangle = shrinkRectangle(rectangle);
     auto innermost_rectangle = shrinkRectangle(inner_rectangle);
@@ -34,7 +34,7 @@ void drawButton(Rectangle rectangle, const char* text) {
 
 static
 LouiButton loui_update_button_bevel(LouiButton widget) {
-    auto rectangle = (Rectangle){};
+    auto rectangle = (LouiRectangle){};
     rectangle.x = widget.x + 1;
     rectangle.y = widget.y + 1;
     rectangle.width = 8 * (int)(strlen(widget.text)) + 6;
@@ -54,7 +54,7 @@ LouiButton loui_update_button_cloud(LouiButton widget) {
     auto y = widget.y;
     x += 1;
     y += 1;
-    auto rectangle = (Rectangle){};
+    auto rectangle = (LouiRectangle){};
     rectangle.x = x;
     rectangle.y = y;
     rectangle.width = 8 * (int)(strlen(widget.text)) + 6;

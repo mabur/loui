@@ -191,13 +191,13 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto scroll_bar_thickness = 9;
 
     // Draw scrollbar checker backgrounds:
-    auto rectangle_scroll_bar_vertical = (Rectangle){
+    auto rectangle_scroll_bar_vertical = (LouiRectangle){
         .x=widget.x + widget.width - scroll_bar_thickness,
         .y=widget.y + 2,
         .width=scroll_bar_thickness - 2,
         .height=widget.height - 4 - scroll_bar_thickness,
     };
-    auto rectangle_scroll_bar_horizontal = (Rectangle){
+    auto rectangle_scroll_bar_horizontal = (LouiRectangle){
         .x=widget.x + 2,
         .y=widget.y + widget.height - scroll_bar_thickness,
         .width=widget.width - 4 - scroll_bar_thickness,
@@ -213,7 +213,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (hidden_lines > 0) {
         auto scrollbar_height = (widget.height - 2 - scroll_bar_thickness);
         auto scroll_button_height = scrollbar_height * widget.lines / countLines(widget.text);
-        auto rectangle = (Rectangle){
+        auto rectangle = (LouiRectangle){
             .x=widget.x + widget.width - scroll_bar_thickness - 1,
             .y=widget.y + 1 + widget.draw_caret.line * (scrollbar_height - scroll_button_height) / hidden_lines,
             .width=scroll_bar_thickness,
@@ -227,7 +227,7 @@ LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     if (hidden_columns > 0) {
         auto scrollbar_width = (widget.width - 2 - scroll_bar_thickness);
         auto scroll_button_width = scrollbar_width * widget.columns / max_columns;
-        auto rectangle = (Rectangle){
+        auto rectangle = (LouiRectangle){
             .x=widget.x + 1 + widget.draw_caret.column * (scrollbar_width - scroll_button_width) / hidden_columns,
             .y=widget.y + widget.height - scroll_bar_thickness - 1,
             .width=scroll_button_width,
