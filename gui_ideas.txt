@@ -32,3 +32,5 @@ MISSING WIDGETS
   - Paint90?
   - Grid90?
   - Rogue?
+- High res
+  - Julia Mono https://juliamono.netlify.app/
