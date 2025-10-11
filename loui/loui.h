@@ -75,7 +75,7 @@ inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget
 #define loui_update(widget) \
     do { widget = _Generic((widget), \
         LouiLabel: loui_update_label, \
-        LouiHeading: loui_update_header_label, \
+        LouiHeading: loui_update_heading, \
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
         LouiCheckBox: loui_update_check_box, \
