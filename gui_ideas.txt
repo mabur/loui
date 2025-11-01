@@ -11,6 +11,9 @@ INPSIRATION
   - Paint 90, grid3d
 * Make it easy to have buttons with different nice colors.
 * https://www.rfleury.com/p/ui-series-table-of-contents
+* Deluxe paint amiga
+* Mario paint
+* Decker https://beyondloom.com/decker/
 
 MISSING WIDGETS
 - Theming for header label
