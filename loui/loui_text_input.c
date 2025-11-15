@@ -29,7 +29,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         else if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(
                 widget.caret,
-                widget.text.data,
+                &widget.text,
                 LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
                 s_loui.input_character
             );
@@ -37,41 +37,41 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         }
         // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
-            widget.caret = moveSingleLineCaretHome(widget.caret, widget.text.data);
+            widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
-            widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text.data);
+            widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
-            widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text.data);
+            widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
-            widget.caret = moveSingleLineCaretRight(widget.caret, widget.text.data);
+            widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             if (widget.caret.column == widget.selection_anchor.column) {
-                widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text.data);
+                widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, &widget.text);
             }
             else {
-                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text.data);
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, &widget.text);
             }
             widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             if (widget.caret.column == widget.selection_anchor.column) {
-                widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text.data);
+                widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, &widget.text);
             }
             else {
-                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text.data);
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, &widget.text);
             }
             widget.selection_anchor = widget.caret;
         }
@@ -93,7 +93,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
         auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text.data, column);
+        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text, column);
         if (isShiftUp())
             widget.selection_anchor = widget.caret;
     }

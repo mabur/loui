@@ -2,6 +2,8 @@
 
 #include <stddef.h>
 
+#include "string.h"
+
 typedef struct SingleLineCaret {
     int column;
 } SingleLineCaret;
@@ -12,16 +14,16 @@ typedef struct MultiLineCaret {
 } MultiLineCaret;
 
 // Move SingleLineCaret:
-SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column);
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, const char* text);
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text);
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, const char* text);
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text);
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column);
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, String text);
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, String text);
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, String text);
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text);
 // Update text for SingleLineCaret:
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c);
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text);
-SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char* text);
-SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, char* text);
+SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, size_t capacity, char c);
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text);
+SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, String* text);
+SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text);
 // Move MultiLineCaret:
 MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text);

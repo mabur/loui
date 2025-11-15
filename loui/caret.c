@@ -81,8 +81,8 @@ static void deleteCharacters(char* text, int index, int delete_count) {
     }
 }
 
-SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* text, int column) {
-    auto count = (int)strlen(text);
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column) {
+    auto count = (int)strlen(text.data);
     if (column < 0) {
         column = 0;
     }
@@ -93,53 +93,53 @@ SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, const char* tex
     return caret;
 }
 
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, const char* text) {
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, String text) {
     return moveSingleLineCaretColumn(caret, text, caret.column - 1);
 }
 
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, const char* text) {
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, String text) {
     return moveSingleLineCaretColumn(caret, text, caret.column + 1);
 }
 
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, const char* text) {
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, String text) {
     return moveSingleLineCaretColumn(caret, text, 0);
 }
 
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, const char* text) {
-    return moveSingleLineCaretColumn(caret, text, strlen(text));
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text) {
+    return moveSingleLineCaretColumn(caret, text, strlen(text.data));
 }
 
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, char* text, size_t capacity, char c) {
-    size_t len = strlen(text);
+SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, size_t capacity, char c) {
+    size_t len = strlen(text->data);
     if (caret.column > len) {
         return caret;
     }
     if (len + 1 >= capacity) {
         return caret;
     }
-    insertCharacter(text, caret.column, c);
-    return moveSingleLineCaretRight(caret, text);
+    insertCharacter(text->data, caret.column, c);
+    return moveSingleLineCaretRight(caret, *text);
 }
 
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, char* text) {
-    deleteCharacter(text, caret.column);
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text) {
+    deleteCharacter(text->data, caret.column);
     return caret;
 }
 
-SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, char* text) {
+SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, String* text) {
     if (caret.column < 1) {
         return caret;
     }
-    deleteCharacter(text, caret.column - 1);
-    caret = moveSingleLineCaretLeft(caret, text);
+    deleteCharacter(text->data, caret.column - 1);
+    caret = moveSingleLineCaretLeft(caret, *text);
     return caret;
 }
 
-SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, char* text) {
+SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text) {
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);
     auto selection_count = max.column - min.column;
-    deleteCharacters(text, min.column, selection_count);
+    deleteCharacters(text->data, min.column, selection_count);
     return min;
 }
 
