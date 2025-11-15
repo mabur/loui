@@ -2,6 +2,9 @@
 
 #include <string.h>
 
+#include "carma.h"
+#include "string.h"
+
 int countLines(const char* text) {
     auto lines = 1;
     for (; *text; ++text) {
@@ -68,9 +71,10 @@ static void insertCharacter(char* text, size_t index, char character) {
 }
 
 static void deleteCharacter(char* text, int index) {
-    auto count = (int)strlen(text);
-    for (int i = index; i < count; ++i) {
-        text[i] = text[i + 1];
+    auto s = (StringRange){text, strlen(text)};
+    if (!IS_EMPTY(s)) {
+        ERASE_INDEX_ORDERED(s, (size_t)index);
+        s.data[s.count] = '\0';
     }
 }
 
