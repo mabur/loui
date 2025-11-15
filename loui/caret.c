@@ -79,10 +79,9 @@ static void deleteCharacter(char* text, int index) {
 }
 
 static void deleteCharacters(char* text, int index, int delete_count) {
-    auto count = (int)strlen(text);
-    for (int i = index; i + delete_count <= count; ++i) {
-        text[i] = text[i + delete_count];
-    }
+    auto s = (StringRange){text, strlen(text)};
+    ERASE_MANY_ORDERED(s, (size_t)index, (size_t)delete_count);
+    s.data[s.count] = '\0';
 }
 
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column) {
