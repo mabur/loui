@@ -148,8 +148,11 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, Stri
 SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text) {
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);
-    auto selection_count = max.column - min.column;
-    deleteCharacters(text->data, min.column, selection_count);
+    auto selection_count = (size_t)(max.column - min.column);
+    auto index = (size_t)min.column;
+    auto s = (StringRange){text->data, strlen(text->data)};
+    ERASE_MANY_ORDERED(s, index, selection_count);
+    s.data[s.count] = '\0';
     return min;
 }
 
