@@ -127,8 +127,9 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* te
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text) {
     auto s = (StringRange){text->data, strlen(text->data)};
-    if (!IS_EMPTY(s)) {
-        ERASE_INDEX_ORDERED(s, (size_t)caret.column);
+    auto index = (size_t)caret.column;
+    if (index < s.count) {
+        ERASE_INDEX_ORDERED(s, index);
         s.data[s.count] = '\0';
     }
     return caret;
