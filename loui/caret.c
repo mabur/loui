@@ -139,9 +139,11 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, Stri
     if (caret.column < 1) {
         return caret;
     }
-    deleteCharacter(text->data, caret.column - 1);
-    caret = moveSingleLineCaretLeft(caret, *text);
-    return caret;
+    auto s = (StringRange){text->data, strlen(text->data)};
+    auto index = (size_t)caret.column - 1;
+    ERASE_INDEX_ORDERED(s, index);
+    s.data[s.count] = '\0';
+    return moveSingleLineCaretLeft(caret, *text);
 }
 
 SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text) {
