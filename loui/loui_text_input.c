@@ -8,11 +8,11 @@
 #include "rectangle.h"
 #include "state.h"
 
-void copySelection(const char* source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
+void copySelection(String source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);
     auto count = max.column - min.column;
-    memcpy(target, source + min.column, count);
+    memcpy(target, source.data + min.column, count);
     target[count] = '\0';
 }
 
@@ -29,7 +29,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         else if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(
                 widget.caret,
-                widget.text,
+                widget.text.data,
                 LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
                 s_loui.input_character
             );
@@ -37,41 +37,41 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         }
         // Navigation:
         if (isClicked(keyboard[LOUI_KEY_HOME])) {
-            widget.caret = moveSingleLineCaretHome(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretHome(widget.caret, widget.text.data);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_END])) {
-            widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretEnd(widget.caret, widget.text.data);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_LEFT])) {
-            widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretLeft(widget.caret, widget.text.data);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_ARROW_RIGHT])) {
-            widget.caret = moveSingleLineCaretRight(widget.caret, widget.text);
+            widget.caret = moveSingleLineCaretRight(widget.caret, widget.text.data);
             if (isShiftUp())
                 widget.selection_anchor = widget.caret;
         }
         // Deleting characters:
         if (isClicked(keyboard[LOUI_KEY_DELETE])) {
             if (widget.caret.column == widget.selection_anchor.column) {
-                widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text);
+                widget.caret = deleteCharacterAfterSingleLineCaret(widget.caret, widget.text.data);
             }
             else {
-                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text);
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text.data);
             }
             widget.selection_anchor = widget.caret;
         }
         if (isClicked(keyboard[LOUI_KEY_BACKSPACE])) {
             if (widget.caret.column == widget.selection_anchor.column) {
-                widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text);
+                widget.caret = deleteCharacterBeforeSingleLineCaret(widget.caret, widget.text.data);
             }
             else {
-                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text);
+                widget.caret = deleteSelectedCharacters(widget.caret, widget.selection_anchor, widget.text.data);
             }
             widget.selection_anchor = widget.caret;
         }
@@ -93,7 +93,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     if (widget.is_clicked) {
         s_loui.active_text_input_widget_index = widget_index;
         auto column = (s_loui.mouse_x - text_x + TEXT_SIZE / 4) / TEXT_SIZE;
-        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text, column);
+        widget.caret = moveSingleLineCaretColumn(widget.caret, widget.text.data, column);
         if (isShiftUp())
             widget.selection_anchor = widget.caret;
     }
@@ -113,7 +113,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     };
     drawRectangle(s_loui.screen, selection, getTheme().background);
 
-    drawString(s_loui.screen, widget.text, text_x, text_y, getTheme().text);
+    drawString(s_loui.screen, widget.text.data, text_x, text_y, getTheme().text);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;
