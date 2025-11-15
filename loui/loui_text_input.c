@@ -30,7 +30,6 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             widget.caret = insertCharacterSingleLineCaret(
                 widget.caret,
                 &widget.text,
-                LOUI_MAX_SINGLE_LINE_TEXT_INPUT,
                 s_loui.input_character
             );
             widget.selection_anchor = widget.caret;

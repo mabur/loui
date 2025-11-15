@@ -109,12 +109,12 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text) {
     return moveSingleLineCaretColumn(caret, text, strlen(text.data));
 }
 
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, size_t capacity, char c) {
+SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, char c) {
     size_t len = strlen(text->data);
     if (caret.column > len) {
         return caret;
     }
-    if (len + 1 >= capacity) {
+    if (len + 1 >= getStringCapacity(*text)) {
         return caret;
     }
     insertCharacter(text->data, caret.column, c);
