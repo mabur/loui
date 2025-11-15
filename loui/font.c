@@ -1,4 +1,4 @@
-#include "text.h"
+#include "font.h"
 
 typedef char Bitmap[8 * 8];
 

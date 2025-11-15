@@ -4,7 +4,7 @@
 
 #include "caret.h"
 #include "rectangle.h"
-#include "text.h"
+#include "font.h"
 
 void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
     screen.data[y * screen.width + x] = color;
