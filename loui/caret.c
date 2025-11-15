@@ -82,7 +82,7 @@ static void deleteCharacters(char* text, int index, int delete_count) {
 }
 
 SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column) {
-    auto count = (int)strlen(text.data);
+    auto count = (int)getStringCount(text);
     if (column < 0) {
         column = 0;
     }
@@ -106,11 +106,11 @@ SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, String text) {
 }
 
 SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text) {
-    return moveSingleLineCaretColumn(caret, text, strlen(text.data));
+    return moveSingleLineCaretColumn(caret, text, getStringCount(text));
 }
 
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, char c) {
-    size_t len = strlen(text->data);
+    size_t len = getStringCount(*text);
     if (caret.column > len) {
         return caret;
     }
