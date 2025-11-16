@@ -19,8 +19,10 @@ typedef struct StringBuilder {
     size_t capacity;
 } StringBuilder;
 
-#define MAKE_STRING_RANGE(s) ((StringRange){(s), strlen((s))})
-#define MAKE_STRING_BUILDER(s) ((StringBuilder){(s), strlen((s)), LOUI_MAX_SINGLE_LINE_TEXT_INPUT})
+// Conversion for char arrays:
+#define STRING_CAPACITY(a) (sizeof(a) / sizeof(char))
+#define MAKE_STRING_RANGE(a) ((StringRange){(a), strlen((a))})
+#define MAKE_STRING_BUILDER(a) ((StringBuilder){(a), strlen((a)), STRING_CAPACITY(a)})
 
 #ifdef __cplusplus
 }
