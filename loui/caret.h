@@ -14,16 +14,16 @@ typedef struct MultiLineCaret {
 } MultiLineCaret;
 
 // Move SingleLineCaret:
-SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column);
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, String text);
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, String text);
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, String text);
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text);
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, StringRange text, int column);
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, StringRange text);
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, StringRange text);
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, StringRange text);
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text);
 // Update text for SingleLineCaret:
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, char c);
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text);
-SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, String* text);
-SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text);
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, StringRange text);
+SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, StringRange text);
+SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, StringRange text);
 // Move MultiLineCaret:
 MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text);

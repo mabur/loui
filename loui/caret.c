@@ -84,8 +84,8 @@ static void deleteCharacters(char* text, int index, int delete_count) {
     s.data[s.count] = '\0';
 }
 
-SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, int column) {
-    auto count = (int)getStringCount(text);
+SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, StringRange text, int column) {
+    auto count = (int)text.count;
     if (column < 0) {
         column = 0;
     }
@@ -96,20 +96,20 @@ SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, String text, in
     return caret;
 }
 
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, String text) {
+SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, StringRange text) {
     return moveSingleLineCaretColumn(caret, text, caret.column - 1);
 }
 
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, String text) {
+SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, StringRange text) {
     return moveSingleLineCaretColumn(caret, text, caret.column + 1);
 }
 
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, String text) {
+SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, StringRange text) {
     return moveSingleLineCaretColumn(caret, text, 0);
 }
 
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, String text) {
-    return moveSingleLineCaretColumn(caret, text, getStringCount(text));
+SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text) {
+    return moveSingleLineCaretColumn(caret, text, text.count);
 }
 
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, char c) {
@@ -121,38 +121,35 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* te
         return caret;
     }
     insertCharacter(text->data, caret.column, c);
-    return moveSingleLineCaretRight(caret, *text);
+    return moveSingleLineCaretRight(caret, MAKE_STRING_RANGE(*text));
 }
 
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text) {
-    auto s = MAKE_STRING_RANGE(*text);
+SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, StringRange text) {
     auto index = (size_t)caret.column;
-    if (index < s.count) {
-        ERASE_INDEX_ORDERED(s, index);
-        s.data[s.count] = '\0';
+    if (index < text.count) {
+        ERASE_INDEX_ORDERED(text, index);
+        text.data[text.count] = '\0';
     }
     return caret;
 }
 
-SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, String* text) {
+SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, StringRange text) {
     if (caret.column < 1) {
         return caret;
     }
-    auto s = MAKE_STRING_RANGE(*text);
     auto index = (size_t)caret.column - 1;
-    ERASE_INDEX_ORDERED(s, index);
-    s.data[s.count] = '\0';
-    return moveSingleLineCaretLeft(caret, *text);
+    ERASE_INDEX_ORDERED(text, index);
+    text.data[text.count] = '\0';
+    return moveSingleLineCaretLeft(caret, text);
 }
 
-SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, String* text) {
+SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, StringRange text) {
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);
     auto selection_count = (size_t)(max.column - min.column);
     auto index = (size_t)min.column;
-    auto s = MAKE_STRING_RANGE(*text);
-    ERASE_MANY_ORDERED(s, index, selection_count);
-    s.data[s.count] = '\0';
+    ERASE_MANY_ORDERED(text, index, selection_count);
+    text.data[text.count] = '\0';
     return min;
 }
 
