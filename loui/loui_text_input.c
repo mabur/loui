@@ -8,11 +8,11 @@
 #include "rectangle.h"
 #include "state.h"
 
-void copySelection(String source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
+void copySelection(const char* source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);
     auto count = max.column - min.column;
-    memcpy(target, source.data + min.column, count);
+    memcpy(target, source + min.column, count);
     target[count] = '\0';
 }
 
@@ -112,7 +112,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
     };
     drawRectangle(s_loui.screen, selection, getTheme().background);
 
-    drawString(s_loui.screen, widget.text.data, text_x, text_y, getTheme().text);
+    drawString(s_loui.screen, widget.text, text_x, text_y, getTheme().text);
     if (is_selected) {
         auto cursor_x = text_x + widget.caret.column * TEXT_SIZE;
         auto cursor_y = text_y;

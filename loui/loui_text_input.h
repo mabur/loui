@@ -2,7 +2,6 @@
 
 #include "caret.h"
 #include "state.h"
-#include "string.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,7 +12,7 @@ typedef struct LouiTextInput {
     int y;
     int width;
     int height;
-    String text;
+    char text[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
     SingleLineCaret caret;
     SingleLineCaret selection_anchor;
     bool is_clicked;
