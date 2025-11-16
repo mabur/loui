@@ -2,6 +2,8 @@
 
 #include "state.h"
 
+#include <string.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -14,6 +16,8 @@ typedef struct StringRange {
     char* data;
     size_t count;
 } StringRange;
+
+#define MAKE_STRING_RANGE(s) ((StringRange){(s).data, strlen((s).data)})
 
 size_t getStringCapacity(String s);
 size_t getStringCount(String s);

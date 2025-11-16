@@ -125,7 +125,7 @@ SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* te
 }
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, String* text) {
-    auto s = (StringRange){text->data, strlen(text->data)};
+    auto s = MAKE_STRING_RANGE(*text);
     auto index = (size_t)caret.column;
     if (index < s.count) {
         ERASE_INDEX_ORDERED(s, index);
@@ -138,7 +138,7 @@ SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, Stri
     if (caret.column < 1) {
         return caret;
     }
-    auto s = (StringRange){text->data, strlen(text->data)};
+    auto s = MAKE_STRING_RANGE(*text);
     auto index = (size_t)caret.column - 1;
     ERASE_INDEX_ORDERED(s, index);
     s.data[s.count] = '\0';
@@ -150,7 +150,7 @@ SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret 
     auto max = maxSingleLineCaret(caret, selection_anchor);
     auto selection_count = (size_t)(max.column - min.column);
     auto index = (size_t)min.column;
-    auto s = (StringRange){text->data, strlen(text->data)};
+    auto s = MAKE_STRING_RANGE(*text);
     ERASE_MANY_ORDERED(s, index, selection_count);
     s.data[s.count] = '\0';
     return min;
