@@ -112,17 +112,17 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text) 
     return moveSingleLineCaretColumn(caret, text, text.count);
 }
 
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, StringRange text, char c) {
-    auto len = (int)text.count;
-    if (caret.column > len) {
+SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, StringBuilder text, char c) {
+    auto len = text.count;
+    if ((size_t)caret.column > len) {
         return caret;
     }
-    if (len + 1 >= LOUI_MAX_SINGLE_LINE_TEXT_INPUT) {
+    if (len + 1 >= text.capacity) {
         return caret;
     }
-    insertCharacter(text.data, caret.column, c);
-    text.count++;
-    return moveSingleLineCaretRight(caret, text);
+    INSERT_INDEX(text, (size_t)caret.column, c);
+    text.data[text.count] = '\0';
+    return moveSingleLineCaretRight(caret, (StringRange){text.data, text.count});
 }
 
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, StringRange text) {

@@ -29,7 +29,7 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
         else if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(
                 widget.caret,
-                MAKE_STRING_RANGE(widget.text),
+                MAKE_STRING_BUILDER(widget.text),
                 s_loui.input_character
             );
             widget.selection_anchor = widget.caret;
