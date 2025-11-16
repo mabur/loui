@@ -19,9 +19,6 @@ typedef struct StringRange {
 
 #define MAKE_STRING_RANGE(s) ((StringRange){(s).data, strlen((s).data)})
 
-size_t getStringCapacity(String s);
-size_t getStringCount(String s);
-
 #ifdef __cplusplus
 }
 #endif

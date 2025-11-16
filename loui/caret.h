@@ -20,7 +20,7 @@ SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, StringRange text
 SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, StringRange text);
 SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text);
 // Update text for SingleLineCaret:
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, String* text, char c);
+SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, StringRange text, char c);
 SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, StringRange text);
 SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, StringRange text);
 SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, StringRange text);
