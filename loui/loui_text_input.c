@@ -25,6 +25,14 @@ LouiTextInput loui_update_text_input(LouiTextInput widget) {
             if (isClicked(keyboard[LOUI_KEY_C])) {
                 copySelection(widget.text, widget.caret, widget.selection_anchor, s_loui.clipboard);
             }
+            if (isClicked(keyboard[LOUI_KEY_V])) {
+                widget.caret = insertCharactersSingleLineCaret(
+                    widget.caret,
+                    MAKE_STRING_BUILDER(widget.text),
+                    MAKE_STRING_RANGE(s_loui.clipboard)
+                );
+                widget.selection_anchor = widget.caret;
+            }
         }
         else if (s_loui.input_character) {
             widget.caret = insertCharacterSingleLineCaret(

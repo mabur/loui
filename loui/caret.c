@@ -112,9 +112,26 @@ SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text) 
     return moveSingleLineCaretColumn(caret, text, text.count);
 }
 
+SingleLineCaret insertCharactersSingleLineCaret(SingleLineCaret caret, StringBuilder text, StringRange clipboard) {
+    auto len = text.count;
+    if ((size_t)caret.column > len) { // TODO: what is this condition for?
+        return caret;
+    }
+    if (len + clipboard.count >= text.capacity) {
+        return caret;
+    }
+    INSERT_RANGE(text, (size_t)caret.column, clipboard);
+    text.data[text.count] = '\0';
+    auto text_range = (StringRange){text.data, text.count};
+    for (size_t i = 0; i < clipboard.count; ++i) {
+        caret = moveSingleLineCaretRight(caret, text_range);
+    }
+    return caret;
+}
+
 SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, StringBuilder text, char c) {
     auto len = text.count;
-    if ((size_t)caret.column > len) {
+    if ((size_t)caret.column > len) { // TODO: what is this condition for?
         return caret;
     }
     if (len + 1 >= text.capacity) {
