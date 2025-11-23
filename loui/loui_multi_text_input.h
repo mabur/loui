@@ -1,6 +1,6 @@
 #pragma once
 
-#include "caret.h"
+#include "multi_line_caret.h"
 #include "state.h"
 
 #ifdef __cplusplus

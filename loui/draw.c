@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "caret.h"
+#include "multi_line_caret.h"
 #include "rectangle.h"
 #include "font.h"
 

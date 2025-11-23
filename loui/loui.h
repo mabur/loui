@@ -2,7 +2,6 @@
 
 #include <stdbool.h>
 
-#include "caret.h"
 #include "color.h"
 #include "state.h"
 #include "theme.h"
