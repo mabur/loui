@@ -36,6 +36,7 @@ MultiLineCaret moveMultiLineCaretPageUp(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretPageDown(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* text, int line, int column);
 // Update text for MultiLineCaret:
+MultiLineCaret insertCharactersMultiLineCaret(MultiLineCaret caret, StringBuilder text, StringRange clipboard);
 MultiLineCaret insertCharacterMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity, char c);
 MultiLineCaret insertLineBreakMultiLineCaret(MultiLineCaret caret, char* text, size_t capacity);
 MultiLineCaret deleteCharacterAfterMultiLineCaret(MultiLineCaret caret, char* text);
@@ -44,6 +45,7 @@ MultiLineCaret deleteSelectedCharactersMultiLineCaret(MultiLineCaret caret, Mult
 
 int countLines(const char* text);
 int countMaxColumns(const char* text);
+int getIndexOfLineColumn(const char* text, int line, int column);
 
 SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
 SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b);

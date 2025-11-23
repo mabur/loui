@@ -1,16 +1,45 @@
 #include "loui_multi_text_input.h"
 
+#include <stdio.h>
+
 #include "draw.h"
 #include "loui_button.h"
 #include "loui_sunken_frame.h"
 #include "rectangle.h"
 #include "state.h"
 
+static
+void copySelection(const char* source, MultiLineCaret caret, MultiLineCaret selection_anchor, char* target){
+    auto min = minMultiLineCaret(caret, selection_anchor);
+    auto max = maxMultiLineCaret(caret, selection_anchor);
+
+    auto i0 = (size_t)getIndexOfLineColumn(source, min.line, min.column);
+    auto i1 = (size_t)getIndexOfLineColumn(source, max.line, max.column);
+
+    auto count = i1 - i0;
+    memcpy(target, source + i0, count);
+    target[count] = '\0';
+    printf("Clipboard: %s\n", target);
+}
+
 LouiMultiTextInput loui_update_multi_text_input(LouiMultiTextInput widget) {
     auto widget_index = s_loui.text_input_widget_index_count++;
     auto is_selected = s_loui.active_text_input_widget_index == widget_index;
     auto keyboard = s_loui.keyboard_keys;
     if (is_selected) {
+        if (isControlDown()) {
+            if (isClicked(keyboard[LOUI_KEY_C])) {
+                copySelection(widget.text, widget.caret, widget.selection_anchor, s_loui.clipboard);
+            }
+            if (isClicked(keyboard[LOUI_KEY_V])) {
+                widget.caret = insertCharactersMultiLineCaret(
+                    widget.caret,
+                    MAKE_STRING_BUILDER(widget.text),
+                    MAKE_STRING_RANGE(s_loui.clipboard)
+                );
+                widget.selection_anchor = widget.caret;
+            }
+        }
         if (s_loui.input_character) {
             widget.caret = insertCharacterMultiLineCaret(
                 widget.caret,

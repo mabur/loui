@@ -8,6 +8,7 @@
 #include "rectangle.h"
 #include "state.h"
 
+static
 void copySelection(const char* source, SingleLineCaret caret, SingleLineCaret selection_anchor, char* target){
     auto min = minSingleLineCaret(caret, selection_anchor);
     auto max = maxSingleLineCaret(caret, selection_anchor);

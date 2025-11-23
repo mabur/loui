@@ -56,7 +56,7 @@ int countMaxColumns(const char* text) {
     return max_columns;
 }
 
-static int getIndexOfLineColumn(const char* text, int line, int column) {
+int getIndexOfLineColumn(const char* text, int line, int column) {
     auto line_start = gotoLine(text, line);
     auto position = line_start + column;
     return (int)(position - text);
@@ -259,6 +259,23 @@ MultiLineCaret moveMultiLineCaretLineColumn(MultiLineCaret caret, const char* te
     }
     caret.line = line;
     caret.column = column;
+    return caret;
+}
+
+MultiLineCaret insertCharactersMultiLineCaret(MultiLineCaret caret, StringBuilder text, StringRange clipboard) {
+    auto len = text.count;
+    auto index = getIndexOfLineColumn(text.data, caret.line, caret.column);
+    if ((size_t)index > len) { // TODO: what is this condition for?
+        return caret;
+    }
+    if (len + clipboard.count >= text.capacity) {
+        return caret;
+    }
+    INSERT_RANGE(text, index, clipboard);
+    text.data[text.count] = '\0';
+    for (size_t i = 0; i < clipboard.count; ++i) {
+        caret = moveMultiLineCaretRight(caret, text.data);
+    }
     return caret;
 }
 
