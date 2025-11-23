@@ -4,27 +4,11 @@
 
 #include "string.h"
 
-typedef struct SingleLineCaret {
-    int column;
-} SingleLineCaret;
-
 typedef struct MultiLineCaret {
     int line;
     int column;
 } MultiLineCaret;
 
-// Move SingleLineCaret:
-SingleLineCaret moveSingleLineCaretColumn(SingleLineCaret caret, StringRange text, int column);
-SingleLineCaret moveSingleLineCaretLeft(SingleLineCaret caret, StringRange text);
-SingleLineCaret moveSingleLineCaretRight(SingleLineCaret caret, StringRange text);
-SingleLineCaret moveSingleLineCaretHome(SingleLineCaret caret, StringRange text);
-SingleLineCaret moveSingleLineCaretEnd(SingleLineCaret caret, StringRange text);
-// Update text for SingleLineCaret:
-SingleLineCaret insertCharactersSingleLineCaret(SingleLineCaret caret, StringBuilder text, StringRange clipboard);
-SingleLineCaret insertCharacterSingleLineCaret(SingleLineCaret caret, StringBuilder text, char c);
-SingleLineCaret deleteCharacterAfterSingleLineCaret(SingleLineCaret caret, StringRange text);
-SingleLineCaret deleteCharacterBeforeSingleLineCaret(SingleLineCaret caret, StringRange text);
-SingleLineCaret deleteSelectedCharacters(SingleLineCaret caret, SingleLineCaret selection_anchor, StringRange text);
 // Move MultiLineCaret:
 MultiLineCaret moveMultiLineCaretUp(MultiLineCaret caret, const char* text);
 MultiLineCaret moveMultiLineCaretLeft(MultiLineCaret caret, const char* text);
@@ -46,9 +30,6 @@ MultiLineCaret deleteSelectedCharactersMultiLineCaret(MultiLineCaret caret, Mult
 int countLines(const char* text);
 int countMaxColumns(const char* text);
 int getIndexOfLineColumn(const char* text, int line, int column);
-
-SingleLineCaret minSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
-SingleLineCaret maxSingleLineCaret(SingleLineCaret a, SingleLineCaret b);
 
 MultiLineCaret minMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
 MultiLineCaret maxMultiLineCaret(MultiLineCaret a, MultiLineCaret b);
