@@ -49,7 +49,7 @@ typedef struct LouiState {
     RepeatingButtonState keyboard_keys[LOUI_KEY_COUNT];
     ButtonState modifier_keys[LOUI_MODIFIER_KEY_COUNT];
     char input_character;
-    char clipboard[LOUI_MAX_SINGLE_LINE_TEXT_INPUT];
+    char clipboard[LOUI_MAX_MULTI_LINE_TEXT_INPUT];
     int active_text_input_widget_index;
     int text_input_widget_index_count;
     bool is_input_enabled;
