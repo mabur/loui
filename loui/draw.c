@@ -10,6 +10,17 @@ void drawPoint(LouiScreen screen, int x, int y, LouiColor color) {
     screen.data[y * screen.width + x] = color;
 }
 
+void drawImage(LouiScreen screen, int x, int y, int width, int height, LouiColor* data) {
+    auto i_source = 0;
+    for (auto y_source = 0; y_source < height; ++y_source) {
+        for (auto x_source = 0; x_source < width; ++x_source) {
+            auto i_target = (y + y_source) * screen.width + x + x_source;
+            screen.data[i_target] = data[i_source];
+            i_source++;
+        }
+    }
+}
+
 void drawCheckers(LouiScreen screen, LouiRectangle rectangle, LouiColor light, LouiColor dark) {
     for (auto dy = 0; dy < rectangle.height; ++dy) {
         for (auto dx = 0; dx < rectangle.width; ++dx) {
