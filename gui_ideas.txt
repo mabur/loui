@@ -16,6 +16,13 @@ INPSIRATION
 * Decker https://beyondloom.com/decker/
 
 MISSING WIDGETS
+- Images
+  - Take image/pointer to ARGB buffer.
+  - Make it possible to inline a ppm as a big static string in the code, and have a function that parses it to an image/pointer to ARGB buffer.
+- Buttons with images/icons
+  - Kretzlop
+  - Paint90
+  - Grid90?
 - Theming for header label
 - Color pickers H,S,V    
 - Better scrollbars for multi-line text field.
@@ -24,13 +31,6 @@ MISSING WIDGETS
   - Could be a normal slider that starts in the center, and resets to center when the user releases.
   - Paint90
   - What to show in the background? The value, like a numerical slider?
-- Buttons with images/icons
-  - Kretzlop
-  - Paint90
-  - Grid90?
-  - Take image/pointer to ARGB buffer.
-  - Make it possible to inline a ppm as a big static string in the code, and have a function that parses it to an image/pointer to ARGB buffer.
-- Images
 - Tool tips
   - For buttons with images
 - Drop down menu
