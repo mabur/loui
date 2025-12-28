@@ -28,6 +28,8 @@ MISSING WIDGETS
   - Kretzlop
   - Paint90
   - Grid90?
+  - Take image/pointer to ARGB buffer.
+  - Make it possible to inline a ppm as a big static string in the code, and have a function that parses it to an image/pointer to ARGB buffer.
 - Images
 - Tool tips
   - For buttons with images
