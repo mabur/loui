@@ -22,7 +22,7 @@ typedef struct LouiImage {
 
 LouiImage loui_update_image(LouiImage widget);
 
-ImageBuffer parse_ppm(const char* ppm_string);
+ImageBuffer parse_transparent_ppm(const char* ppm_string, uint32_t rt, uint32_t gt, uint32_t bt);
 
 #ifdef __cplusplus
 }

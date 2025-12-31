@@ -9,6 +9,7 @@
 #include "loui_button.h"
 #include "loui_check_box.h"
 #include "loui_heading.h"
+#include "loui_image.h"
 #include "loui_knob.h"
 #include "loui_label.h"
 #include "loui_multi_text_input.h"
@@ -70,6 +71,7 @@ inline void loui_update(LouiSelectionBoxItem& widget) { widget = loui_update_sel
 inline void loui_update(LouiTextInput& widget) { widget = loui_update_text_input(widget);}
 inline void loui_update(LouiMultiTextInput& widget) { widget = loui_update_multi_text_input(widget);}
 inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget);}
+inline void loui_update(LouiImage& widget) { widget = loui_update_image(widget);}
 #else
 #define loui_update(widget) \
     do { widget = _Generic((widget), \
@@ -84,6 +86,7 @@ inline void loui_update(LouiWindow& widget) { widget = loui_update_window(widget
         LouiSelectionBoxItem: loui_update_selection_box_item, \
         LouiTextInput: loui_update_text_input, \
         LouiMultiTextInput: loui_update_multi_text_input, \
-        LouiWindow: loui_update_window \
+        LouiWindow: loui_update_window,   \
+        LouiImage: loui_update_image \
     )(widget); } while(0)
 #endif

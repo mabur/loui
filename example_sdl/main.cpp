@@ -3,8 +3,9 @@
 #include <loui/loui.h>
 #include <SDL2/SDL.h>
 
-#include "window.hpp"
 #include "input.hpp"
+#include "images.hpp"
+#include "window.hpp"
 
 enum GuiThemeIndex {
     GRAY_THEME_INDEX,
@@ -254,6 +255,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
         }
         y += ok_button.height;
     }
+
+    static auto IMAGE_BUFFER = parse_transparent_ppm(IMAGE_BAT, 0, 255, 255);
+    auto image = (LouiImage){.x=128, .y=8, IMAGE_BUFFER};
+    loui_update(image);
 
     return loui_get_pixel_data();
 }

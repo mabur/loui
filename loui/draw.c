@@ -15,7 +15,10 @@ void drawImage(LouiScreen screen, int x, int y, int width, int height, LouiColor
     for (auto y_source = 0; y_source < height; ++y_source) {
         for (auto x_source = 0; x_source < width; ++x_source) {
             auto i_target = (y + y_source) * screen.width + x + x_source;
-            screen.data[i_target] = data[i_source];
+            auto color = data[i_source];
+            if (color != LOUI_TRANSPARENT_COLOR) {
+                screen.data[i_target] = color;
+            }
             i_source++;
         }
     }

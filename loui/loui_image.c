@@ -16,7 +16,7 @@ LouiImage loui_update_image(LouiImage widget) {
     return widget;
 }
 
-ImageBuffer parse_ppm(const char* ppm_string) {
+ImageBuffer parse_transparent_ppm(const char* ppm_string, uint32_t rt, uint32_t gt, uint32_t bt) {
     auto s = STRING_VIEW(ppm_string);
     auto line = (StringView){};
     parse_line(&s, &line); // P3
@@ -37,7 +37,9 @@ ImageBuffer parse_ppm(const char* ppm_string) {
         parse_int(&s, &g);
         parse_whitespace(&s);
         parse_int(&s, &b);
-        *pixel = LOUI_RGB(r, g, b);
+        auto is_transparent = r == rt && g == gt && b==bt;
+        auto color = is_transparent ? LOUI_TRANSPARENT_COLOR : LOUI_RGB(r, g, b);
+        *pixel = color;
     }
     return image;
 }
