@@ -257,7 +257,7 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     }
 
     static auto IMAGE_BUFFER = parse_transparent_ppm(IMAGE_BAT, 0, 255, 255);
-    auto image = (LouiImage){.x=128, .y=8, IMAGE_BUFFER};
+    auto image = (LouiImage){.x=92, .y=16, IMAGE_BUFFER};
     loui_update(image);
 
     return loui_get_pixel_data();
