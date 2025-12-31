@@ -6,16 +6,23 @@ extern "C" {
 
 #include "color.h"
 
+typedef struct ImageBuffer {
+    LouiColor* data;
+    int width;
+    int height;
+    int count;
+} ImageBuffer;
+
 typedef struct LouiImage {
     int x;
     int y;
-    int width;
-    int height;
-    LouiColor* data;
+    ImageBuffer image;
     bool is_clicked;
 } LouiImage;
 
 LouiImage loui_update_image(LouiImage widget);
+
+ImageBuffer parse_ppm(const char* ppm_string);
 
 #ifdef __cplusplus
 }
