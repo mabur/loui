@@ -16,10 +16,7 @@ INPSIRATION
 * Decker https://beyondloom.com/decker/
 
 MISSING WIDGETS
-- Images
-  - Take image/pointer to ARGB buffer.
-  - Make it possible to inline a ppm as a big static string in the code, and have a function that parses it to an image/pointer to ARGB buffer.
-- Buttons with images/icons
+- ToogleButtons with images/icons
   - Kretzlop
   - Paint90
   - Grid90?
