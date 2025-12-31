@@ -236,6 +236,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     static auto slider = (LouiSlider){.x=x, .y=y, .width=64, .value=0.5f};
     loui_update(slider);
 
+    static auto IMAGE_BUFFER = parse_transparent_ppm(IMAGE_BAT, 0, 255, 255);
+    auto image = (LouiImage){.x=92, .y=16, IMAGE_BUFFER};
+    loui_update(image);
+
     x = 8 * 9;
     y = 8;
     static auto window = (LouiWindow){.x=x, .y=y, .width=8*9, .height=8*8};
@@ -255,10 +259,6 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
         }
         y += ok_button.height;
     }
-
-    static auto IMAGE_BUFFER = parse_transparent_ppm(IMAGE_BAT, 0, 255, 255);
-    auto image = (LouiImage){.x=92, .y=16, IMAGE_BUFFER};
-    loui_update(image);
 
     return loui_get_pixel_data();
 }
