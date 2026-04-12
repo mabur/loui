@@ -229,6 +229,10 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
     loui_update(check_box1);
     y += check_box1.height;
 
+    static auto separator = (LouiSeparator){.x=x, .y=y, .width=128};
+    loui_update(separator);
+    y += separator.height;
+    
     static auto knob = (LouiKnob){.x=x, .y=y};
     loui_update(knob);
     x += knob.width + LOUI_BLOCK;

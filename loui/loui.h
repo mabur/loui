@@ -16,6 +16,7 @@
 #include "loui_radio_button.h"
 #include "loui_selection_box_init.h"
 #include "loui_selection_box_item.h"
+#include "loui_separator.h"
 #include "loui_slider.h"
 #include "loui_stepper.h"
 #include "loui_sunken_frame.h"
@@ -64,6 +65,7 @@ inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget
 inline void loui_update(LouiKnob & widget) { widget = loui_update_knob(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
 inline void loui_update(LouiCheckBox& widget) { widget = loui_update_check_box(widget);}
+inline void loui_update(LouiSeparator& widget) { widget = loui_update_separator(widget);}
 inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}
 inline void loui_update(LouiSlider& widget) { widget = loui_update_slider(widget);}
 inline void loui_update(LouiSelectionBoxInit& widget) { widget = loui_update_selection_box_init(widget);}
@@ -80,6 +82,7 @@ inline void loui_update(LouiImage& widget) { widget = loui_update_image(widget);
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
         LouiCheckBox: loui_update_check_box, \
+        LouiSeparator: loui_update_separator, \
         LouiStepper: loui_update_stepper, \
         LouiSlider: loui_update_slider, \
         LouiSelectionBoxInit: loui_update_selection_box_init, \
