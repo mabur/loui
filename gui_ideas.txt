@@ -17,6 +17,7 @@ INPSIRATION
 
 MISSING WIDGETS
 - Aggregate group for RadioButtons
+- Divider / Separator / Line
 - ToogleButtons with images/icons
   - Kretzlop
   - Paint90
