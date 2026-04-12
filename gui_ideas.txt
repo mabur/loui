@@ -16,6 +16,7 @@ INPSIRATION
 * Decker https://beyondloom.com/decker/
 
 MISSING WIDGETS
+- Aggregate group for RadioButtons
 - ToogleButtons with images/icons
   - Kretzlop
   - Paint90
