@@ -1,7 +1,6 @@
 #include "loui_separator.h"
 
 #include "draw.h"
-#include "rectangle.h"
 #include "state.h"
 
 LouiSeparator loui_update_separator(LouiSeparator widget) {
