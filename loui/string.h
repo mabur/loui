@@ -1,8 +1,8 @@
 #pragma once
 
-#include "state.h"
-
 #include <string.h>
+
+#include "carma_string.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,12 +12,6 @@ typedef struct StringRange {
     char* data;
     size_t count;
 } StringRange;
-
-typedef struct StringBuilder {
-    char* data;
-    size_t count;
-    size_t capacity;
-} StringBuilder;
 
 // Conversion for char arrays:
 #define STRING_CAPACITY(a) (sizeof(a) / sizeof(char))
