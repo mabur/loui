@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "carma_string.h"
+#include <carma/carma_string.h>
 
 #ifdef __cplusplus
 extern "C" {

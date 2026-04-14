@@ -1,7 +1,7 @@
 #include "loui_image.h"
 
-#include "carma_parse.h"
-#include "carma_string.h"
+#include <carma/carma_parse.h>
+#include <carma/carma_string.h>
 #include "color.h"
 #include "draw.h"
 #include "rectangle.h"
@@ -18,25 +18,22 @@ LouiImage loui_update_image(LouiImage widget) {
 
 ImageBuffer parse_transparent_ppm(const char* ppm_string, uint32_t rt, uint32_t gt, uint32_t bt) {
     auto s = STRING_VIEW(ppm_string);
-    auto line = (StringView){};
-    parse_line(&s, &line); // P3
-    parse_line(&s, &line); // # Created by Paint Shop Pro 7 # CREATOR: GIMP PNM Filter Version 1.1
-    int width, height, max_intensity;
-    parse_int(&s, &width);
-    parse_whitespace(&s);
-    parse_int(&s, &height);
-    parse_whitespace(&s);
-    parse_int(&s, &max_intensity);
+    auto line0 = PARSE_LINE(s); // P3
+    auto line1 = PARSE_LINE(s); // # Created by Paint Shop Pro 7 # CREATOR: GIMP PNM Filter Version 1.1
+    auto width = PARSE_INT(s);
+    PARSE_WHITESPACE(s);
+    auto height = PARSE_INT(s);
+    PARSE_WHITESPACE(s);
+    auto max_intensity = PARSE_INT(s);
     auto image = (ImageBuffer){};
     INIT_2D_ARRAY(image, width, height);
     FOR_EACH(pixel, image) {
-        int r, g, b;
-        parse_whitespace(&s);
-        parse_int(&s, &r);
-        parse_whitespace(&s);
-        parse_int(&s, &g);
-        parse_whitespace(&s);
-        parse_int(&s, &b);
+        PARSE_WHITESPACE(s);
+        auto r = PARSE_INT(s);
+        PARSE_WHITESPACE(s);
+        auto g = PARSE_INT(s);
+        PARSE_WHITESPACE(s);
+        auto b = PARSE_INT(s);
         auto is_transparent = r == rt && g == gt && b==bt;
         auto color = is_transparent ? LOUI_TRANSPARENT_COLOR : LOUI_RGB(r, g, b);
         *pixel = color;

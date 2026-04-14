@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "carma.h"
+#include <carma/carma.h>
 #include "string.h"
 
 int countLines(const char* text) {
