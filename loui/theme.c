@@ -81,7 +81,7 @@ const LouiTheme LOUI_THEME_WARM_GRAY = (LouiTheme){
 };
 
 const LouiTheme LOUI_THEME_DARK_GRAY = (LouiTheme){
-    .background = LOUI_RGB(88, 84, 80),
+    .background = LOUI_RGB(84, 84, 84),
     .text = LOUI_RGB(0, 0, 0), // LOUI_RGB(210, 206, 202),
     .button_background = LOUI_RGB(234, 222, 210), //LOUI_RGB(88, 84, 80),
     .button_text = LOUI_RGB(0, 0, 0), // LOUI_RGB(210, 206, 202), //
