@@ -6,6 +6,7 @@
 #include "input.hpp"
 #include "images.hpp"
 #include "window.hpp"
+#include "loui/loui_radio_buttons.h"
 
 enum GuiThemeIndex {
     GRAY_THEME_INDEX,
@@ -155,22 +156,11 @@ const LouiColor* updateGui(int WIDTH, int HEIGHT) {
         }
     }
     y += selection_box.height;
-
-    auto radio_button_a = (LouiRadioButton){
-        .x=x, .y=y, .text="Bevel Buttons", .is_selected=button_type == BUTTON_TYPE_BEVEL
-    };
-    loui_update(radio_button_a);
-    if (radio_button_a.is_clicked) {
-        button_type = BUTTON_TYPE_BEVEL;
-    }
-    y += radio_button_a.height;
-    auto radio_button_b = (LouiRadioButton) {
-        .x=x, .y=y, .text="Cloud Buttons", .is_selected=button_type == BUTTON_TYPE_CLOUD
-    };
-    loui_update(radio_button_b);
-    if (radio_button_b.is_clicked) {
-        button_type = BUTTON_TYPE_CLOUD;
-    }
+    
+    const char* radio_button_labels[] = {[BUTTON_TYPE_BEVEL] = "Bevel Buttons", [BUTTON_TYPE_CLOUD] = "Cloud Buttons"};
+    auto radio_buttons = (LouiRadioButtons){.x=x, .y=y, .selected_index = button_type, .count=BUTTON_TYPE_COUNT, .labels=radio_button_labels};
+    loui_update(radio_buttons);
+    button_type = (LouiButtonType)radio_buttons.selected_index;
 
     // Second Column
     x = WIDTH / 2;

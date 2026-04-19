@@ -14,6 +14,7 @@
 #include "loui_label.h"
 #include "loui_multi_text_input.h"
 #include "loui_radio_button.h"
+#include "loui_radio_buttons.h"
 #include "loui_selection_box_init.h"
 #include "loui_selection_box_item.h"
 #include "loui_separator.h"
@@ -64,6 +65,7 @@ inline void loui_update(LouiHeading& widget) { widget = loui_update_heading(
 inline void loui_update(LouiButton& widget) { widget = loui_update_button(widget);}
 inline void loui_update(LouiKnob & widget) { widget = loui_update_knob(widget);}
 inline void loui_update(LouiRadioButton& widget) { widget = loui_update_radio_button(widget);}
+inline void loui_update(LouiRadioButtons& widget) { widget = loui_update_radio_buttons(widget);}
 inline void loui_update(LouiCheckBox& widget) { widget = loui_update_check_box(widget);}
 inline void loui_update(LouiSeparator& widget) { widget = loui_update_separator(widget);}
 inline void loui_update(LouiStepper& widget) { widget = loui_update_stepper(widget);}
@@ -81,6 +83,7 @@ inline void loui_update(LouiImage& widget) { widget = loui_update_image(widget);
         LouiHeading: loui_update_heading, \
         LouiButton: loui_update_button, \
         LouiRadioButton: loui_update_radio_button, \
+        LouiRadioButtons: loui_update_radio_buttons, \
         LouiCheckBox: loui_update_check_box, \
         LouiSeparator: loui_update_separator, \
         LouiStepper: loui_update_stepper, \

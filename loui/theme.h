@@ -13,6 +13,7 @@ extern "C" {
 typedef enum LouiButtonType {
     BUTTON_TYPE_BEVEL,
     BUTTON_TYPE_CLOUD,
+    BUTTON_TYPE_COUNT,
 } LouiButtonType;
 
 typedef struct LouiTheme {
